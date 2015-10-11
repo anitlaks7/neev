@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="android:Theme.Material.Light">
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="android:colorPrimary">@color/darkred</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="android:colorPrimaryDark">#000000</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">@color/darkred</item>
+        <item name="android:actionBarTabStyle">@style/MyActionBarTab</item>
+        <!--<item name="android:background">@drawable/tab_bar_background</item>-->
+        <!--item name="android:actionBarTabBarStyle">@style/MyActionBarTabBar</item>-->
+
+    </style>
+    <style name="MyActionBarTab" parent="@android:style/Widget.Material.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_bar_background</item>
+        <!--<item name="android:background">#FFFFFFFF</item>-->
+    </style>
+    <style name="MyActionBarTabBar"
+        parent="@android:style/Widget.Material.Light.ActionBar.TabBar">
+        <item name="android:background">@color/darkred</item>
+    </style>
+</resources>

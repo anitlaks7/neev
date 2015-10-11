@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Neev</string>
+
+    <string name="title_section1">Today</string>
+    <string name="title_section2">Custom</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_managedata">Manage Data</string>
+    <string name="InventoryString">INVENTORY</string>
+    <string name="title_dashboarditem_list">DashboardItems</string>
+    <string name="title_dashboarditem_detail">DashboardItem Detail</string>
+    <string name="title_dashboard_detail_fragment">DashboardDetailFragment</string>
+    <string name="plus_button">plus</string>
+    <string name="selectabledashboarditem">sdbitem</string>
+    <string name="title_activity_list_view_multiple_selection">ListViewMultipleSelectionActivity
+    </string>
+    <string name="submit">Submit</string>
+
+
+    <string-array name="sports_array">
+        <item>Inventory</item>
+        <item>Sales</item>
+        <item>Personnel</item>
+        <item>In Transit</item>
+        <item>Returned</item>
+    </string-array>
+</resources>
