@@ -1,4 +1,4 @@
-package com.neev.example;
+package com.neev.logistinv;
 
 import android.os.Bundle;
 import android.app.Fragment;
@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.neev.example.dummy.DummyContent;
+import com.neev.example.R;
+import com.neev.logistinv.dummy.DummyContent;
 
 /**
  * A fragment representing a single DashboardItem detail screen.

@@ -1,4 +1,4 @@
-package com.neev.example;
+package com.neev.logistinv;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.neev.example.dummy.DummyContent;
+import com.neev.example.R;
 
 
 public class ListViewMultipleSelectionActivity extends Activity implements

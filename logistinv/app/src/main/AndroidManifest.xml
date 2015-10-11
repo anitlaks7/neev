@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.neev.logistinv.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,20 +19,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DashboardItemListActivity"
+            android:name="com.neev.logistinv.DashboardItemListActivity"
             android:label="@string/title_dashboarditem_list"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.neev.logistinv.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.neev.example.MainActivity" />
+                android:value="com.neev.logistinv.MainActivity" />
         </activity>
         <activity
-            android:name=".DashboardItemDetailActivity"
+            android:name="com.neev.logistinv.DashboardItemDetailActivity"
             android:label="@string/title_dashboarditem_detail"
-            android:parentActivityName=".DashboardItemListActivity" >
+            android:parentActivityName="com.neev.logistinv.DashboardItemListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.neev.example.DashboardItemListActivity" />
+                android:value="com.neev.logistinv.DashboardItemListActivity" />
         </activity>
         <fragment
             android:name=".DashboardItemDetailFragment"
@@ -40,7 +40,7 @@
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.neev.example.MainActivity" />
+                android:value="com.neev.logistinv.MainActivity" />
         </fragment>
         <fragment
             android:name=".SelectableDashboardItemFragment"
@@ -48,17 +48,17 @@
             android:parentActivityName=".DashboardItemListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.neev.example.DashboardItemListActivity" />
+                android:value="com.neev.logistinv.DashboardItemListActivity" />
         </fragment>
 
         <activity
-            android:name=".ListViewMultipleSelectionActivity"
+            android:name="com.neev.logistinv.ListViewMultipleSelectionActivity"
             android:label="@string/title_activity_list_view_multiple_selection" >
         </activity>
         <activity
-            android:name=".ManageDataActivity"
+            android:name="com.neev.logistinv.ManageDataActivity"
             android:label="Manage Data"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.neev.logistinv.MainActivity">
         </activity>
     </application>
 

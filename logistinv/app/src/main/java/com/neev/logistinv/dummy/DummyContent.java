@@ -1,4 +1,4 @@
-package com.neev.example.dummy;
+package com.neev.logistinv.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

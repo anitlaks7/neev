@@ -1,10 +1,12 @@
-package com.neev.example;
+package com.neev.logistinv;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 
 import android.view.MenuItem;
+
+import com.neev.example.R;
 
 import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
 

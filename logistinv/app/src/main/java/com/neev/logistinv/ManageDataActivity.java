@@ -1,11 +1,11 @@
-package com.neev.example;
+package com.neev.logistinv;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 
+import com.neev.example.R;
 import com.parse.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.neev.example;
+package com.neev.logistinv;
 
 import com.parse.Parse;
 import com.parse.ParseObject;

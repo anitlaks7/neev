@@ -1,11 +1,8 @@
 package com.neev.example;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -20,7 +17,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,12 +26,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
-
-import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
+import com.neev.logistinv.DashboardItemDetailFragment;
+import com.neev.logistinv.DashboardItemListFragment;
+import com.neev.logistinv.ListViewMultipleSelectionActivity;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener,DashboardItemListFragment.Callbacks{
 

@@ -1,10 +1,12 @@
-package com.neev.example;
+package com.neev.logistinv;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.MenuItem;
+
+import com.neev.example.R;
 
 /**
  * An activity representing a single DashboardItem detail screen. This
