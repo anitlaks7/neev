@@ -123,10 +123,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setTabListener(this));
         }
 
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "TnftdYLSYkSJHmlNmgm1Sa5bVrVEEPCo1g48vjOD", "I7aaYGQkikHBIjbkoqcQh5HalZXWAyiVGKZbzuBw");
-        DataLayer data = new DataLayer();
-        data.initialize();
+      //  Parse.enableLocalDatastore(this);
+      //  Parse.initialize(this, "TnftdYLSYkSJHmlNmgm1Sa5bVrVEEPCo1g48vjOD", "I7aaYGQkikHBIjbkoqcQh5HalZXWAyiVGKZbzuBw");
+      //  NeevDataLayer data = new NeevDataLayer();
+      //  data.initialize();
 
        /* ParseObject rawMaterialList = new ParseObject("RawMaterialList");
         rawMaterialList.put("item1", "Cotton");

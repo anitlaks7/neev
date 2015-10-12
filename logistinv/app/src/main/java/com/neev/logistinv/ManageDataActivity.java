@@ -28,7 +28,7 @@ public class ManageDataActivity extends Activity {
         listAdapter = new ArrayAdapter<String>(this,R.layout.simplerow);
 
         mRawMaterialListView = (ListView) findViewById(R.id.rawMateriaListView);
-        DataLayer data = new DataLayer();
+        NeevDataLayer data = new NeevDataLayer();
         try {
             //ParseQuery query = new ParseQuery("RawMaterialTable");
             //query.fromLocalDatastore();
