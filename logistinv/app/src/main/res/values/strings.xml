@@ -17,7 +17,14 @@
     <string name="selectabledashboarditem">sdbitem</string>
     <string name="title_activity_list_view_multiple_selection">ListViewMultipleSelectionActivity
     </string>
+
     <string name="submit">Submit</string>
+    <string name="search_hint"><i><font size="11">Search List</font></i></string>
+    <string name="unit_price"><i><font size="11">Unit Price</font></i></string>
+    <string name="no_of_items"><i><font size="11">Number of Items</font></i></string>
+    <string name="add_date"><i><font size="11">Date</font></i></string>
+    <string name="product_type">Product_Type</string>
+    <string name="itemtype_spinner">Item_Type</string>
 
 
     <string-array name="sports_array">
@@ -26,5 +33,23 @@
         <item>Personnel</item>
         <item>In Transit</item>
         <item>Returned</item>
+    </string-array>
+
+    <string-array name="inventory_array">
+        <item>Cotton</item>
+        <item>Ink</item>
+        <item>Paper</item>
+    </string-array>
+
+    <string-array name="finished_products">
+        <item>Item1</item>
+        <item>Item2</item>
+        <item>Item3</item>
+    </string-array>
+
+    <string-array name="ItemType_array">
+        <item id="1">Inventory</item>
+        <item id="2">Finished Products</item>
+
     </string-array>
 </resources>
