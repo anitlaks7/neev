@@ -25,6 +25,7 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.neev.example.R;
 import com.parse.*;
@@ -41,7 +42,7 @@ import java.util.Locale;
 
 
 
-public class ManageDataActivity extends Activity {
+public class ManageDataActivity extends Activity implements OnItemSelectedListener{
     Button button;
     ListView listView;
     ArrayAdapter<String> adapter;
@@ -59,6 +60,58 @@ public class ManageDataActivity extends Activity {
     EditText inputPrice;
     EditText inputDate;
     ArrayAdapter<CharSequence> ItemType_adapter;
+
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+        if(id ==1)
+        {
+            adapter1 = new ArrayAdapter<String>(this,R.layout.simplerow);
+            NeevDataLayer data = new NeevDataLayer();
+            try {
+                List rmList = data.retrieveAllRawMaterialFromLocalStore();
+                for(int i=0;i< rmList.size();i++)
+                {
+                    ParseObject po = (ParseObject)rmList.get(i);
+                    String name = (String) po.get("Name");
+                    adapter1.add(name);
+                    //adapter1.
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            listView.setAdapter(adapter1);
+        }
+        if(id ==0)
+        {
+            adapter1 = new ArrayAdapter<String>(this,R.layout.simplerow);
+            NeevDataLayer data = new NeevDataLayer();
+            try {
+                List rmList = data.retrieveAllFinishedProductFromLocalStore();
+                for(int i=0;i< rmList.size();i++)
+                {
+                    ParseObject po = (ParseObject)rmList.get(i);
+                    String name = (String) po.get("Name");
+                    adapter1.add(name);
+                    //adapter1.
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            listView.setAdapter(adapter1);
+        }
+
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
 
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -109,10 +162,11 @@ public class ManageDataActivity extends Activity {
       /*  TextView txtView = (TextView)findViewById(R.id.product_type);
         txtView.setText(Item_Type);*/
 
-        Spinner Item_type = (Spinner) findViewById(R.id.itemtype_spinner);
+        Spinner item_type = (Spinner) findViewById(R.id.itemtype_spinner);
+        item_type.setOnItemSelectedListener(this);
         ItemType_adapter = ArrayAdapter.createFromResource(this, R.array.ItemType_array, android.R.layout.simple_spinner_item);
         ItemType_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// Apply the adapter to the spinner
-        Item_type.setAdapter(ItemType_adapter);
+        item_type.setAdapter(ItemType_adapter);
 
         EditText editText = (EditText) findViewById(R.id.editDate);
         editText.setText(fromDay + " / " + fromMonth + " / " + fromYear);
@@ -131,20 +185,21 @@ public class ManageDataActivity extends Activity {
             }
         });
 
-        Item_id = "1";
-        if (Item_id == "1") {
+        Item_id = "0"; //Set default selection to Finished Products
+        if (Item_id == "0") {
 
             adapter1 = new ArrayAdapter<String>(this,R.layout.simplerow);
 
             listView = (ListView) findViewById(R.id.listView);
             NeevDataLayer data = new NeevDataLayer();
             try {
-                List rmList = data.retrieveAllRawMaterialFromLocalStore();
+                List rmList = data.retrieveAllFinishedProductFromLocalStore();
                 for(int i=0;i< rmList.size();i++)
                 {
                     ParseObject po = (ParseObject)rmList.get(i);
                     String name = (String) po.get("Name");
                     adapter1.add(name);
+                    //adapter1.
                 }
             }
             catch (Exception e)
@@ -154,28 +209,6 @@ public class ManageDataActivity extends Activity {
             listView.setAdapter(adapter1);
             //    adapter1 = ArrayAdapter.createFromResource(this, R.array.finished_products, android.R.layout.simple_list_item_1 );
 
-        }
-        else {
-
-            //adapter1 = ArrayAdapter.createFromResource(this, R.array.inventory_array, android.R.layout.simple_list_item_1);
-            adapter = new ArrayAdapter<String>(this,R.layout.simplerow);
-
-            listView = (ListView) findViewById(R.id.listView);
-            NeevDataLayer data = new NeevDataLayer();
-            try {
-                List rmList = data.retrieveAllRawMaterialFromLocalStore();
-                for(int i=0;i< rmList.size();i++)
-                {
-                    ParseObject po = (ParseObject)rmList.get(i);
-                    String name = (String) po.get("Name");
-                    adapter.add(name);
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
-            listView.setAdapter(adapter);
         }
 
         listView = (ListView) findViewById(R.id.listView);
@@ -238,10 +271,10 @@ public class ManageDataActivity extends Activity {
                     String Qty = inputQty.getText().toString();
                     String strDate = inputDate.getText().toString();
                     product.setName(inputSearch.getText().toString());
-                    product.setCost(inputPrice.getText().toString());
-                    product.setQuantity(Integer.parseInt(Qty));
+                    //product.setCost(inputPrice.getText().toString());
+                    //product.setQuantity(Integer.parseInt(Qty));
                     //Date date = format.parse(strDate);
-                    product.setDate(inputDate.getText().toString());
+                    //product.setDate(inputDate.getText().toString());
 
                     boolean isSaveSuccessful =  data.addToStore(product);
                     if(isSaveSuccessful)

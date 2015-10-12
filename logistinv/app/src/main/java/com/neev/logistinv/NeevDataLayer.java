@@ -19,8 +19,26 @@ public class NeevDataLayer {
     {
         try {
 
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("RawMaterialTable");
-            query.findInBackground(new FindCallback<ParseObject>() {
+            ParseQuery<ParseObject> query1 = ParseQuery.getQuery("RawMaterialMaster");
+            query1.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if (e == null) {
+                        //objectsWereRetrievedSuccessfully(objects);
+                        for(int i=0;i< objects.size();i++)
+                        {
+                            ParseObject po = (ParseObject)objects.get(i);
+                            String name = (String) po.get("Name");
+                            po.pinInBackground();
+                        }
+                    } else {
+                        Log.e("ERROR","Parse data retrieval failed");
+                        //objectRetrievalFailed();
+                    }
+                }
+            });
+
+            ParseQuery<ParseObject> query2 = ParseQuery.getQuery("FinishedProductMaster");
+            query2.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null) {
                         //objectsWereRetrievedSuccessfully(objects);
@@ -57,7 +75,7 @@ public class NeevDataLayer {
     {
         List rmList = null;
         try {
-            ParseQuery query = new ParseQuery("RawMaterialTable");
+            ParseQuery query = new ParseQuery("RawMaterialMaster");
             query.fromLocalDatastore();
             rmList = query.find();
             for(int i=0;i< rmList.size();i++)
@@ -70,6 +88,27 @@ public class NeevDataLayer {
         {
             Log.e("ERROR",e.toString());
         }
+        return rmList;
+    }
+
+    public List retrieveAllFinishedProductFromLocalStore()
+    {
+        List rmList = null;
+        try {
+            ParseQuery query = new ParseQuery("FinishedProductMaster");
+            query.fromLocalDatastore();
+            rmList = query.find();
+            for(int i=0;i< rmList.size();i++)
+            {
+                ParseObject po = (ParseObject)rmList.get(i);
+                String name = (String) po.get("Name");
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("ERROR",e.toString());
+        }
+
         return rmList;
     }
 
