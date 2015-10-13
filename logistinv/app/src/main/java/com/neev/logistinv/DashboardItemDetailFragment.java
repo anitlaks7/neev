@@ -87,6 +87,8 @@ public class DashboardItemDetailFragment extends Fragment
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.dashboarditem_detail)).setText(mItem.content);
         }
+        else
+            ((TextView) rootView.findViewById(R.id.dashboarditem_detail)).setText(getArguments().getString(ARG_ITEM_ID));
         rootView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                   // ... Respond to touch events
