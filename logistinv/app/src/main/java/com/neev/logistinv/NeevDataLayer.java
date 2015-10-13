@@ -2,7 +2,6 @@ package com.neev.logistinv;
 
 import android.util.Log;
 
-import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.FindCallback;
@@ -26,7 +25,7 @@ public class NeevDataLayer {
                         //objectsWereRetrievedSuccessfully(objects);
                         for(int i=0;i< objects.size();i++)
                         {
-                            ParseObject po = (ParseObject)objects.get(i);
+                            ParseObject po = objects.get(i);
                             String name = (String) po.get("Name");
                             po.pinInBackground();
                         }
@@ -44,7 +43,7 @@ public class NeevDataLayer {
                         //objectsWereRetrievedSuccessfully(objects);
                         for(int i=0;i< objects.size();i++)
                         {
-                            ParseObject po = (ParseObject)objects.get(i);
+                            ParseObject po = objects.get(i);
                             String name = (String) po.get("Name");
                             po.pinInBackground();
                         }

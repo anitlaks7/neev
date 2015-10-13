@@ -18,9 +18,9 @@ import com.neev.example.R;
 public class ListViewMultipleSelectionActivity extends Activity implements
         OnClickListener {
 
-    Button button;
-    ListView listView;
-    ArrayAdapter<String> adapter;
+    private Button button;
+    private ListView listView;
+    private ArrayAdapter<String> adapter;
 
     /** Called when the activity is first created. */
     @Override
@@ -38,7 +38,7 @@ public class ListViewMultipleSelectionActivity extends Activity implements
 
         button.setOnClickListener(this);
     }
-//TODO - prevent this activity from getting on the backstack
+//TODO - prevent this activity from getting on the back stack
     private void findViewsById() {
         listView = (ListView) findViewById(R.id.listView);
         button = (Button) findViewById(R.id.button);

@@ -22,16 +22,13 @@ public class DashboardItemDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
-    public static String ARG_PANE = "today";
+    public static final String ARG_PANE = "today";
 
     /**
      * The dummy content this fragment is presenting.
      */
     private DummyContent.DummyItem mItem;
-    /**
-     * The pane in which this fragment is presenting.
-     */
-    private String mPane;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -53,7 +50,10 @@ public class DashboardItemDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mPane = getArguments().getString(ARG_PANE);
+            /*
+      The pane in which this fragment is presenting.
+     */
+            String mPane = getArguments().getString(ARG_PANE);
         }
     }
 

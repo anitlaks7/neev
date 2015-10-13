@@ -15,16 +15,17 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/btnSave"
         android:id="@+id/button"
         android:layout_alignParentBottom="false"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/listView" />
+        android:layout_below="@+id/listView"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
+        android:text="@string/btnCancel"
         android:id="@+id/button2"
         android:layout_alignParentBottom="false"
         android:layout_alignParentEnd="true"

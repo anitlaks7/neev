@@ -5,8 +5,6 @@
     <string name="title_section2">Custom</string>
     <string name="title_section3">Section 3</string>
 
-    <string name="hello_world">Hello world!</string>
-
     <string name="action_settings">Settings</string>
     <string name="action_managedata">Manage Data</string>
     <string name="InventoryString">INVENTORY</string>
@@ -25,7 +23,8 @@
     <string name="add_date"><i><font size="11">Date</font></i></string>
     <string name="product_type">Product_Type</string>
     <string name="itemtype_spinner">Item_Type</string>
-
+    <string name="btnCancel">Cancel</string>
+    <string name="btnSave">Save</string>
 
     <string-array name="sports_array">
         <item>Inventory</item>

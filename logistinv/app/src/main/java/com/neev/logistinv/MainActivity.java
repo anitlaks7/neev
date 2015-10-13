@@ -2,6 +2,7 @@ package com.neev.logistinv;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
@@ -28,33 +29,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.neev.example.R;
-import com.parse.Parse;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener,DashboardItemListFragment.Callbacks{
 
-    static int fromYear;
-    static int fromMonth;
-    static int fromDay;
-    static int toYear;
-    static int toMonth;
-    static int toDay;
-    private static String ARG_FROM_TO = "From";
+    private static int fromYear;
+    private static int fromMonth;
+    private static int fromDay;
+    private static int toYear;
+    private static int toMonth;
+    private static int toDay;
+    private static final String ARG_FROM_TO = "From";
 
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v13.app.FragmentStatePagerAdapter}.
-     */
-    SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -90,12 +80,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         // Show the Up button in the action bar.
         actionBar.setDisplayHomeAsUpEnabled(true);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        /*
+      The {@link android.support.v4.view.PagerAdapter} that will provide
+      fragments for each of the sections. We use a
+      {@link FragmentPagerAdapter} derivative, which will keep every
+      loaded fragment in memory. If this becomes too memory intensive, it
+      may be best to switch to a
+      {@link android.support.v13.app.FragmentStatePagerAdapter}.
+     */
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
         setContentView(R.layout.activity_main);
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -372,7 +371,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             Log.w("DatePicker", "Date = " + year);
 
-            if (bundle.getString(ARG_FROM_TO) == "From") {
+            if (Objects.equals(bundle.getString(ARG_FROM_TO), "From")) {
                 fromDay = day;
                 fromMonth = month;
                 fromYear = year;

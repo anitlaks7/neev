@@ -5,15 +5,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -23,7 +19,6 @@ import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
@@ -32,9 +27,9 @@ import com.parse.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by chethana.savalgi on 10-10-2015.
@@ -44,22 +39,20 @@ import java.util.Locale;
 
 public class ManageDataActivity extends Activity implements OnItemSelectedListener{
     Button button;
-    ListView listView;
+    private ListView listView;
     ArrayAdapter<String> adapter;
-    ArrayAdapter<String> adapter1=null;
-    static int fromYear;
-    static int fromMonth;
-    static int fromDay;
-    EditText inputSearch;
+    private ArrayAdapter<String> adapter1=null;
+    private static int fromYear;
+    private static int fromMonth;
+    private static int fromDay;
+    private EditText inputSearch;
     public static final String ARG_Type_Id = "type_id";
-    static String Item_id;
     static String Item_Type;
     static Bundle bundle;
     private SearchView mSearchView;
-    EditText inputQty;
-    EditText inputPrice;
-    EditText inputDate;
-    ArrayAdapter<CharSequence> ItemType_adapter;
+    private EditText inputQty;
+    private EditText inputPrice;
+    private EditText inputDate;
 
 
     public void onItemSelected(AdapterView<?> parent, View view,
@@ -164,9 +157,9 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
         Spinner item_type = (Spinner) findViewById(R.id.itemtype_spinner);
         item_type.setOnItemSelectedListener(this);
-        ItemType_adapter = ArrayAdapter.createFromResource(this, R.array.ItemType_array, android.R.layout.simple_spinner_item);
-        ItemType_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// Apply the adapter to the spinner
-        item_type.setAdapter(ItemType_adapter);
+        ArrayAdapter<CharSequence> itemType_adapter = ArrayAdapter.createFromResource(this, R.array.ItemType_array, android.R.layout.simple_spinner_item);
+        itemType_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// Apply the adapter to the spinner
+        item_type.setAdapter(itemType_adapter);
 
         EditText editText = (EditText) findViewById(R.id.editDate);
         editText.setText(fromDay + " / " + fromMonth + " / " + fromYear);
@@ -175,7 +168,6 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
             @Override
             public void onClick(View v) {
-                ;
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 DialogFragment newFragment = new DatePickerFragment();
@@ -185,8 +177,8 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
             }
         });
 
-        Item_id = "0"; //Set default selection to Finished Products
-        if (Item_id == "0") {
+        String item_id = "0";
+        if (Objects.equals(item_id, "0")) {
 
             adapter1 = new ArrayAdapter<String>(this,R.layout.simplerow);
 
