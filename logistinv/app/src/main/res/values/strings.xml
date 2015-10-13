@@ -47,8 +47,8 @@
     </string-array>
 
     <string-array name="ItemType_array">
-        <item id="0">Finished Products</item>
-        <item id="1">Raw Material</item>
+        <item id="1">Finished Products</item>
+        <item id="2">Raw Material</item>
 
 
     </string-array>

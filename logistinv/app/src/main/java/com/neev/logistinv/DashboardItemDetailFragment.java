@@ -1,5 +1,6 @@
 package com.neev.logistinv;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -150,13 +151,15 @@ public class DashboardItemDetailFragment extends Fragment
         fl.addView(btn, params);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),
+              /*  Toast.makeText(view.getContext(),
                         "Button clicked index = " + mItem.content, Toast.LENGTH_SHORT)
                         .show();
-                fl.removeView(btn);
-                //Start Manage Data activity here.
-                //add code for finding which item is displaying currently
-                //fix color and position of button
+                fl.removeView(btn);*/
+                Intent myIntent = new Intent(view.getContext(),ManageDataActivity.class);
+                myIntent.putExtra("item_type", mItem.id); //Optional parameters
+                startActivity(myIntent);
+               // return true;
+
             }
         });
         return false;
