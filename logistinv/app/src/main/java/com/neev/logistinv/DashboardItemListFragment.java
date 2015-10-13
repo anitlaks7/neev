@@ -27,7 +27,7 @@ public class DashboardItemListFragment extends ListFragment {
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-
+    private static String[] resultArr;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -74,7 +74,7 @@ public class DashboardItemListFragment extends ListFragment {
         Bundle b = getActivity().getIntent().getExtras();
             // TODO: replace with a real list adapter.
         if(b!=null) {
-            String[] resultArr = b.getStringArray("selectedItems");
+            resultArr = b.getStringArray("selectedItems");
             if(resultArr!=null) {
                 setListAdapter(new ArrayAdapter<String>(
                         getActivity(),
@@ -137,8 +137,11 @@ public class DashboardItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id, ((ViewGroup) getView().getParent()).getId());
+        if(resultArr != null)
+            mCallbacks.onItemSelected(resultArr[position], ((ViewGroup) getView().getParent()).getId());
+        else
+            mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id, ((ViewGroup) getView().getParent()).getId());
+            //mCallbacks.onItemSelected(DummyContent.ITEMS.ge (position).id, ((ViewGroup) getView().getParent()).getId());
     }
 
     @Override

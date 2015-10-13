@@ -19,11 +19,11 @@ public class DummyContent {
 
     static {
         // Add 3 sample items.
-        addItem(new DummyItem("1", "Item 1"));
-        addItem(new DummyItem("2", "Item 2"));
-        addItem(new DummyItem("3", "Item 3"));
-        addItem(new DummyItem("4", "Item 4"));
-        addItem(new DummyItem("5", "Item 5"));
+        addItem(new DummyItem("1", "Inventory"));
+        addItem(new DummyItem("2", "Sales"));
+        addItem(new DummyItem("3", "Personnel"));
+        addItem(new DummyItem("4", "In Transit"));
+        addItem(new DummyItem("5", "Returned"));
     }
 
     private static void addItem(DummyItem item) {
