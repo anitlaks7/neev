@@ -151,14 +151,21 @@ public class DashboardItemDetailFragment extends Fragment
         btn.setBackgroundColor(Color.RED);
         final FrameLayout fl = (FrameLayout) getView().getParent();
         fl.addView(btn, params);
+
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-              /*  Toast.makeText(view.getContext(),
-                        "Button clicked index = " + mItem.content, Toast.LENGTH_SHORT)
-                        .show();
-                fl.removeView(btn);*/
+                String tempString = "Inventory";
+                if(mItem == null){
+                    tempString = getArguments().getString(ARG_ITEM_ID);
+                }
+                else
+                    tempString = mItem.content;
+               /*Toast.makeText(view.getContext(),
+                        "Button clicked index = " + tempString, Toast.LENGTH_SHORT)
+                        .show();*/
+                fl.removeView(btn);
                 Intent myIntent = new Intent(view.getContext(),ManageDataActivity.class);
-                myIntent.putExtra("item_type", mItem.id); //Optional parameters
+                myIntent.putExtra("item_type", tempString); //Optional parameters
                 startActivity(myIntent);
                // return true;
 

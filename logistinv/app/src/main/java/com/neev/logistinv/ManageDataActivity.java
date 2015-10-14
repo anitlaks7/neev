@@ -126,7 +126,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         listView = (ListView) findViewById(R.id.listView);
         switch(ItemType)
         {
-            case "1":
+            case "Sales":
                 try {
                     List rmList = data.retrieveAllFinishedProductFromLocalStore();
                     for(int i=0;i< rmList.size();i++)
@@ -153,7 +153,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
                 }
                 break;
-            case "2":
+            case "Inventory":
                 try {
                     List rmList = data.retrieveAllRawMaterialFromLocalStore();
                     for(int i=0;i< rmList.size();i++)
