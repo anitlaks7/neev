@@ -1,9 +1,14 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/dashboarditem_detail"
     style="?android:attr/textAppearanceLarge" android:layout_width="match_parent"
     android:layout_height="match_parent" android:padding="16dp" android:textIsSelectable="true"
     tools:context="com.neev.logistinv.DashboardItemDetailFragment"
     android:background="#ffffff"
     android:textColor="@color/red"
-    android:autoText="false" />
+    android:autoText="false" />-->
 
+<android:com.github.mikephil.charting.charts.HorizontalBarChart
+    android:id="@+id/chartMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

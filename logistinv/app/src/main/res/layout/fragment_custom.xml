@@ -14,7 +14,7 @@
     android:baselineAligned="false"
     android:backgroundTint="#ff2222"
     style="@style/AppTheme"
-    android:foregroundTint="#f5f9ff"
+    android:foregroundTint="#57374859"
     android:foregroundTintMode="src_over"
     android:foregroundGravity="fill_vertical">
 
@@ -63,6 +63,7 @@
             android:id="@+id/dashboarditem_list_custom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="1dp"
             android:layout_weight="4.70"
             android:layout_below="@+id/linearLayout"
             xmlns:android="http://schemas.android.com/apk/res/android"

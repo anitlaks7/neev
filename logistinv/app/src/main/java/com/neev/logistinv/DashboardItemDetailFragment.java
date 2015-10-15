@@ -17,8 +17,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.neev.example.R;
 import com.neev.logistinv.dummy.DummyContent;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a single DashboardItem detail screen.
@@ -82,13 +91,36 @@ public class DashboardItemDetailFragment extends Fragment
         mDetector.setOnDoubleTapListener(this);
         // Detect touched area
         View rootView = inflater.inflate(R.layout.fragment_dashboarditem_detail, container, false);
+        BarChart chart = (BarChart) rootView.findViewById(R.id.chartMain);
+        BarData data = new BarData(getXAxisValues(), getDataSetForToday());
+        chart.setData(data);
+        chart.setDescription("");
+        chart.animateXY(2000, 2000);
+        chart.invalidate();
+        // if more than 60 entries are displayed in the chart, no values will be
+        // drawn
+        // chart.setMaxVisibleValueCount(60);
+        //Tilts the chart
+        //chart.setRotationX(View.TEXT_ALIGNMENT_VIEW_START);
+        //chart.setLabelFor(SCROLLBAR_POSITION_LEFT);
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
+        //RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeMain);
+       /* rootView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent();
+                                            intent.setClass(getActivity().mContext, QuantityActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    });*/
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
+        /*if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.dashboarditem_detail)).setText(mItem.content);
         }
         else
-            ((TextView) rootView.findViewById(R.id.dashboarditem_detail)).setText(getArguments().getString(ARG_ITEM_ID));
+            ((TextView) rootView.findViewById(R.id.dashboarditem_detail)).setText(getArguments().getString(ARG_ITEM_ID));*/
         rootView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                   // ... Respond to touch events
@@ -146,9 +178,12 @@ public class DashboardItemDetailFragment extends Fragment
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.BOTTOM|Gravity.CENTER;
+        //params.setMargins(2,4,2,4);
         final Button btn = new Button(getActivity());
         btn.setText("MANAGE DATA");
-        btn.setBackgroundColor(Color.RED);
+        //btn.setBackgroundColor(Color.RED);
+        //btn.setBackground(getResources().getDrawable(R.drawable.mybutton));
+
         final FrameLayout fl = (FrameLayout) getView().getParent();
         fl.addView(btn, params);
 
@@ -163,7 +198,8 @@ public class DashboardItemDetailFragment extends Fragment
                /*Toast.makeText(view.getContext(),
                         "Button clicked index = " + tempString, Toast.LENGTH_SHORT)
                         .show();*/
-                fl.removeView(btn);
+                final FrameLayout fCurrentView = (FrameLayout) view.getParent();
+                fCurrentView.removeView(btn);
                 Intent myIntent = new Intent(view.getContext(),ManageDataActivity.class);
                 myIntent.putExtra("item_type", tempString); //Optional parameters
                 startActivity(myIntent);
@@ -173,4 +209,51 @@ public class DashboardItemDetailFragment extends Fragment
         });
         return false;
     }
+    private ArrayList<BarDataSet> getDataSetForToday() {
+        ArrayList<BarDataSet> dataSets = null;
+        ArrayList<BarEntry> valueSet1 = new ArrayList<>();
+
+        BarEntry v1e1 = new BarEntry(2500.000f, 0); // HANDMADE PAPER BAGS
+        valueSet1.add(v1e1);
+        BarEntry v1e2 = new BarEntry(5000.000f, 1); // DIARIES
+        valueSet1.add(v1e2);
+        BarEntry v1e3 = new BarEntry(110000.000f, 2); // TABLE CLOTHS AND NAPKINS
+        valueSet1.add(v1e3);
+        BarEntry v1e4 = new BarEntry(10000.000f, 3); // CUSHION COVERS
+        valueSet1.add(v1e4);
+        BarEntry v1e5 = new BarEntry(85000.000f, 4); // TABLE MATS
+        valueSet1.add(v1e5);
+        BarEntry v1e6 = new BarEntry(10000.000f, 5); // HANDMADE PAPER CARDS
+        valueSet1.add(v1e6);
+        BarEntry v1e7 = new BarEntry(8000.000f, 6); // SHAGUN ENVELOPES
+        valueSet1.add(v1e7);
+        BarEntry v1e8 = new BarEntry(8500.000f, 7); // BED COVERS
+        valueSet1.add(v1e8);
+
+
+        BarDataSet barDataSet1 = new BarDataSet(valueSet1, "SALES OF PRODUCTS");
+        barDataSet1.setColors(ColorTemplate.JOYFUL_COLORS);
+
+
+        dataSets = new ArrayList<>();
+        dataSets.add(barDataSet1);
+
+
+        return dataSets;
+
+    }
+
+    private ArrayList<String> getXAxisValues() {
+        ArrayList<String> xAxis = new ArrayList<>();
+        xAxis.add("HANDMADE PAPER BAGS");
+        xAxis.add("DIARIES");
+        xAxis.add("TABLE CLOTHS AND NAPKINS");
+        xAxis.add("CUSHION COVERS");
+        xAxis.add("TABLE MATS");
+        xAxis.add("HANDMADE PAPER CARDS");
+        xAxis.add("SHAGUN ENVELOPES");
+        xAxis.add("BED COVERS");
+        return xAxis;
+    }
+
 }

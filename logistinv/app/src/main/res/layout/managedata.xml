@@ -133,9 +133,9 @@
             android:id="@+id/btnSave"
             android:layout_gravity="bottom"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:background="@color/darkred"
-            />
+            android:layout_alignParentStart="true"/>
+            <!--android:background="@color/darkred"-->
+
 
         <Button
             android:layout_width="wrap_content"
@@ -143,8 +143,9 @@
             android:text="Reset"
             android:id="@+id/btnReset"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:background="@color/darkred"/>
+            android:layout_alignParentEnd="true"/>
+            <!--android:background="@color/darkred"/>-->
+
     </RelativeLayout>
 </LinearLayout>
 
