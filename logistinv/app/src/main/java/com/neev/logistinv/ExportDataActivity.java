@@ -13,25 +13,27 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.neev.example.R;
-import com.parse.*;
+import com.neev.logistinv.NeevDataLayer;
+import com.neev.logistinv.NeevProductItem;
+import com.neev.logistinv.NeevRawMaterialItem;
+import com.parse.ParseObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 /**
  * Created by chethana.savalgi on 10-10-2015.
@@ -39,7 +41,7 @@ import java.util.Objects;
 
 
 
-public class ManageDataActivity extends Activity implements OnItemSelectedListener{
+public class ExportDataActivity extends Activity implements OnItemSelectedListener{
     Button button;
     private ListView listView;
     ArrayAdapter<String> adapter;
@@ -68,7 +70,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         listView = (ListView) findViewById(R.id.listView);
 
         listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     final int position, long id) {
@@ -93,14 +95,13 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         Intent intent = getIntent();
         NeevDataLayer data = new NeevDataLayer();
         List rmList = null;
-        if(ItemType.equalsIgnoreCase("inventory"))
+        if(ItemType.equalsIgnoreCase("sales"))
         {
-            rmList = data.retrieveAllRawMaterialFromLocalStore();
+            rmList = data.retrieveAllFinishedProductFromLocalStore();
         }
         else
         {
-            rmList = data.retrieveAllFinishedProductFromLocalStore();
-
+            rmList = data.retrieveAllRawMaterialFromLocalStore();
         }
 
         for(int i=0;i< rmList.size();i++)
@@ -140,7 +141,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         listView = (ListView) findViewById(R.id.listView);
 
         listView.setAdapter(adapter1);
-        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     final int position, long id) {

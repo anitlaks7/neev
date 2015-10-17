@@ -13,8 +13,7 @@
     <string name="title_dashboard_detail_fragment">DashboardDetailFragment</string>
     <string name="plus_button">plus</string>
     <string name="selectabledashboarditem">sdbitem</string>
-    <string name="title_activity_list_view_multiple_selection">ListViewMultipleSelectionActivity
-    </string>
+    <string name="title_activity_list_view_multiple_selection">Configure Dashboard</string>
 
     <string name="submit">Submit</string>
     <string name="search_hint"><i><font size="11">Search List</font></i></string>
@@ -29,7 +28,6 @@
     <string-array name="sports_array">
         <item>Inventory</item>
         <item>Sales</item>
-        <item>Personnel</item>
         <item>In Transit</item>
         <item>Returned</item>
     </string-array>

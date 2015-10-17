@@ -2,6 +2,7 @@ package com.neev.logistinv;
 
 import java.util.ArrayList;
 
+import android.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.neev.example.R;
 
@@ -60,6 +62,8 @@ public class ListViewMultipleSelectionActivity extends Activity implements
         for (int i = 0; i < selectedItems.size(); i++) {
             outputStrArr[i] = selectedItems.get(i);
         }
+
+        Toast.makeText(getApplicationContext(), "Configuration saved successfully", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(getApplicationContext(),
                 MainActivity.class);
