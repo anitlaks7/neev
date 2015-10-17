@@ -16,14 +16,14 @@ public class NeevProductItem extends ParseObject {
         put("Name", name);
     }
 
-    public String getPPrice(){ return getString("UnitPrice");}
-    public void setPPrice(String value) {
-        put("Unit", value);
+    public double getPPrice(){ return getDouble("UnitPrice");}
+    public void setPPrice(double value) {
+        put("UnitPrice", value);
     }
 
-    public Number getPQty(){ return getNumber("Quantity");}
-    public void setPQty(Number value) {
-        put("Unit", value);
+    public int getPQty(){ return getInt("Quantity");}
+    public void setPQty(int value) {
+        put("Quantity", value);
     }
 
     public String getPType(){ return getString("Type");}
