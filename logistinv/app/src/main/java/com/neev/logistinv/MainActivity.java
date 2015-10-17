@@ -179,6 +179,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         if (id == R.id.action_managedata)
         {
             Intent myIntent = new Intent(this,ManageDataActivity.class);
+            myIntent.putExtra("item_type", "Inventory"); //Optional parameters
             startActivity(myIntent);
             return true;
         }

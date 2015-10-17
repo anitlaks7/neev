@@ -28,6 +28,7 @@ import com.parse.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -59,55 +60,57 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
 
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,R.layout.simplerow);
+        String strSelected = parent.getSelectedItem().toString();
+        listAdapter = PopulateList(strSelected);
 
-        if(id ==1)
-        {
-            adapter1 = new ArrayAdapter<String>(this,R.layout.simplerow);
-            NeevDataLayer data = new NeevDataLayer();
-            try {
-                List rmList = data.retrieveAllRawMaterialFromLocalStore();
-                for(int i=0;i< rmList.size();i++)
-                {
-                    ParseObject po = (ParseObject)rmList.get(i);
-                    String name = (String) po.get("Name");
-                    adapter1.add(name);
-                    //adapter1.
-                }
-            }
-            catch (Exception e)
-            {
+        listView = (ListView) findViewById(R.id.listView);
 
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    final int position, long id) {
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                inputSearch.setText(selectedItem);
             }
-            listView.setAdapter(adapter1);
-        }
-        if(id ==0)
-        {
-            adapter1 = new ArrayAdapter<String>(this,R.layout.simplerow);
-            NeevDataLayer data = new NeevDataLayer();
-            try {
-                List rmList = data.retrieveAllFinishedProductFromLocalStore();
-                for(int i=0;i< rmList.size();i++)
-                {
-                    ParseObject po = (ParseObject)rmList.get(i);
-                    String name = (String) po.get("Name");
-                    adapter1.add(name);
-                    //adapter1.
-                }
-            }
-            catch (Exception e)
-            {
 
-            }
-            listView.setAdapter(adapter1);
-        }
+        });
+
 
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
+    }
+
+    //return rootView;
+    public ArrayAdapter<String> PopulateList(String ItemType)
+
+    {
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,R.layout.simplerow);
+        Intent intent = getIntent();
+        NeevDataLayer data = new NeevDataLayer();
+        List rmList = null;
+        if(ItemType.equalsIgnoreCase("sales"))
+        {
+            rmList = data.retrieveAllFinishedProductFromLocalStore();
+        }
+        else
+        {
+            rmList = data.retrieveAllRawMaterialFromLocalStore();
+        }
+
+        for(int i=0;i< rmList.size();i++)
+        {
+            ParseObject po = (ParseObject)rmList.get(i);
+            String name = (String) po.get("Name");
+            listAdapter.add(name);
+
+        }
+
+        return listAdapter;
     }
 
     protected void onCreate(Bundle savedInstanceState)
@@ -120,81 +123,35 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         setContentView(R.layout.managedata);
 
         Intent intent = getIntent();
-        String ItemType = intent.getStringExtra("item_type");
+        ItemType = intent.getStringExtra("item_type");
         NeevDataLayer data = new NeevDataLayer();
-        adapter1 = new ArrayAdapter<String>(this,R.layout.simplerow);
-        listView = (ListView) findViewById(R.id.listView);
-        switch(ItemType)
-        {
-            case "1":
-                try {
-                    List rmList = data.retrieveAllFinishedProductFromLocalStore();
-                    for(int i=0;i< rmList.size();i++)
-                    {
-                        ParseObject po = (ParseObject)rmList.get(i);
-                        String name = (String) po.get("Name");
-                        adapter1.add(name);
 
-                    }
-                    listView.setAdapter(adapter1);
-                    listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view,
-                                                final int position, long id) {
-                            String selectedItem = (String) parent.getItemAtPosition(position);
-                            inputSearch.setText(selectedItem);
-                        }
-
-                    });
-                }
-                catch (Exception e)
-                {
-                   String ex = e.getMessage();
-
-                }
-                break;
-            case "2":
-                try {
-                    List rmList = data.retrieveAllRawMaterialFromLocalStore();
-                    for(int i=0;i< rmList.size();i++)
-                    {
-                        ParseObject po = (ParseObject)rmList.get(i);
-                        String name = (String) po.get("Name");
-                        adapter1.add(name);
-                        listView.setAdapter(adapter1);
-                        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view,
-                                                    final int position, long id) {
-                                String selectedItem = (String) parent.getItemAtPosition(position);
-                                inputSearch.setText(selectedItem);
-                            }
-
-                        });
-                        //adapter1.
-                    }
-                }
-                catch (Exception e)
-                {
-
-                }
-
-                break;
-        }
-
-
-
-
-
-        Spinner item_type = (Spinner) findViewById(R.id.itemtype_spinner);
-        item_type.setOnItemSelectedListener(this);
+        Spinner spnItemType = (Spinner) findViewById(R.id.itemtype_spinner);
+        spnItemType.setOnItemSelectedListener(this);
         ArrayAdapter<CharSequence> itemType_adapter = ArrayAdapter.createFromResource(this, R.array.ItemType_array, android.R.layout.simple_spinner_item);
         itemType_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// Apply the adapter to the spinner
-        item_type.setAdapter(itemType_adapter);
-        //item_type.setSelection(Integer.parseInt(ItemType));
+        spnItemType.setAdapter(itemType_adapter);
+        spnItemType.setSelection(getIndex(spnItemType,ItemType));
+
+
+
+        adapter1 = PopulateList(ItemType);
+        listView = (ListView) findViewById(R.id.listView);
+
+        listView.setAdapter(adapter1);
+        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    final int position, long id) {
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                inputSearch.setText(selectedItem);
+            }
+
+        });
+
 
         EditText editText = (EditText) findViewById(R.id.editDate);
-        editText.setText(fromDay + " / " + fromMonth + " / " + fromYear);
+        editText.setText(fromDay + "/" + fromMonth + "/" + fromYear);
         // Show the dummy content as text in a TextView.
         editText.setOnClickListener(new View.OnClickListener() {
 
@@ -243,7 +200,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                 inputQty.setText("");
                 inputPrice.setText("");
                 inputSearch.setText("");
-                inputDate.setText(fromDay + " / " + fromMonth + " / " + fromYear);
+                inputDate.setText(fromDay + "/" + fromMonth + "/" + fromYear);
             }
         });
 
@@ -252,19 +209,35 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         btnSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 NeevDataLayer data = new NeevDataLayer();
-                NeevRawMaterialItem product = new NeevRawMaterialItem();
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                try {
-                    String Price = inputPrice.getText().toString();
-                    String Qty = inputQty.getText().toString();
-                    String strDate = inputDate.getText().toString();
-                    product.setName(inputSearch.getText().toString());
-                    //product.setCost(inputPrice.getText().toString());
-                    //product.setQuantity(Integer.parseInt(Qty));
-                    //Date date = format.parse(strDate);
-                    //product.setDate(inputDate.getText().toString());
+                NeevRawMaterialItem trans=new NeevRawMaterialItem();
+                NeevProductItem prodtrans=new NeevProductItem();
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                boolean isSaveSuccessful;
 
-                    boolean isSaveSuccessful =  data.addToStore(product);
+                try {
+                    String price = inputPrice.getText().toString();
+                    Number qty =(Number)inputQty.getText();
+                    Date creationDate = format.parse(inputDate.getText().toString());
+                    String name=inputSearch.getText().toString();
+                    Spinner stage=(Spinner)findViewById(R.id.itemtype_spinner);
+                    String strStage=stage.getSelectedItem().toString();
+                    if(strStage.equalsIgnoreCase("inventory")) {
+                        trans.setName(name);
+                        trans.setQty(qty);
+                        trans.setUnitPrice(price);
+                        trans.setDate(creationDate);
+                        isSaveSuccessful = data.addToRMStore(trans);
+                    }
+                    else
+                    {
+                        prodtrans.setPName(name);
+                        prodtrans.setPQty(qty);
+                        prodtrans.setPPrice(price);
+                        prodtrans.setPDate(creationDate);
+                        prodtrans.setPType(strStage);
+                        isSaveSuccessful = data.addToProdStore(prodtrans);
+                    }
+
                     if(isSaveSuccessful)
                     {
                         Toast.makeText(getApplicationContext(), "Data added successfully", Toast.LENGTH_LONG).show();
@@ -277,7 +250,25 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
             }
         });
 
-        //return rootView;
+
+    }
+
+    private int getIndex(Spinner spinner,String string){
+
+//Pseudo code because I dont remember the API
+
+        int index = 0;
+
+        for (int i = 0; i < spinner.getCount(); i++){
+
+            if (spinner.getItemAtPosition(i).equals(string)){
+                index = i;
+            }
+
+        }
+
+        return index;
+
     }
 
     public static class DatePickerFragment extends DialogFragment

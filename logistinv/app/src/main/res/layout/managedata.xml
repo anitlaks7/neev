@@ -69,6 +69,7 @@
             android:background="@drawable/customborder"
             android:layout_marginTop="8dp"
             android:textSize="18sp"
+            android:windowSoftInputMode="stateHidden"
             />
 
         <EditText android:id="@+id/edit_price"
@@ -79,6 +80,7 @@
             android:background="@drawable/customborder"
             android:layout_marginTop="5dp"
             android:inputType="numberDecimal"
+            android:windowSoftInputMode="stateHidden"
             android:textSize="18sp"/>
 
         <EditText android:id="@+id/search_item"
@@ -95,6 +97,7 @@
             android:textSize="18sp"
             android:drawableStart="@drawable/magnify"
             android:background="@drawable/customborder"
+
             />
 
         <!--<SearchView android:id="@+id/search_view"-->
