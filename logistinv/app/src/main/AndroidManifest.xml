@@ -57,6 +57,7 @@
         </activity>
         <activity
             android:name="com.neev.logistinv.ManageDataActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="Manage Data"
             android:parentActivityName="com.neev.logistinv.MainActivity">
         </activity>
