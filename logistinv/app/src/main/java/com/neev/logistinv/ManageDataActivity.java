@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,9 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import com.neev.example.R;
 import com.parse.*;
 
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -215,8 +219,8 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                 boolean isSaveSuccessful;
 
                 try {
-                    String price = inputPrice.getText().toString();
-                    Number qty =(Number)inputQty.getText();
+                    double price =Double.parseDouble(inputPrice.getText().toString());
+                    int qty =Integer.parseInt(inputQty.getText().toString());
                     Date creationDate = format.parse(inputDate.getText().toString());
                     String name=inputSearch.getText().toString();
                     Spinner stage=(Spinner)findViewById(R.id.itemtype_spinner);
@@ -245,7 +249,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                 }
                 catch (Exception e)
                 {
-
+                    Toast.makeText(getApplicationContext(), "Error"+e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

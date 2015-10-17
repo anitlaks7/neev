@@ -12,14 +12,14 @@ public class NeevRawMaterialItem extends ParseObject {
         put("Name", name);
     }
 
-    public String getUnitPrice(){ return getString("UnitPrice");}
-    public void setUnitPrice(String value) {
-        put("Unit", value);
+    public double getUnitPrice(){ return getDouble("UnitPrice");}
+    public void setUnitPrice(double value) {
+        put("UnitPrice", value);
     }
 
-    public Number getQty(){ return getNumber("Quantity");}
-    public void setQty(Number value) {
-        put("Unit", value);
+    public int getQty(){ return getInt("Quantity");}
+    public void setQty(int value) {
+        put("Quantity", value);
     }
 
     public Date getDate(){ return getDate("CreationDate");}
