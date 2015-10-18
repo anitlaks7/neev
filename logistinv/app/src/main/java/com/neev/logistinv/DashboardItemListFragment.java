@@ -1,17 +1,23 @@
 package com.neev.logistinv;
 
 import android.app.Activity;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.neev.example.R;
-import com.neev.logistinv.dummy.DummyContent;
+import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
+
+import java.util.ArrayList;
 
 /**
  * A list fragment representing a list of DashboardItems. This fragment
@@ -22,6 +28,7 @@ import com.neev.logistinv.dummy.DummyContent;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
+
 public class DashboardItemListFragment extends ListFragment {
 
     /**
@@ -29,7 +36,10 @@ public class DashboardItemListFragment extends ListFragment {
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    private static String[] resultArr;
+    private static boolean listSelectionMode = false;
+    public static String ARG_PANE = "today";
+    public static ArrayAdapter<String> adapter;
+
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -51,6 +61,10 @@ public class DashboardItemListFragment extends ListFragment {
          * Callback for when an item has been selected.
          */
         void onItemSelected(String id, int containerView);
+        /**
+         * Callback for when multiple items have been selected.
+         */
+        void onMultipleItemsSelected(ArrayList<String> selectedItems, int containerView);
     }
 
     /**
@@ -61,6 +75,12 @@ public class DashboardItemListFragment extends ListFragment {
         @Override
         public void onItemSelected(String id, int containerView) {
         }
+
+        @Override
+        public void onMultipleItemsSelected(ArrayList<String> selectedItems, int containerView) {
+
+        }
+
     };
 
     /**
@@ -70,48 +90,92 @@ public class DashboardItemListFragment extends ListFragment {
     public DashboardItemListFragment() {
     }
 
+    public final DataSetObserver mObserver = new DataSetObserver() {
+        @Override
+        public void onChanged() {
+           setListAdapter(adapter);
+        }
+    };
+
+
     @Override
+
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         Bundle b = getActivity().getIntent().getExtras();
-            // TODO: replace with a real list adapter.
-        if(b!=null) {
-            resultArr = b.getStringArray("selectedItems");
-            if(resultArr!=null) {
-                setListAdapter(new ArrayAdapter<String>(
-                        getActivity(),
-                        android.R.layout.simple_list_item_activated_1,
-                        android.R.id.text1,
-                        resultArr
-                ));
-            }
-            else{
-                String[] sports = getResources().getStringArray(R.array.sports_array);
-                setListAdapter(new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_list_item_activated_1, android.R.id.text1, sports));
-            }
+        if(adapter==null) {
+            adapter = (new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_list_item_activated_1, android.R.id.text1, DashboardItemListContent.returnSelectedItems()));
+            adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
+            adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
+            adapter.setNotifyOnChange(true);
+            setListAdapter(adapter);
         }
-
-        else {
-            String[] sports = getResources().getStringArray(R.array.sports_array);
-            setListAdapter(new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_activated_1, android.R.id.text1, sports));
-
-
-        }
-
+        else
+            setListAdapter(adapter);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+        //if (listSelectionMode)
+         //   getListView().setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+        getListView().setLongClickable(true);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+            getListView().setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+            listSelectionMode = true;
+            adapter = (new ArrayAdapter<String>(getActivity(),
+                       android.R.layout.simple_list_item_multiple_choice, android.R.id.text1, DashboardItemListContent.returnSelectedItems()));
+
+            setListAdapter(adapter);
+
+            //add the 2 buttons here dynamically -> save and cancel
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.BOTTOM|Gravity.LEFT;
+            final Button btnDelete = new Button(getActivity());
+            btnDelete.setText("DELETE");
+
+            final FrameLayout fl = (FrameLayout) getView().getParent();
+            fl.addView(btnDelete, params);
+
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    SparseBooleanArray checked = getListView().getCheckedItemPositions();
+                    ArrayList<String> selectedItems = new ArrayList<String>();
+                    for (int i = 0; i < checked.size(); i++) {
+                        // Item position in adapter
+                        int position = checked.keyAt(i);
+                        // Add sport if it is checked i.e.) == TRUE!
+                        if (checked.valueAt(i))
+                            DashboardItemListContent.setSelectionSate(adapter.getItem(position).toString(), false);
+                    }
+                    listSelectionMode = false;
+                    getListView().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+                    adapter = (new ArrayAdapter<String>(getActivity(),
+                            android.R.layout.simple_list_item_activated_1, android.R.id.text1, DashboardItemListContent.returnSelectedItems()));
+                    adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
+                    adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
+                    adapter.notifyDataSetChanged();
+
+                    final FrameLayout fCurrentView = (FrameLayout) view.getParent();
+                    fCurrentView.removeView(btnDelete);
+                }
+            });
+
+        return true;
+            }
+        });
     }
 
     @Override
@@ -140,11 +204,13 @@ public class DashboardItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        if(resultArr != null)
-            mCallbacks.onItemSelected(resultArr[position], ((ViewGroup) getView().getParent()).getId());
-        else
-            mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id, ((ViewGroup) getView().getParent()).getId());
-            //mCallbacks.onItemSelected(DummyContent.ITEMS.ge (position).id, ((ViewGroup) getView().getParent()).getId());
+        if(!listSelectionMode) {
+            ArrayList<String> selectedItems = DashboardItemListContent.returnSelectedItems();
+            mCallbacks.onItemSelected(selectedItems.get(position).toString(), ((ViewGroup) getView().getParent()).getId());
+            }
+        else { /*listSelectionMode DO NOTHING*/
+        }
+
     }
 
     @Override
@@ -182,6 +248,7 @@ public class DashboardItemListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-         mCallbacks.onItemSelected("anita", 1);
+        mCallbacks.onItemSelected("anita", 1);
     }
+
 }

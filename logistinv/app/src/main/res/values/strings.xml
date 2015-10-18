@@ -13,8 +13,7 @@
     <string name="title_dashboard_detail_fragment">DashboardDetailFragment</string>
     <string name="plus_button">plus</string>
     <string name="selectabledashboarditem">sdbitem</string>
-    <string name="title_activity_list_view_multiple_selection">Neev
-    </string>
+    <string name="title_activity_list_view_multiple_selection">Configure Dashboard</string>
 
     <string name="submit">Submit</string>
     <string name="search_hint"><i><font size="11">Search List</font></i></string>
@@ -26,7 +25,7 @@
     <string name="btnCancel">Cancel</string>
     <string name="btnSave">Save</string>
 
-    <string-array name="sports_array">
+    <string-array name="dashboardItemArray">
         <item>Inventory</item>
         <item>Sales</item>
         <item>Personnel</item>
@@ -47,8 +46,11 @@
     </string-array>
 
     <string-array name="ItemType_array">
-        <item id="1">Finished Products</item>
-        <item id="2">Raw Material</item>
+        <!--<item id="1">Finished Products</item>-->
+        <item>Inventory</item>
+        <item>Sales</item>
+        <item>In Transit</item>
+        <item>Returned</item>
 
 
     </string-array>

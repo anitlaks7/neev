@@ -1,5 +1,6 @@
 package com.neev.logistinv;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
@@ -50,6 +51,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * device.
      */
     private boolean mTwoPane;
+    /**
+     * String array to store the selected items string.
+     */
+    private ArrayList<String> mSelectedItems;
+
+    public static DashboardItemDetailFragment mDashboardItemDetailFragmentToday;
+    public static DashboardItemListFragment mDashboardItemListFragmentCustom;
+    public static DashboardItemListFragment mDashboardItemListFragmentToday;
+    public static DashboardItemDetailFragment mDashboardItemDetailFragmentCustom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +72,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         toDay = c.get(Calendar.DAY_OF_MONTH);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mDashboardItemDetailFragmentToday = new DashboardItemDetailFragment();
+        mDashboardItemListFragmentCustom = new DashboardItemListFragment();
+        mDashboardItemListFragmentToday = new DashboardItemListFragment();
+        mDashboardItemDetailFragmentCustom = new DashboardItemDetailFragment();
+        Bundle args = new Bundle();
+        args.putString("ARG_PANE","custom");
+        mDashboardItemListFragmentCustom.setArguments(args);
+        mDashboardItemDetailFragmentCustom.setArguments(args);
+        args.putString("ARG_PANE","today");
+        mDashboardItemListFragmentToday.setArguments(args);
+        mDashboardItemDetailFragmentToday.setArguments(args);
 
         if (findViewById(R.id.dashboarditem_detail_container) != null) {
             // The detail container view will be present only in the
@@ -157,6 +177,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Intent intent = new Intent(getApplicationContext(),
                     ListViewMultipleSelectionActivity.class);
             startActivity(intent);
+
             return true;
         }
 
@@ -179,6 +200,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         if (id == R.id.action_managedata)
         {
             Intent myIntent = new Intent(this,ManageDataActivity.class);
+            myIntent.putExtra("item_type", "Inventory"); //Optional parameters
             startActivity(myIntent);
             return true;
         }
@@ -220,19 +242,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(DashboardItemDetailFragment.ARG_ITEM_ID, id);
-            DashboardItemDetailFragment fragment = new DashboardItemDetailFragment();
-            fragment.setArguments(arguments);
+            mDashboardItemDetailFragmentToday.setArguments(arguments);
             getFragmentManager().beginTransaction()
-                    .replace(R.id.dashboarditem_detail_container, fragment)
+                    .replace(R.id.dashboarditem_detail_container, mDashboardItemDetailFragmentToday)
                     .commit();
-
-          /*  FragmentManager fragMgr = this.getFragmentManager().;
-            FragmentTransaction fragTrans = fragMgr.beginTransaction();
-
-            fragTrans.replace(android.R.id.content, fragment);
-            fragTrans.addToBackStack(null);
-            fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            fragTrans.commit();*/
 
         } else {
             // In single-pane mode, simply start the detail activity
@@ -244,24 +257,32 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             Bundle arguments = new Bundle();
             arguments.putString(DashboardItemDetailFragment.ARG_ITEM_ID, id);
-            if (containerView == R.id.dashboarditem_list1)
-                arguments.putString(DashboardItemDetailFragment.ARG_PANE, "today");
-            else
-                arguments.putString(DashboardItemDetailFragment.ARG_PANE, "custom");
-            DashboardItemDetailFragment fragment = new DashboardItemDetailFragment();
-            fragment.setArguments(arguments);
             FragmentTransaction ft1 = getFragmentManager().beginTransaction();
-
-            if (fragment.isAdded()) { // if the fragment is already in container
-                ft1.show(fragment);
-            } else { // fragment needs to replace on the frame container
-                ft1.replace(containerView,fragment);
-                ft1.show(fragment);
+            if (containerView == R.id.dashboarditem_list1) {
+                if (mDashboardItemDetailFragmentToday.isAdded()) { // if the fragment is already in container
+                    ft1.show(mDashboardItemDetailFragmentToday);
+                } else { // fragment needs to replace on the frame container
+                    ft1.replace(containerView, mDashboardItemDetailFragmentToday);
+                    ft1.show(mDashboardItemDetailFragmentToday);
+                }
             }
+            else
+                if (mDashboardItemDetailFragmentCustom.isAdded()) { // if the fragment is already in container
+                    ft1.show(mDashboardItemDetailFragmentCustom);
+                } else { // fragment needs to replace on the frame container
+                    ft1.replace(containerView, mDashboardItemDetailFragmentCustom);
+                    ft1.show(mDashboardItemDetailFragmentCustom);
+                }
+
 
             ft1.addToBackStack("DashboardItemDetailFragment");
             ft1.commit();
         }
+    }
+
+    @Override
+    public void onMultipleItemsSelected(ArrayList<String> selectedItems, int containerView) {
+        mSelectedItems = selectedItems;
     }
 
 
@@ -297,17 +318,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             rootView = getView();
             if(this.getArguments().getInt(ARG_SECTION_NUMBER) == 1 ) {
                 rootView = inflater.inflate(R.layout.fragment_dashboarditem_list, container, false);
-                DashboardItemListFragment fragment = new DashboardItemListFragment();
-                //fragment.setArguments(arguments);
+                //DashboardItemListFragment fragment = new DashboardItemListFragment();
+                Bundle args = new Bundle();
+                args.putString(DashboardItemListFragment.ARG_PANE, "today");
+                mDashboardItemListFragmentToday.setArguments(args);
                 FragmentTransaction ft1 = getFragmentManager().beginTransaction();
                 // removes the existing fragment calling onDestroy
-                ft1.replace(R.id.dashboarditem_list1, fragment);
+                ft1.replace(R.id.dashboarditem_list1, mDashboardItemListFragmentToday);
                 ft1.commit();
             }
             else {
                 rootView = inflater.inflate(R.layout.fragment_custom, container, false);
                 EditText editText = (EditText) rootView.findViewById(R.id.editText2);
-                editText.setText("From: "+fromDay +"/"+ fromMonth +"/"+ fromYear);
+                editText.setText("From: " + fromDay + "/" + fromMonth + "/" + fromYear);
                 EditText editTextTo = (EditText) rootView.findViewById(R.id.editText3);
                 editTextTo.setText("To: " + toDay + "/" + toMonth + "/" + toYear);
 
@@ -337,11 +360,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         newFragment.show(getFragmentManager(), "datePicker");
                     }
                 });
-                DashboardItemListFragment fragment1 = new DashboardItemListFragment();
+                //DashboardItemListFragment fragment1 = new DashboardItemListFragment();
+
+
                 //fragment.setArguments(arguments);
                 FragmentTransaction ft2 = getFragmentManager().beginTransaction();
                 // removes the existing fragment calling onDestroy
-                ft2.replace(R.id.dashboarditem_list_custom, fragment1);
+                ft2.replace(R.id.dashboarditem_list_custom, mDashboardItemListFragmentCustom);
                 ft2.commit();
                 }
 
@@ -382,10 +407,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 toYear = year;
                 ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + toDay + "/" + toMonth + "/" + toYear);
             }
-
         }
-
-
     }
 
     /**

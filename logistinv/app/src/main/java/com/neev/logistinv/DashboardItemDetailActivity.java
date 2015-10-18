@@ -17,6 +17,7 @@ import com.neev.example.R;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link DashboardItemDetailFragment}.
  */
+
 public class DashboardItemDetailActivity extends Activity {
 
     @Override

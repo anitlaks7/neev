@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 /**
  * Created by chethana.savalgi on 11-10-2015.
@@ -14,10 +15,11 @@ public class NeevApplication extends Application {
         super.onCreate();
 
         try {
-
+            ParseObject.registerSubclass(NeevRawMaterialItem.class);
+            ParseObject.registerSubclass(NeevProductItem.class);
             // ParseCrashReporting.enable(this);
             Parse.enableLocalDatastore(this);
-            Parse.initialize(this, "TnftdYLSYkSJHmlNmgm1Sa5bVrVEEPCo1g48vjOD", "I7aaYGQkikHBIjbkoqcQh5HalZXWAyiVGKZbzuBw");
+            Parse.initialize(this,"GimrU2G4Qn3g9Yci2taHbaiyfYf60oBc8XF9vern","6fkbLFklMV5IRIfWHadzy8pwjPb7GX1fw6tNAovN");
             NeevDataLayer data = new NeevDataLayer();
             data.initialize();
             Log.i("Info","Parse Session Established");

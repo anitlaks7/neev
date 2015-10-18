@@ -1,24 +1,38 @@
 package com.neev.logistinv;
 
+import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-/**
- * Created by chethana.savalgi on 11-10-2015.
- */
+import java.util.Date;
+
+@ParseClassName("NeevRawMaterialItem")
 public class NeevRawMaterialItem extends ParseObject {
-    public String getName() {
-        return getString("Name");
+    public String getName(){ return getString("Name");}
+    public void setName(String name) {
+        put("Name", name);
     }
 
-    public void setName(String value) {
-        put("Name", value);
+    public double getUnitPrice(){ return getDouble("UnitPrice");}
+    public void setUnitPrice(double value) {
+        put("UnitPrice", value);
     }
 
-    public String getUnit() {
-        return getString("Unit");
+    public int getQty(){ return getInt("Quantity");}
+    public void setQty(int value) {
+        put("Quantity", value);
     }
 
-    public void setUnit(String value) {
-        put("Unit", value);
+    public Date getDate(){ return getDate("CreationDate");}
+    public void setDate(Date value) {
+        put("CreationDate", value);
     }
+
+    public NeevRawMaterialItem()
+    {
+
+    }
+
+
 }
+
+

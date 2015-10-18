@@ -1,7 +1,6 @@
 package com.neev.logistinv;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
@@ -13,19 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.neev.example.R;
-import com.neev.logistinv.dummy.DummyContent;
+import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
 
 import java.util.ArrayList;
 
@@ -35,6 +30,7 @@ import java.util.ArrayList;
  * in two-pane mode (on tablets) or a {@link DashboardItemDetailActivity}
  * on handsets.
  */
+
 public class DashboardItemDetailFragment extends Fragment
         implements GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
@@ -43,13 +39,13 @@ public class DashboardItemDetailFragment extends Fragment
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
-    public static String ARG_PANE = "today";
+    public  String ARG_PANE = "today";
     private GestureDetectorCompat mDetector;
 
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private DashboardItemListContent.DashboardListItem mItem;
     /**
      * The pane in which this fragment is presenting.
      */
@@ -58,8 +54,10 @@ public class DashboardItemDetailFragment extends Fragment
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public DashboardItemDetailFragment() {
+
+    public DashboardItemDetailFragment(){
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +67,7 @@ public class DashboardItemDetailFragment extends Fragment
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = DashboardItemListContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
         if (getArguments().containsKey(ARG_PANE)) {
             // Load the dummy content specified by the fragment

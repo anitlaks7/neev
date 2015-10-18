@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 import com.neev.example.R;
 
+import java.util.ArrayList;
+
 import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
 
 /**
@@ -102,4 +104,10 @@ public class DashboardItemListActivity extends Activity
             startActivity(detailIntent);
         }
     }
+
+    @Override
+    public void onMultipleItemsSelected(ArrayList<String> selectedItems, int containerView) {
+
+    }
+
 }

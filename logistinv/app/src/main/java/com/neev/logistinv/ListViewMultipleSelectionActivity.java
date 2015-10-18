@@ -2,6 +2,7 @@ package com.neev.logistinv;
 
 import java.util.ArrayList;
 
+import android.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.neev.example.R;
+import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
 
 
 public class ListViewMultipleSelectionActivity extends Activity implements
@@ -30,11 +33,16 @@ public class ListViewMultipleSelectionActivity extends Activity implements
 
         findViewsById();
 
-        String[] sports = getResources().getStringArray(R.array.sports_array);
+        String[] sports = getResources().getStringArray(R.array.dashboardItemArray);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_multiple_choice, sports);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
         listView.setAdapter(adapter);
+        for(int i = 0; i < DashboardItemListContent.ITEMS.size(); i++){
+            if(DashboardItemListContent.getSelectionSate(adapter.getItem(i).toString()))
+                listView.setItemChecked(i,true);
+        }
 
         button.setOnClickListener(this);
     }
@@ -50,16 +58,26 @@ public class ListViewMultipleSelectionActivity extends Activity implements
         for (int i = 0; i < checked.size(); i++) {
             // Item position in adapter
             int position = checked.keyAt(i);
-            // Add sport if it is checked i.e.) == TRUE!
+            // Add item if it is checked i.e.) == TRUE!
             if (checked.valueAt(i))
-                selectedItems.add(adapter.getItem(position));
+                DashboardItemListContent.setSelectionSate(adapter.getItem(position), true);
+            else
+                DashboardItemListContent.setSelectionSate(adapter.getItem(position), false);
         }
-
+        DashboardItemListFragment.adapter = (new ArrayAdapter<String>(adapter.getContext(),
+                android.R.layout.simple_list_item_activated_1, android.R.id.text1, DashboardItemListContent.returnSelectedItems()));
+        DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
+        DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
+        DashboardItemListFragment.adapter.setNotifyOnChange(true);
+        DashboardItemListFragment.adapter.notifyDataSetChanged();
+//TODO remove the string creation in the coming rows. no need to pass the new data to main activity
         String[] outputStrArr = new String[selectedItems.size()];
 
         for (int i = 0; i < selectedItems.size(); i++) {
             outputStrArr[i] = selectedItems.get(i);
         }
+
+        Toast.makeText(getApplicationContext(), "Configuration saved successfully", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(getApplicationContext(),
                 MainActivity.class);

@@ -111,10 +111,22 @@ public class NeevDataLayer {
         return rmList;
     }
 
-    public boolean addToStore(NeevRawMaterialItem item)
+    public boolean addToRMStore(NeevRawMaterialItem item)
     {
         try{
-            item.saveEventually();
+            item.saveInBackground();
+        }
+        catch(Exception e)
+        {
+
+        }
+        return true;
+    }
+
+    public boolean addToProdStore(NeevProductItem item)
+    {
+        try{
+            item.saveInBackground();
         }
         catch(Exception e)
         {
