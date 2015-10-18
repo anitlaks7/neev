@@ -21,8 +21,10 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.neev.example.R;
 import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a single DashboardItem detail screen.
@@ -243,14 +245,23 @@ public class DashboardItemDetailFragment extends Fragment
 
     private ArrayList<String> getXAxisValues() {
         ArrayList<String> xAxis = new ArrayList<>();
-        xAxis.add("HANDMADE PAPER BAGS");
+        NeevDataLayer dataLayer = new NeevDataLayer();
+        //TODO : check the list category and add the types.
+        List products = dataLayer.retrieveAllFinishedProductFromLocalStore();
+        for(int i=0;i<products.size();i++)
+        {
+            ParseObject po = (ParseObject)products.get(i);
+
+            xAxis.add((String) po.get("Name"));
+        }
+        /*xAxis.add("HANDMADE PAPER BAGS");
         xAxis.add("DIARIES");
         xAxis.add("TABLE CLOTHS AND NAPKINS");
         xAxis.add("CUSHION COVERS");
         xAxis.add("TABLE MATS");
         xAxis.add("HANDMADE PAPER CARDS");
         xAxis.add("SHAGUN ENVELOPES");
-        xAxis.add("BED COVERS");
+        xAxis.add("BED COVERS");*/
         return xAxis;
     }
 
