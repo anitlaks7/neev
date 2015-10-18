@@ -21,7 +21,8 @@ import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
 public class ListViewMultipleSelectionActivity extends Activity implements
         OnClickListener {
 
-    private Button button;
+    private Button buttonSave;
+    private Button buttonCancel;
     private ListView listView;
     private ArrayAdapter<String> adapter;
 
@@ -44,12 +45,20 @@ public class ListViewMultipleSelectionActivity extends Activity implements
                 listView.setItemChecked(i,true);
         }
 
-        button.setOnClickListener(this);
+
+        buttonSave.setOnClickListener(this);
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 //TODO - prevent this activity from getting on the back stack
     private void findViewsById() {
         listView = (ListView) findViewById(R.id.listView);
-        button = (Button) findViewById(R.id.button);
+        buttonSave = (Button) findViewById(R.id.buttonSave);
+        buttonCancel=(Button) findViewById(R.id.buttonCancel);
     }
 
     public void onClick(View v) {
@@ -79,7 +88,7 @@ public class ListViewMultipleSelectionActivity extends Activity implements
 
         Toast.makeText(getApplicationContext(), "Configuration saved successfully", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(getApplicationContext(),
+       /* Intent intent = new Intent(getApplicationContext(),
                 MainActivity.class);
 
         // Create a bundle object
@@ -91,6 +100,7 @@ public class ListViewMultipleSelectionActivity extends Activity implements
         intent.putExtras(b);
 
         // start the ResultActivity
-        startActivity(intent);
+        startActivity(intent);*/
+        finish();
     }
 }
