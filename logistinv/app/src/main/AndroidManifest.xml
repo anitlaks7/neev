@@ -63,7 +63,12 @@
             android:label="Manage Data"
             android:parentActivityName="com.neev.logistinv.MainActivity">
         </activity>
-
+        <activity
+            android:name="com.neev.logistinv.ExportDataActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:label="Export Data"
+            android:parentActivityName="com.neev.logistinv.MainActivity">
+        </activity>
     </application>
 
 </manifest>

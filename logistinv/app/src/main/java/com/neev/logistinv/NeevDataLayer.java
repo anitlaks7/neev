@@ -130,8 +130,49 @@ public class NeevDataLayer {
         }
         catch(Exception e)
         {
+            Log.e("ERROR", e.toString());
 
         }
         return true;
+    }
+
+    public int retrieveProductToday(String name)
+    {
+        List productList = null;
+        int total = 0;
+        try
+        {
+            ParseQuery query = new ParseQuery("NeevProductItem");
+            query.whereMatches("Name",name);
+            query.fromLocalDatastore();
+            productList = query.find();
+            for (int i = 0; i < productList.size(); i++) {
+                ParseObject po = (ParseObject)productList.get(i);
+                int count =  (int)po.get("Quantity");
+                total = total + count;
+            }
+            /*query.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if (e == null) {
+                        //objectsWereRetrievedSuccessfully(objects);
+                        for (int i = 0; i < objects.size(); i++) {
+                            ParseObject po = objects.get(i);
+                            int count =  (int)po.get("Quantity");
+                            total = total + count;
+                        }
+                    } else {
+                        Log.e("ERROR", "Parse data retrieval failed");
+                        //objectRetrievalFailed();
+                    }
+                }
+            });*/
+
+        }
+        catch(Exception e)
+        {
+            Log.e("ERROR", e.toString());
+        }
+
+        return total;
     }
 }
