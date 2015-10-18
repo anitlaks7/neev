@@ -199,7 +199,7 @@ public class DashboardItemDetailFragment extends Fragment
                 final FrameLayout fCurrentView = (FrameLayout) view.getParent();
                 fCurrentView.removeView(btn);
                 Intent myIntent = new Intent(view.getContext(),ManageDataActivity.class);
-                myIntent.putExtra("item_type", tempString); //Optional parameters
+                myIntent.putExtra("item_type", "inventory"); //Optional parameters
                 startActivity(myIntent);
                // return true;
 
