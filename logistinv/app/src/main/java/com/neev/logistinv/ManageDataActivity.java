@@ -67,11 +67,11 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
         ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,R.layout.simplerow);
         String strSelected = parent.getSelectedItem().toString();
-        listAdapter = PopulateList(strSelected);
+        adapter1 = PopulateList(strSelected);
 
         listView = (ListView) findViewById(R.id.listView);
 
-        listView.setAdapter(listAdapter);
+        listView.setAdapter(adapter1);
         listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -82,7 +82,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
         });
 
-
+        ResetFields();
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -202,10 +202,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         final Button btnReset = (Button) findViewById(R.id.btnReset);
         btnReset.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                inputQty.setText("");
-                inputPrice.setText("");
-                inputSearch.setText("");
-                inputDate.setText(fromDay + "/" + fromMonth + "/" + fromYear);
+                ResetFields();
             }
         });
 
@@ -246,6 +243,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     if(isSaveSuccessful)
                     {
                         Toast.makeText(getApplicationContext(), "Data added successfully", Toast.LENGTH_LONG).show();
+                        ResetFields();
                     }
                 }
                 catch (Exception e)
@@ -275,7 +273,12 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         return index;
 
     }
-
+        public void ResetFields() {
+            inputQty.setText("");
+            inputPrice.setText("");
+            inputSearch.setText("");
+            inputDate.setText(fromDay + "/" + fromMonth + "/" + fromYear);
+        }
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         static Bundle bundle;
