@@ -31,15 +31,20 @@ public class NeevProductItem extends ParseObject {
         put("Type", value);
     }
 
-    public Date getPDate(){ return getDate("CreationDate");}
-    public void setPDate(Date value) {
+    public String getPDate(){ return getString("CreationDate");}
+    public void setPDate(String value) {
         put("CreationDate", value);
     }
+
+    public double getPTotal(){ return getDouble("Total");}
+    public void setPTotal(double value) {
+        put("Total", value);
+    }
+
 
     public NeevProductItem()
     {
 
     }
-
 
 }

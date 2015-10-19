@@ -22,10 +22,17 @@ public class NeevRawMaterialItem extends ParseObject {
         put("Quantity", value);
     }
 
-    public Date getDate(){ return getDate("CreationDate");}
-    public void setDate(Date value) {
+    public String getDate(){ return getString("CreationDate");}
+    public void setDate(String value) {
         put("CreationDate", value);
     }
+
+    public double getTotal(){ return getDouble("Total");}
+    public void setTotal(double value) {
+        put("Total", value);
+    }
+
+
 
     public NeevRawMaterialItem()
     {
@@ -34,5 +41,4 @@ public class NeevRawMaterialItem extends ParseObject {
 
 
 }
-
 

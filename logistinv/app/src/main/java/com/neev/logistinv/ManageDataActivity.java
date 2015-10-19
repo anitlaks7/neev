@@ -213,13 +213,16 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                 NeevDataLayer data = new NeevDataLayer();
                 NeevRawMaterialItem trans=new NeevRawMaterialItem();
                 NeevProductItem prodtrans=new NeevProductItem();
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+               // SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
                 boolean isSaveSuccessful;
 
                 try {
                     double price =Double.parseDouble(inputPrice.getText().toString());
                     int qty =Integer.parseInt(inputQty.getText().toString());
-                    Date creationDate = format.parse(inputDate.getText().toString());
+
+                    double dblTotal = price * qty;
+                    //Date creationDate = format.parse(inputDate.getText().toString());
+                    String creationDate=inputDate.getText().toString();
                     String name=inputSearch.getText().toString();
                     Spinner stage=(Spinner)findViewById(R.id.itemtype_spinner);
                     String strStage=stage.getSelectedItem().toString();
@@ -228,6 +231,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                         trans.setQty(qty);
                         trans.setUnitPrice(price);
                         trans.setDate(creationDate);
+                        trans.setTotal(Double.parseDouble(String.format("%.2f", dblTotal)));
                         isSaveSuccessful = data.addToRMStore(trans);
                     }
                     else
@@ -237,6 +241,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                         prodtrans.setPPrice(price);
                         prodtrans.setPDate(creationDate);
                         prodtrans.setPType(strStage);
+                        prodtrans.setPTotal(Double.parseDouble(String.format("%.2f", dblTotal)));
                         isSaveSuccessful = data.addToProdStore(prodtrans);
                     }
 
@@ -256,9 +261,11 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
     }
 
+    //public boolean
+
     private int getIndex(Spinner spinner,String string){
 
-//Pseudo code because I dont remember the API
+
 
         int index = 0;
 
