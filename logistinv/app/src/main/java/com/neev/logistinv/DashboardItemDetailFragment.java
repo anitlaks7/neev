@@ -40,8 +40,8 @@ public class DashboardItemDetailFragment extends Fragment
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
-    public  String ARG_PANE = "today";
+   public static  String ARG_ITEM_ID = "item_id";
+    public  String PANE = "ARG_PANE";
     private GestureDetectorCompat mDetector;
 
     /**
@@ -71,14 +71,14 @@ public class DashboardItemDetailFragment extends Fragment
             // to load content from a content provider.
             mItem = DashboardItemListContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
-        if (getArguments().containsKey(ARG_PANE)) {
+        if (getArguments().containsKey(PANE)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             /*
       The pane in which this fragment is presenting.
      */
-            String mPane = getArguments().getString(ARG_PANE);
+            String mPane = getArguments().getString(PANE);
         }
     }
 

@@ -73,8 +73,9 @@ public class ListViewMultipleSelectionActivity extends Activity implements
             else
                 DashboardItemListContent.setSelectionSate(adapter.getItem(position), false);
         }
-        DashboardItemListFragment.adapter = (new ArrayAdapter<String>(adapter.getContext(),
-                android.R.layout.simple_list_item_activated_1, android.R.id.text1, DashboardItemListContent.returnSelectedItems()));
+        //android.R.layout.simple_list_item_multiple_choice
+        DashboardItemListFragment.adapter = new DashboardItemListAdapter (adapter.getContext(),
+                R.layout.dashboard_list_item_layout, DashboardItemListContent.returnSelectedItems());
         DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
         DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
         DashboardItemListFragment.adapter.setNotifyOnChange(true);

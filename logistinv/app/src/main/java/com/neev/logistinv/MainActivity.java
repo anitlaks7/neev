@@ -264,9 +264,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             //startActivity(detailIntent);
 
             Bundle arguments = new Bundle();
-            arguments.putString(DashboardItemDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString("item_id", id);
             FragmentTransaction ft1 = getFragmentManager().beginTransaction();
             if (containerView == R.id.dashboarditem_list1) {
+                arguments.putString("ARG_PANE", "today");
+                mDashboardItemDetailFragmentToday.setArguments(arguments);
                 if (mDashboardItemDetailFragmentToday.isAdded()) { // if the fragment is already in container
                     ft1.show(mDashboardItemDetailFragmentToday);
                 } else { // fragment needs to replace on the frame container
@@ -274,14 +276,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     ft1.show(mDashboardItemDetailFragmentToday);
                 }
             }
-            else
+            else {
+
+                arguments.putString("ARG_PANE", "custom");
+                mDashboardItemDetailFragmentToday.setArguments(arguments);
                 if (mDashboardItemDetailFragmentCustom.isAdded()) { // if the fragment is already in container
                     ft1.show(mDashboardItemDetailFragmentCustom);
                 } else { // fragment needs to replace on the frame container
                     ft1.replace(containerView, mDashboardItemDetailFragmentCustom);
                     ft1.show(mDashboardItemDetailFragmentCustom);
                 }
-
+            }
 
             ft1.addToBackStack("DashboardItemDetailFragment");
             ft1.commit();

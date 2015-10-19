@@ -29,7 +29,6 @@
     <string-array name="dashboardItemArray">
         <item>Inventory</item>
         <item>Sales</item>
-        <item>Personnel</item>
         <item>In Transit</item>
         <item>Returned</item>
     </string-array>

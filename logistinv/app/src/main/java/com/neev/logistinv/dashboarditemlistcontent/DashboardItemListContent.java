@@ -1,15 +1,22 @@
 package com.neev.logistinv.dashboarditemlistcontent;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.neev.example.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DashboardItemListContent extends BaseAdapter {
+public class DashboardItemListContent {
 
     /**
      * An array of sample (dummy) items.
@@ -22,14 +29,17 @@ public class DashboardItemListContent extends BaseAdapter {
     public static final Map<String, DashboardListItem> ITEM_MAP = new HashMap<String, DashboardListItem>();
 
 
+
     static {
         // Add 5 sample items.
         addItem(new DashboardListItem("1", "Inventory", true));
         addItem(new DashboardListItem("2", "Sales", true));
-        addItem(new DashboardListItem("3", "Personnel", true));
-        addItem(new DashboardListItem("4", "In Transit", true));
-        addItem(new DashboardListItem("5", "Returned", true));
+        //addItem(new DashboardListItem("3", "Personnel", true));
+        addItem(new DashboardListItem("3", "In Transit", true));
+        addItem(new DashboardListItem("4", "Returned", true));
     }
+
+
 
     private static void addItem(DashboardListItem item) {
         ITEMS.add(item);
@@ -50,26 +60,6 @@ public class DashboardItemListContent extends BaseAdapter {
                 return(ITEMS.get(i).isSelected);
         }
         return false;
-    }
-
-    @Override
-    public int getCount() {
-        return 0;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
     }
 
 
@@ -95,11 +85,11 @@ public class DashboardItemListContent extends BaseAdapter {
         /*
         Return a string of selected items
          */
-        public static ArrayList<String> returnSelectedItems(){
-            ArrayList<String> selectedItems = new ArrayList<String>(ITEMS.size());
+        public static ArrayList<DashboardItemListContent.DashboardListItem> returnSelectedItems(){
+            ArrayList<DashboardItemListContent.DashboardListItem> selectedItems = new ArrayList<DashboardItemListContent.DashboardListItem>(ITEMS.size());
             for(int i = 0; i < ITEMS.size(); i++){
                 if (ITEMS.get(i).isSelected){
-                    selectedItems.add(ITEMS.get(i).content);
+                    selectedItems.add(ITEMS.get(i));
                 }
             }
             return selectedItems;
