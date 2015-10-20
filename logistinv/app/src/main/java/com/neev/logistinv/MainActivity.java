@@ -452,14 +452,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             if (Objects.equals(bundle.getString(ARG_FROM_TO), "From")) {
                 fromDay = day;
-                fromMonth = month;
+                fromMonth = month +1;
                 fromYear = year;
-                ((EditText) getActivity().findViewById(R.id.editText2)).setText("From: " + fromDay + "/" + (fromMonth +1) + "/" + fromYear);
+                ((EditText) getActivity().findViewById(R.id.editText2)).setText("From: " + fromDay + "/" + (fromMonth ) + "/" + fromYear);
             } else {
                 toDay = day;
-                toMonth = month;
+                toMonth = month +1;
                 toYear = year;
-                ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + toDay + "/" + (toMonth +1) + "/" + toYear);
+                ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + toDay + "/" + (toMonth ) + "/" + toYear);
             }
             if ((ValidateMaxMinDate(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear)))
             {
