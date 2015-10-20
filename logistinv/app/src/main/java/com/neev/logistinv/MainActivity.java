@@ -67,10 +67,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onCreate(Bundle savedInstanceState) {
         final Calendar c = Calendar.getInstance();
         fromYear = c.get(Calendar.YEAR);
-        fromMonth = c.get(Calendar.MONTH);
+        fromMonth = c.get(Calendar.MONTH) +1;
         fromDay = c.get(Calendar.DAY_OF_MONTH);
         toYear = c.get(Calendar.YEAR);
-        toMonth = c.get(Calendar.MONTH);
+        toMonth = c.get(Calendar.MONTH) +1;
         toDay = c.get(Calendar.DAY_OF_MONTH);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
