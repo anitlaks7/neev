@@ -279,7 +279,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             else {
 
                 arguments.putString("ARG_PANE", "custom");
-                mDashboardItemDetailFragmentToday.setArguments(arguments);
+                mDashboardItemDetailFragmentCustom.setArguments(arguments);
                 if (mDashboardItemDetailFragmentCustom.isAdded()) { // if the fragment is already in container
                     ft1.show(mDashboardItemDetailFragmentCustom);
                 } else { // fragment needs to replace on the frame container
