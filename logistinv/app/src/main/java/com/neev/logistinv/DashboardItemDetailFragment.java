@@ -12,9 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -40,8 +41,8 @@ public class DashboardItemDetailFragment extends Fragment
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-   public static  String ARG_ITEM_ID = "item_id";
-    public  String PANE = "ARG_PANE";
+    public static final String ARG_ITEM_ID = "item_id";
+    public  String ARG_PANE = "today";
     private GestureDetectorCompat mDetector;
 
     /**
@@ -70,66 +71,122 @@ public class DashboardItemDetailFragment extends Fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             mItem = DashboardItemListContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+
         }
-        if (getArguments().containsKey(PANE)) {
+        if (getArguments().containsKey(ARG_PANE)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             /*
       The pane in which this fragment is presenting.
      */
-            String mPane = getArguments().getString(PANE);
+            String mPane = getArguments().getString(ARG_PANE);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        mDetector = new GestureDetectorCompat(getActivity(), this);
+
+        // Detect touched area
+
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_dashboarditem_detail, container, false);
+        final ViewGroup chartParent = (ViewGroup) rootView.findViewById(R.id.chartParent);
+        BarChart chart =  (BarChart)chartParent.findViewById(R.id.chart);
+
+        mDetector = new GestureDetectorCompat(getActivity(),this);
         // Set the gesture detector as the double tap
         // listener.
         mDetector.setOnDoubleTapListener(this);
-        // Detect touched area
-        View rootView = inflater.inflate(R.layout.fragment_dashboarditem_detail, container, false);
-        BarChart chart = (BarChart) rootView.findViewById(R.id.chartMain);
+
+        ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
+
         BarData data = new BarData(getXAxisValues(), getDataSetForToday());
         chart.setData(data);
         chart.setDescription("");
         chart.animateXY(2000, 2000);
         chart.invalidate();
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
-        // chart.setMaxVisibleValueCount(60);
-        //Tilts the chart
-        //chart.setRotationX(View.TEXT_ALIGNMENT_VIEW_START);
-        //chart.setLabelFor(SCROLLBAR_POSITION_LEFT);
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        chart.getLegend().setEnabled(false);
 
-        //RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeMain);
-       /* rootView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent intent = new Intent();
-                                            intent.setClass(getActivity().mContext, QuantityActivity.class);
-                                            startActivity(intent);
-                                        }
-                                    });*/
-        // Show the dummy content as text in a TextView.
-        /*if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.dashboarditem_detail)).setText(mItem.content);
-        }
-        else
-            ((TextView) rootView.findViewById(R.id.dashboarditem_detail)).setText(getArguments().getString(ARG_ITEM_ID));*/
-        rootView.setOnTouchListener(new View.OnTouchListener() {
+        final Button button = (Button)rootView.findViewById(R.id.Next);
+        final Button button1 = (Button) rootView.findViewById(R.id.button);
+        button1.setVisibility(View.INVISIBLE);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final ViewGroup chartParent = (ViewGroup) rootView.findViewById(R.id.chartParent);
+                HorizontalBarChart chart1 = (HorizontalBarChart) chartParent.findViewById(R.id.chart);
+                BarData data = new BarData(getXAxisValues(), getDataSetMoney());
+                chart1.setData(data);
+                chart1.setDescription("");
+                chart1.animateXY(2000, 2000);
+                chart1.invalidate();
+                chart1.getLegend().setEnabled(false);
+                button.setVisibility(View.INVISIBLE);
+                button1.setVisibility(View.VISIBLE);
+                ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (in Rupees)");
+            }
+        });
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final ViewGroup chartParent = (ViewGroup) rootView.findViewById(R.id.chartParent);
+                HorizontalBarChart chart1 = (HorizontalBarChart) chartParent.findViewById(R.id.chart);
+                BarData data = new BarData(getXAxisValues(), getDataSetForToday());
+                chart1.setData(data);
+                chart1.setDescription("");
+                chart1.animateXY(2000, 2000);
+                chart1.invalidate();
+                chart1.getLegend().setEnabled(false);
+                button.setVisibility(View.VISIBLE);
+                button1.setVisibility(View.INVISIBLE);
+                ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
+
+            }
+        });
+
+        chart.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                  // ... Respond to touch events
+                // ... Respond to touch events
                 return mDetector.onTouchEvent(event);
 
             }
         });
 
         return rootView;
+    }
+
+
+
+    public ArrayList<BarDataSet> getDataSetMoney()
+    {
+        ArrayList<BarDataSet> dataSets = null;
+
+        ArrayList<BarEntry> valueSet1 = new ArrayList<>();
+        BarEntry v1e1 = new BarEntry(10.000f, 0); // Jan
+        valueSet1.add(v1e1);
+        BarEntry v1e2 = new BarEntry(110.000f, 1); // Feb
+        valueSet1.add(v1e2);
+        BarEntry v1e3 = new BarEntry(80.000f, 2); // Mar
+        valueSet1.add(v1e3);
+        BarEntry v1e4 = new BarEntry(40.000f, 3); // Apr
+        valueSet1.add(v1e4);
+        BarEntry v1e5 = new BarEntry(80.000f, 4); // May
+        valueSet1.add(v1e5);
+        BarEntry v1e6 = new BarEntry(20.000f, 5); // Jun
+        valueSet1.add(v1e6);
+
+
+        BarDataSet barDataSet1 = new BarDataSet(valueSet1, "RAW MATERIALS");
+        barDataSet1.setColors(ColorTemplate.JOYFUL_COLORS);
+
+        dataSets = new ArrayList<>();
+        dataSets.add(barDataSet1);
+
+        return dataSets;
     }
 
     @Override
@@ -178,13 +235,14 @@ public class DashboardItemDetailFragment extends Fragment
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.BOTTOM|Gravity.CENTER;
-        //params.setMargins(2,4,2,4);
+
         final Button btn = new Button(getActivity());
         btn.setText("MANAGE DATA");
-        //btn.setBackgroundColor(Color.RED);
-        //btn.setBackground(getResources().getDrawable(R.drawable.mybutton));
+
+
 
         final FrameLayout fl = (FrameLayout) getView().getParent();
+
         fl.addView(btn, params);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -195,15 +253,13 @@ public class DashboardItemDetailFragment extends Fragment
                 }
                 else
                     tempString = mItem.content;
-               /*Toast.makeText(view.getContext(),
-                        "Button clicked index = " + tempString, Toast.LENGTH_SHORT)
-                        .show();*/
+
                 final FrameLayout fCurrentView = (FrameLayout) view.getParent();
                 fCurrentView.removeView(btn);
                 Intent myIntent = new Intent(view.getContext(),ManageDataActivity.class);
                 myIntent.putExtra("item_type", "inventory"); //Optional parameters
                 startActivity(myIntent);
-               // return true;
+
 
             }
         });
@@ -212,22 +268,29 @@ public class DashboardItemDetailFragment extends Fragment
     private ArrayList<BarDataSet> getDataSetForToday() {
         ArrayList<BarDataSet> dataSets = null;
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
-
-        BarEntry v1e1 = new BarEntry(2500.000f, 0); // HANDMADE PAPER BAGS
+        /*NeevDataLayer dataLayer = new NeevDataLayer();
+        //TODO : check the list category and add the types.
+        List products = dataLayer.retrieveTodayProduct();
+        for(int i=0;i<products.size();i++)
+        {
+            ParseObject po = (ParseObject)products.get(i);
+            valueSet1.add(new BarEntry(((float) po.get("Quantity")), i));
+        }*/
+        BarEntry v1e1 = new BarEntry(250.000f, 0); // HANDMADE PAPER BAGS
         valueSet1.add(v1e1);
-        BarEntry v1e2 = new BarEntry(5000.000f, 1); // DIARIES
+        BarEntry v1e2 = new BarEntry(500.000f, 1); // DIARIES
         valueSet1.add(v1e2);
-        BarEntry v1e3 = new BarEntry(110000.000f, 2); // TABLE CLOTHS AND NAPKINS
+        BarEntry v1e3 = new BarEntry(110.000f, 2); // TABLE CLOTHS AND NAPKINS
         valueSet1.add(v1e3);
-        BarEntry v1e4 = new BarEntry(10000.000f, 3); // CUSHION COVERS
+        BarEntry v1e4 = new BarEntry(100.000f, 3); // CUSHION COVERS
         valueSet1.add(v1e4);
-        BarEntry v1e5 = new BarEntry(85000.000f, 4); // TABLE MATS
+        BarEntry v1e5 = new BarEntry(850.000f, 4); // TABLE MATS
         valueSet1.add(v1e5);
-        BarEntry v1e6 = new BarEntry(10000.000f, 5); // HANDMADE PAPER CARDS
+        BarEntry v1e6 = new BarEntry(100.000f, 5); // HANDMADE PAPER CARDS
         valueSet1.add(v1e6);
-        BarEntry v1e7 = new BarEntry(8000.000f, 6); // SHAGUN ENVELOPES
+        BarEntry v1e7 = new BarEntry(800.000f, 6); // SHAGUN ENVELOPES
         valueSet1.add(v1e7);
-        BarEntry v1e8 = new BarEntry(8500.000f, 7); // BED COVERS
+        BarEntry v1e8 = new BarEntry(850.000f, 7); // BED COVERS
         valueSet1.add(v1e8);
 
 
@@ -254,14 +317,6 @@ public class DashboardItemDetailFragment extends Fragment
 
             xAxis.add((String) po.get("Name"));
         }
-        /*xAxis.add("HANDMADE PAPER BAGS");
-        xAxis.add("DIARIES");
-        xAxis.add("TABLE CLOTHS AND NAPKINS");
-        xAxis.add("CUSHION COVERS");
-        xAxis.add("TABLE MATS");
-        xAxis.add("HANDMADE PAPER CARDS");
-        xAxis.add("SHAGUN ENVELOPES");
-        xAxis.add("BED COVERS");*/
         return xAxis;
     }
 
