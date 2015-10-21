@@ -1,10 +1,5 @@
 package com.neev.logistinv;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Objects;
-
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -14,8 +9,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -28,8 +23,15 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.neev.example.R;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.Objects;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener,DashboardItemListFragment.Callbacks{
 
@@ -65,10 +67,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onCreate(Bundle savedInstanceState) {
         final Calendar c = Calendar.getInstance();
         fromYear = c.get(Calendar.YEAR);
-        fromMonth = c.get(Calendar.MONTH);
+        fromMonth = c.get(Calendar.MONTH) +1;
         fromDay = c.get(Calendar.DAY_OF_MONTH);
         toYear = c.get(Calendar.YEAR);
-        toMonth = c.get(Calendar.MONTH);
+        toMonth = c.get(Calendar.MONTH) +1;
         toDay = c.get(Calendar.DAY_OF_MONTH);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -386,7 +388,44 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 return rootView;
         }
     }
+    public static boolean ValidateDateOlder(String fromDate, String toDate){
+        SimpleDateFormat dfDate = new SimpleDateFormat("dd/MM/yyyy");
+        boolean isOlder = false;
 
+        try{
+
+            if(dfDate.parse(toDate).before(dfDate.parse(fromDate))){
+                isOlder = true;
+            }
+            else {
+                isOlder = false;
+            }
+        }catch (Exception e){
+           // e.printStackTrace();
+        }
+        return isOlder;
+    }
+    public static boolean ValidateMaxMinDate(String fromDate, String toDate){
+        SimpleDateFormat dfDate = new SimpleDateFormat("dd/MM/yyyy");
+        boolean isInvalid = false;
+
+        try{
+
+            final Calendar c1 = Calendar.getInstance();
+            String currentDate  = dfDate.format(c1.getTime());
+            c1.add(Calendar.MONTH,-3);
+            String PastDate  = dfDate.format(c1.getTime());
+            if((dfDate.parse(fromDate).before(dfDate.parse(PastDate))) || (dfDate.parse(toDate).after(dfDate.parse(currentDate)))) {
+                isInvalid = true;
+            }
+            else {
+                isInvalid = false;
+            }
+        }catch (Exception e){
+            // e.printStackTrace();
+        }
+        return isInvalid;
+    }
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         private static final String SAVED_BUNDLE_TAG = "saved_bundle";
@@ -397,11 +436,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
+            int month = c.get(Calendar.MONTH) ;
             int day = c.get(Calendar.DAY_OF_MONTH);
+
             bundle = getArguments();
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            return new DatePickerDialog(getActivity(), this, year, month  , day);
+
         }
 
 
@@ -411,15 +452,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             if (Objects.equals(bundle.getString(ARG_FROM_TO), "From")) {
                 fromDay = day;
-                fromMonth = month;
+                fromMonth = month +1;
                 fromYear = year;
-                ((EditText) getActivity().findViewById(R.id.editText2)).setText("From: " + fromDay + "/" + fromMonth + "/" + fromYear);
+                ((EditText) getActivity().findViewById(R.id.editText2)).setText("From: " + fromDay + "/" + (fromMonth ) + "/" + fromYear);
             } else {
                 toDay = day;
-                toMonth = month;
+                toMonth = month +1;
                 toYear = year;
-                ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + toDay + "/" + toMonth + "/" + toYear);
+                ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + toDay + "/" + (toMonth ) + "/" + toYear);
             }
+            if ((ValidateMaxMinDate(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear)))
+            {
+                Toast toast = Toast.makeText(getActivity(), "Please enter a date range from within past 3 months", Toast.LENGTH_SHORT );
+                toast.show();
+            }
+
+            if ((ValidateDateOlder(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear)))
+            {
+                Toast toast = Toast.makeText(getActivity(), "The From Date cannot be greater than To Date", Toast.LENGTH_SHORT );
+                toast.show();
+            }
+
+
         }
     }
 
