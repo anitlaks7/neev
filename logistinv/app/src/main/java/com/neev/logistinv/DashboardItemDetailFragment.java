@@ -25,6 +25,7 @@ import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -294,9 +295,23 @@ public class DashboardItemDetailFragment extends Fragment
         if(mItem == "Inventory") {
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
             for (int i = 0; i < products.size(); i++) {
-
-                BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
-                valueSet1.add(v1e1);
+                ParseObject po = (ParseObject) products.get(i);
+                String name = (String) po.get("Name");
+                List list = dataLayer.retrieveDetailData(mItem,name,"12","12" );
+                float quantity = 0;
+                if(list !=null) {
+                    for (int j = 0; j < list.size(); j++) {
+                        ParseObject po2 = (ParseObject) list.get(j);
+                        int q = (int) po2.get("Quantity");
+                        quantity = quantity + q;
+                    }
+                    BarEntry barEntry = new BarEntry(quantity, i);
+                    valueSet1.add(barEntry);
+                }
+                else {
+                    BarEntry barEntry = new BarEntry(000.00f, i);
+                    valueSet1.add(barEntry);
+                }
             }
         }
         /*List items = null;
@@ -332,7 +347,7 @@ public class DashboardItemDetailFragment extends Fragment
         }*/
 
 
-        BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
+        /*BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
         valueSet1.add(v1e1);
         BarEntry v1e2 = new BarEntry(500.000f, 1); // DIARIES
         valueSet1.add(v1e2);
@@ -347,7 +362,7 @@ public class DashboardItemDetailFragment extends Fragment
         BarEntry v1e7 = new BarEntry(500.000f, 6); // SHAGUN ENVELOPES
         valueSet1.add(v1e7);
         BarEntry v1e8 = new BarEntry(500.000f, 7); // BED COVERS
-        valueSet1.add(v1e8);
+        valueSet1.add(v1e8);*/
 
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, "SALES OF PRODUCTS");

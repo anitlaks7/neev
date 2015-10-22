@@ -208,32 +208,39 @@ public class NeevDataLayer {
         return total;
     }
 
-    public List retrieveDetailData(String type,String startDate, String endDate)
+    public List retrieveDetailData(String type,String name, String startDate, String endDate)
     {
         List rmList = null;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            Date createDate = format.parse(startDate);
-            createDate.setHours(0);
-            createDate.setMinutes(0);
-            createDate.setSeconds(0);
+            //Date createDate = format.parse(startDate);
+            //createDate.setHours(0);
+            //createDate.setMinutes(0);
+            //createDate.setSeconds(0);
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.set(2015, 9,22,0,0,0);
+            Date createDate = calendar1.getTime();
 
-            Date enddate=format.parse(endDate);
-            enddate.setHours(23);
-            enddate.setMinutes(59);
-            enddate.setSeconds(59);
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.set(2015, 9,22,23,59,59);
+            Date enddate= calendar2.getTime();
+            //enddate.setHours(23);
+            //enddate.setMinutes(59);
+            //enddate.setSeconds(59);
             if(type.equalsIgnoreCase("inventory"))
             {
                 ParseQuery query = new ParseQuery("NeevRawMaterialItem");
-                //query.fromLocalDatastore();
-                //todo: code is working for createdAt column but not for CreationDate column
-                query.whereGreaterThan("createdAt",createDate);
-                query.whereLessThan("createdAt", enddate);
+                query.fromLocalDatastore();
+
+                query.whereGreaterThan("CreationDate",createDate);
+                query.whereLessThan("CreationDate", enddate);
+                query.whereMatches("Name",name);
                 rmList = query.find();
-                for(int i=0;i< rmList.size();i++)
+                if(rmList !=null) Log.d("DEBUG","BAR graph count " + rmList.size());
+               /* for(int i=0;i< rmList.size();i++)
                 {
                     ParseObject po = (ParseObject)rmList.get(i);
-                }
+                }*/
             }
             else
             {

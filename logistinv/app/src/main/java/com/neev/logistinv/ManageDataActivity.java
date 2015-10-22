@@ -230,7 +230,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     //Date creationDate = new Date(fromYear,fromMonth,fromDay);
                     //String creationDate=inputDate.getText().toString();
                     Calendar calendar = Calendar.getInstance();
-                    calendar.set(fromYear, fromMonth-1, fromDay);
+                    calendar.set(fromYear, fromMonth-1, fromDay,10,0,0);
                     Date creationDate = calendar.getTime();
                     String name=inputSearch.getText().toString();
                     Spinner stage=(Spinner)findViewById(R.id.itemtype_spinner);
