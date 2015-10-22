@@ -9,6 +9,7 @@ import com.parse.ParseException;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -174,7 +175,7 @@ public class NeevDataLayer {
         try
         {
             ParseQuery query = new ParseQuery("NeevProductItem");
-            query.whereMatches("Name",name);
+            query.whereMatches("Name", name);
             query.fromLocalDatastore();
             productList = query.find();
             for (int i = 0; i < productList.size(); i++) {
@@ -207,45 +208,48 @@ public class NeevDataLayer {
         return total;
     }
 
-    public List retrieveTodayRawMaterial()
+    public List retrieveDetailData(String type,String startDate, String endDate)
     {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        String creationDate = format.format(c.getTime());
         List rmList = null;
-        try {
-            ParseQuery query = new ParseQuery("NeevRawMaterialItem");
-            query.fromLocalDatastore();
-            query.whereEqualTo("CreationDate", creationDate);
-            rmList = query.find();
-            for(int i=0;i< rmList.size();i++)
-            {
-                ParseObject po = (ParseObject)rmList.get(i);
-            }
-        }
-        catch (Exception e)
-        {
-            Log.e("ERROR",e.toString());
-        }
-
-        return rmList;
-    }
-
-    public List retrieveTodayProduct()
-    {
-        Calendar c = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        String creationDate = format.format(c.getTime());
-        List rmList = null;
         try {
-            ParseQuery query = new ParseQuery("NeevProductItem");
-            query.fromLocalDatastore();
-            query.whereEqualTo("CreationDate", creationDate);
-            rmList = query.find();
-            for(int i=0;i< rmList.size();i++)
+            Date createDate = format.parse(startDate);
+            createDate.setHours(0);
+            createDate.setMinutes(0);
+            createDate.setSeconds(0);
+
+            Date enddate=format.parse(endDate);
+            enddate.setHours(23);
+            enddate.setMinutes(59);
+            enddate.setSeconds(59);
+            if(type.equalsIgnoreCase("inventory"))
             {
-                ParseObject po = (ParseObject)rmList.get(i);
+                ParseQuery query = new ParseQuery("NeevRawMaterialItem");
+                //query.fromLocalDatastore();
+                //todo: code is working for createdAt column but not for CreationDate column
+                query.whereGreaterThan("createdAt",createDate);
+                query.whereLessThan("createdAt", enddate);
+                rmList = query.find();
+                for(int i=0;i< rmList.size();i++)
+                {
+                    ParseObject po = (ParseObject)rmList.get(i);
+                }
             }
+            else
+            {
+                ParseQuery query = new ParseQuery("NeevProductItem");
+                query.fromLocalDatastore();
+                query.whereEqualTo("Type", type);
+                query.whereGreaterThan("CreationDate", createDate);
+                query.whereLessThan("CreationDate", enddate);
+
+                rmList = query.find();
+                for(int i=0;i< rmList.size();i++)
+                {
+                    ParseObject po = (ParseObject)rmList.get(i);
+                }
+            }
+
         }
         catch (Exception e)
         {
