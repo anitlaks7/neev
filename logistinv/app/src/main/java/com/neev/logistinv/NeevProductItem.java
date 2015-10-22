@@ -31,8 +31,8 @@ public class NeevProductItem extends ParseObject {
         put("Type", value);
     }
 
-    public String getPDate(){ return getString("CreationDate");}
-    public void setPDate(String value) {
+    public Date getPDate(){ return getDate("CreationDate");}
+    public void setPDate(Date value) {
         put("CreationDate", value);
     }
 

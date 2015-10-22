@@ -22,8 +22,8 @@ public class NeevRawMaterialItem extends ParseObject {
         put("Quantity", value);
     }
 
-    public String getDate(){ return getString("CreationDate");}
-    public void setDate(String value) {
+    public Date getDate(){ return getDate("CreationDate");}
+    public void setDate(Date value) {
         put("CreationDate", value);
     }
 

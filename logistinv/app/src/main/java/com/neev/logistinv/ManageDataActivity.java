@@ -213,7 +213,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                 NeevDataLayer data = new NeevDataLayer();
                 NeevRawMaterialItem trans=new NeevRawMaterialItem();
                 NeevProductItem prodtrans=new NeevProductItem();
-               // SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+               SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
                 boolean isSaveSuccessful;
 
                 try {
@@ -221,8 +221,8 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     int qty =Integer.parseInt(inputQty.getText().toString());
 
                     double dblTotal = price * qty;
-                    //Date creationDate = format.parse(inputDate.getText().toString());
-                    String creationDate=inputDate.getText().toString();
+                    Date creationDate = dateformat.parse(inputDate.getText().toString());
+                    //String creationDate=inputDate.getText().toString();
                     String name=inputSearch.getText().toString();
                     Spinner stage=(Spinner)findViewById(R.id.itemtype_spinner);
                     String strStage=stage.getSelectedItem().toString();
