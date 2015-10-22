@@ -48,7 +48,7 @@ public class DashboardItemDetailFragment extends Fragment
     /**
      * The dummy content this fragment is presenting.
      */
-    private DashboardItemListContent.DashboardListItem mItem;
+    private String mItem;
     /**
      * The pane in which this fragment is presenting.
      */
@@ -70,8 +70,7 @@ public class DashboardItemDetailFragment extends Fragment
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DashboardItemListContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
+            mItem = getArguments().getString(ARG_ITEM_ID);
         }
         if (getArguments().containsKey(ARG_PANE)) {
             // Load the dummy content specified by the fragment
@@ -99,7 +98,13 @@ public class DashboardItemDetailFragment extends Fragment
         // listener.
         mDetector.setOnDoubleTapListener(this);
 
-        ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
+        if(mItem == "Inventory") {
+            ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
+        }
+        else  if(mItem == "Sales" || mItem == "Returned" || mItem =="In Transit")
+        {
+            ((TextView) rootView.findViewById(R.id.text1)).setText("FINISHED PRODUCT (Quantity)");
+        }
 
         BarData data = new BarData(getXAxisValues(), getDataSetForToday());
         chart.setData(data);
@@ -125,7 +130,15 @@ public class DashboardItemDetailFragment extends Fragment
                 chart1.getLegend().setEnabled(false);
                 button.setVisibility(View.INVISIBLE);
                 button1.setVisibility(View.VISIBLE);
-                ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (in Rupees)");
+                if(mItem == "Inventory") {
+                    ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (in Rupees)");
+                }
+                else  if(mItem == "Sales" || mItem == "Returned" || mItem =="In Transit")
+                {
+                    ((TextView) rootView.findViewById(R.id.text1)).setText("FINISHED PRODUCT (in Rupees)");
+                }
+
+
             }
         });
 
@@ -143,7 +156,13 @@ public class DashboardItemDetailFragment extends Fragment
                 chart1.getLegend().setEnabled(false);
                 button.setVisibility(View.VISIBLE);
                 button1.setVisibility(View.INVISIBLE);
-                ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
+                if(mItem == "Inventory") {
+                    ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
+                }
+                else  if(mItem == "Sales" || mItem == "Returned" || mItem =="In Transit")
+                {
+                    ((TextView) rootView.findViewById(R.id.text1)).setText("FINISHED PRODUCT (Quantity)");
+                }
 
             }
         });
@@ -252,7 +271,7 @@ public class DashboardItemDetailFragment extends Fragment
                     tempString = getArguments().getString(ARG_ITEM_ID);
                 }
                 else
-                    tempString = mItem.content;
+                    tempString = mItem;
 
                 final FrameLayout fCurrentView = (FrameLayout) view.getParent();
                 fCurrentView.removeView(btn);
@@ -265,17 +284,45 @@ public class DashboardItemDetailFragment extends Fragment
         });
         return false;
     }
+
     private ArrayList<BarDataSet> getDataSetForToday() {
         ArrayList<BarDataSet> dataSets = null;
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
         /*NeevDataLayer dataLayer = new NeevDataLayer();
-        //TODO : check the list category and add the types.
-        List products = dataLayer.retrieveTodayProduct();
-        for(int i=0;i<products.size();i++)
+        List products = null;
+        List items = null;
+
+        if(mItem == "Inventory")
         {
-            ParseObject po = (ParseObject)products.get(i);
-            valueSet1.add(new BarEntry(((float) po.get("Quantity")), i));
+            products = dataLayer.retrieveTodayRawMaterial();
+            items = dataLayer.retrieveAllRawMaterialFromLocalStore();
+
+            for(int i=0;i<products.size();i++)
+            {
+                ParseObject po = (ParseObject) products.get(i);
+                String materialName = (String)po.get("Name");
+                for(int j = 0; j < items.size();j++)
+                {
+                    ParseObject item = (ParseObject) items.get(j);
+                    if(materialName == (String)item.get("Name"))
+                    {
+                        ParseObject val = (ParseObject) products.get(i);
+                        valueSet1.add(new BarEntry(((float) val.get("Quantity")), j));
+                    }
+                }
+            }
+        }
+        else  if(mItem == "Sales" || mItem == "Returned" || mItem =="In Transit")
+        {
+            products = dataLayer.retrieveTodayProduct();
+            for(int i=0;i<products.size();i++)
+            {
+                ParseObject po = (ParseObject)products.get(i);
+                valueSet1.add(new BarEntry(((float) po.get("Quantity")), i));
+            }
         }*/
+
+
         BarEntry v1e1 = new BarEntry(250.000f, 0); // HANDMADE PAPER BAGS
         valueSet1.add(v1e1);
         BarEntry v1e2 = new BarEntry(500.000f, 1); // DIARIES
@@ -309,13 +356,25 @@ public class DashboardItemDetailFragment extends Fragment
     private ArrayList<String> getXAxisValues() {
         ArrayList<String> xAxis = new ArrayList<>();
         NeevDataLayer dataLayer = new NeevDataLayer();
-        //TODO : check the list category and add the types.
-        List products = dataLayer.retrieveAllFinishedProductFromLocalStore();
-        for(int i=0;i<products.size();i++)
-        {
-            ParseObject po = (ParseObject)products.get(i);
+        List products = null;
+        if(mItem == "Inventory") {
+            //TODO : check the list category and add the types.
+            products = dataLayer.retrieveAllRawMaterialFromLocalStore();
+            for (int i = 0; i < products.size(); i++) {
+                ParseObject po = (ParseObject) products.get(i);
 
-            xAxis.add((String) po.get("Name"));
+                xAxis.add((String) po.get("Name"));
+            }
+        }
+
+        else  if(mItem == "Sales" || mItem == "Returned" || mItem =="In Transit")
+        {//TODO : check the list category and add the types.
+            products = dataLayer.retrieveAllFinishedProductFromLocalStore();
+            for (int i = 0; i < products.size(); i++) {
+                ParseObject po = (ParseObject) products.get(i);
+
+                xAxis.add((String) po.get("Name"));
+            }
         }
         return xAxis;
     }
