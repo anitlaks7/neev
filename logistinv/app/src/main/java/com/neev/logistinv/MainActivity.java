@@ -463,13 +463,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
             if ((ValidateMaxMinDate(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear)))
             {
-                Toast toast = Toast.makeText(getActivity(), "Please enter a date range from within past 3 months", Toast.LENGTH_SHORT );
+                Toast toast = Toast.makeText(getActivity(), "Please enter a date range from within past 3 months", Toast.LENGTH_LONG );
                 toast.show();
             }
 
             if ((ValidateDateOlder(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear)))
             {
-                Toast toast = Toast.makeText(getActivity(), "The From Date cannot be greater than To Date", Toast.LENGTH_SHORT );
+                Toast toast = Toast.makeText(getActivity(), "The From Date cannot be greater than To Date", Toast.LENGTH_LONG );
                 toast.show();
             }
 

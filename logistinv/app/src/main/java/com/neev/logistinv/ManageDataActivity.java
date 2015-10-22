@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * Created by chethana.savalgi on 10-10-2015.
@@ -122,7 +123,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
     {
         final Calendar c = Calendar.getInstance();
         fromYear = c.get(Calendar.YEAR);
-        fromMonth = c.get(Calendar.MONTH);
+        fromMonth = c.get(Calendar.MONTH)+1;
         fromDay = c.get(Calendar.DAY_OF_MONTH);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.managedata);
@@ -213,7 +214,11 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                 NeevDataLayer data = new NeevDataLayer();
                 NeevRawMaterialItem trans=new NeevRawMaterialItem();
                 NeevProductItem prodtrans=new NeevProductItem();
-               SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+               //SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy ");
+               // Calendar cal = Calendar.getInstance();
+               // TimeZone tz = cal.getTimeZone();
+              //  dateformat.setTimeZone(tz);
+
                 boolean isSaveSuccessful;
 
                 try {
@@ -221,8 +226,12 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     int qty =Integer.parseInt(inputQty.getText().toString());
 
                     double dblTotal = price * qty;
-                    Date creationDate = dateformat.parse(inputDate.getText().toString());
+                    //Date creationDate = dateformat.parse(inputDate.getText().toString());
+                    //Date creationDate = new Date(fromYear,fromMonth,fromDay);
                     //String creationDate=inputDate.getText().toString();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(fromYear, fromMonth-1, fromDay);
+                    Date creationDate = calendar.getTime();
                     String name=inputSearch.getText().toString();
                     Spinner stage=(Spinner)findViewById(R.id.itemtype_spinner);
                     String strStage=stage.getSelectedItem().toString();
@@ -306,11 +315,11 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
-            Log.w("DatePicker", "Date = " + year);
+            Log.w("DatePicker", "Date = " + day +"/"+(month+1)+"/"+year);
 
 
             fromDay = day;
-            fromMonth = month;
+            fromMonth = month+1;
             fromYear = year;
             ((EditText) getActivity().findViewById(R.id.editDate)).setText(fromDay + "/" + fromMonth + "/" + fromYear);
 

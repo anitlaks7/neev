@@ -288,9 +288,18 @@ public class DashboardItemDetailFragment extends Fragment
     private ArrayList<BarDataSet> getDataSetForToday() {
         ArrayList<BarDataSet> dataSets = null;
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
-        /*NeevDataLayer dataLayer = new NeevDataLayer();
+        NeevDataLayer dataLayer = new NeevDataLayer();
         List products = null;
-        List items = null;
+
+        if(mItem == "Inventory") {
+            products = dataLayer.retrieveAllRawMaterialFromLocalStore();
+            for (int i = 0; i < products.size(); i++) {
+
+                BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
+                valueSet1.add(v1e1);
+            }
+        }
+        /*List items = null;
 
         if(mItem == "Inventory")
         {
@@ -323,21 +332,21 @@ public class DashboardItemDetailFragment extends Fragment
         }*/
 
 
-        BarEntry v1e1 = new BarEntry(250.000f, 0); // HANDMADE PAPER BAGS
+        BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
         valueSet1.add(v1e1);
         BarEntry v1e2 = new BarEntry(500.000f, 1); // DIARIES
         valueSet1.add(v1e2);
-        BarEntry v1e3 = new BarEntry(110.000f, 2); // TABLE CLOTHS AND NAPKINS
+        BarEntry v1e3 = new BarEntry(500.000f, 2); // TABLE CLOTHS AND NAPKINS
         valueSet1.add(v1e3);
-        BarEntry v1e4 = new BarEntry(100.000f, 3); // CUSHION COVERS
+        BarEntry v1e4 = new BarEntry(500.000f, 3); // CUSHION COVERS
         valueSet1.add(v1e4);
-        BarEntry v1e5 = new BarEntry(850.000f, 4); // TABLE MATS
+        BarEntry v1e5 = new BarEntry(500.000f, 4); // TABLE MATS
         valueSet1.add(v1e5);
-        BarEntry v1e6 = new BarEntry(100.000f, 5); // HANDMADE PAPER CARDS
+        BarEntry v1e6 = new BarEntry(500.000f, 5); // HANDMADE PAPER CARDS
         valueSet1.add(v1e6);
-        BarEntry v1e7 = new BarEntry(800.000f, 6); // SHAGUN ENVELOPES
+        BarEntry v1e7 = new BarEntry(500.000f, 6); // SHAGUN ENVELOPES
         valueSet1.add(v1e7);
-        BarEntry v1e8 = new BarEntry(850.000f, 7); // BED COVERS
+        BarEntry v1e8 = new BarEntry(500.000f, 7); // BED COVERS
         valueSet1.add(v1e8);
 
 
@@ -354,11 +363,12 @@ public class DashboardItemDetailFragment extends Fragment
     }
 
     private ArrayList<String> getXAxisValues() {
+
         ArrayList<String> xAxis = new ArrayList<>();
         NeevDataLayer dataLayer = new NeevDataLayer();
         List products = null;
         if(mItem == "Inventory") {
-            //TODO : check the list category and add the types.
+
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
