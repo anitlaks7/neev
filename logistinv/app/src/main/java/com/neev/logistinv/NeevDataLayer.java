@@ -160,6 +160,7 @@ public class NeevDataLayer {
     {
         try{
             item.saveInBackground();
+            //item.saveEventually();
         }
         catch(Exception e)
         {
@@ -247,6 +248,7 @@ public class NeevDataLayer {
                 {
                     ParseObject po = (ParseObject)rmList.get(i);
                 }*/
+
             }
             else
             {

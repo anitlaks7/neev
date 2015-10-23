@@ -364,7 +364,7 @@ public class DashboardItemDetailFragment extends Fragment
         }
         else
         {
-            BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
+            /*BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
             valueSet1.add(v1e1);
             BarEntry v1e2 = new BarEntry(500.000f, 1); // DIARIES
             valueSet1.add(v1e2);
@@ -379,7 +379,28 @@ public class DashboardItemDetailFragment extends Fragment
             BarEntry v1e7 = new BarEntry(500.000f, 6); // SHAGUN ENVELOPES
             valueSet1.add(v1e7);
             BarEntry v1e8 = new BarEntry(500.000f, 7); // BED COVERS
-            valueSet1.add(v1e8) ;
+            valueSet1.add(v1e8) ;*/
+
+            products = dataLayer.retrieveAllFinishedProductFromLocalStore();
+            for (int i = 0; i < products.size(); i++) {
+                ParseObject po = (ParseObject) products.get(i);
+                String name = (String) po.get("Name");
+                List list = dataLayer.retrieveDetailData(mItem,name,"22/10/2015","22/10/2015" );
+                float quantity = 0;
+                if(list !=null) {
+                    for (int j = 0; j < list.size(); j++) {
+                        ParseObject po2 = (ParseObject) list.get(j);
+                        int q = (int) po2.get("Quantity");
+                        quantity = quantity + q;
+                    }
+                    BarEntry barEntry = new BarEntry(quantity, i);
+                    valueSet1.add(barEntry);
+                }
+                else {
+                    BarEntry barEntry = new BarEntry(000.00f, i);
+                    valueSet1.add(barEntry);
+                }
+            }
         }
         /*List items = null;
 
