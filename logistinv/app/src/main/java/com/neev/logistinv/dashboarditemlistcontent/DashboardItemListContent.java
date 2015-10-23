@@ -32,11 +32,11 @@ public class DashboardItemListContent {
 
     static {
         // Add 5 sample items.
-        addItem(new DashboardListItem("1", "Inventory", true));
-        addItem(new DashboardListItem("2", "Sales", true));
-        //addItem(new DashboardListItem("3", "Personnel", true));
+        addItem(new DashboardListItem("1", "Raw Material", true));
+        addItem(new DashboardListItem("2", "Product Inventory", true));
         addItem(new DashboardListItem("3", "In Transit", true));
-        addItem(new DashboardListItem("4", "Returned", true));
+        addItem(new DashboardListItem("4", "Sales", true));
+        addItem(new DashboardListItem("5", "Returned", true));
     }
 
 

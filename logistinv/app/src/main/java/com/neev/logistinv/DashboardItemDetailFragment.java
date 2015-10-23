@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.neev.example.R.string.raw_material;
+
 /**
  * A fragment representing a single DashboardItem detail screen.
  * This fragment is either contained in a {@link DashboardItemListActivity}
@@ -42,8 +44,8 @@ public class DashboardItemDetailFragment extends Fragment
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
-    public  String ARG_PANE = "today";
+    public static  String ARG_ITEM_ID = "item_id";
+    public  String PANE = "ARG_PANE";
     private GestureDetectorCompat mDetector;
 
     /**
@@ -73,14 +75,14 @@ public class DashboardItemDetailFragment extends Fragment
             // to load content from a content provider.
             mItem = getArguments().getString(ARG_ITEM_ID);
         }
-        if (getArguments().containsKey(ARG_PANE)) {
+        if (getArguments().containsKey(PANE)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             /*
       The pane in which this fragment is presenting.
      */
-            String mPane = getArguments().getString(ARG_PANE);
+            String mPane = getArguments().getString(PANE);
         }
     }
 
@@ -99,10 +101,10 @@ public class DashboardItemDetailFragment extends Fragment
         // listener.
         mDetector.setOnDoubleTapListener(this);
 
-        if(mItem == "Inventory") {
+        if (mItem == MainActivity.RAW_MATERIAL) {
             ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
-        }
-        else  if(mItem == "Sales" || mItem == "Returned" || mItem =="In Transit")
+        } else if (mItem == MainActivity.PRODUCT_INVENTORY || mItem == MainActivity.RETURNED || mItem == MainActivity.IN_TRANSIT || mItem == MainActivity.SALES)
+
         {
             ((TextView) rootView.findViewById(R.id.text1)).setText("FINISHED PRODUCT (Quantity)");
         }
@@ -131,10 +133,10 @@ public class DashboardItemDetailFragment extends Fragment
                 chart1.getLegend().setEnabled(false);
                 button.setVisibility(View.INVISIBLE);
                 button1.setVisibility(View.VISIBLE);
-                if(mItem == "Inventory") {
+                if(mItem == MainActivity.RAW_MATERIAL) {
                     ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (in Rupees)");
                 }
-                else  if(mItem == "Sales" || mItem == "Returned" || mItem =="In Transit")
+                else  if(mItem == MainActivity.SALES || mItem == MainActivity.RETURNED || mItem == MainActivity.PRODUCT_INVENTORY || mItem == MainActivity.IN_TRANSIT)
                 {
                     ((TextView) rootView.findViewById(R.id.text1)).setText("FINISHED PRODUCT (in Rupees)");
                 }
@@ -157,11 +159,9 @@ public class DashboardItemDetailFragment extends Fragment
                 chart1.getLegend().setEnabled(false);
                 button.setVisibility(View.VISIBLE);
                 button1.setVisibility(View.INVISIBLE);
-                if(mItem == "Inventory") {
+                if (mItem == MainActivity.RAW_MATERIAL) {
                     ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
-                }
-                else  if(mItem == "Sales" || mItem == "Returned" || mItem =="In Transit")
-                {
+                } else if (mItem == MainActivity.SALES || mItem == MainActivity.RETURNED || mItem == MainActivity.PRODUCT_INVENTORY || mItem == MainActivity.IN_TRANSIT) {
                     ((TextView) rootView.findViewById(R.id.text1)).setText("FINISHED PRODUCT (Quantity)");
                 }
 
@@ -189,7 +189,7 @@ public class DashboardItemDetailFragment extends Fragment
         NeevDataLayer dataLayer = new NeevDataLayer();
         List products = null;
 
-        if(mItem == "Inventory") {
+        if(mItem == MainActivity.RAW_MATERIAL) {
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
@@ -249,7 +249,7 @@ public class DashboardItemDetailFragment extends Fragment
         }
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, "RAW MATERIALS");
-        barDataSet1.setColors(ColorTemplate.JOYFUL_COLORS);
+        barDataSet1.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
         dataSets = new ArrayList<>();
         dataSets.add(barDataSet1);
@@ -340,7 +340,7 @@ public class DashboardItemDetailFragment extends Fragment
         NeevDataLayer dataLayer = new NeevDataLayer();
         List products = null;
 
-        if(mItem == "Inventory") {
+        if(mItem == MainActivity.RAW_MATERIAL) {
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
@@ -470,7 +470,7 @@ public class DashboardItemDetailFragment extends Fragment
         ArrayList<String> xAxis = new ArrayList<>();
         NeevDataLayer dataLayer = new NeevDataLayer();
         List products = null;
-        if(mItem == "Inventory") {
+        if(mItem == MainActivity.RAW_MATERIAL) {
 
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
             for (int i = 0; i < products.size(); i++) {
@@ -480,7 +480,7 @@ public class DashboardItemDetailFragment extends Fragment
             }
         }
 
-        else  if(mItem == "Sales" || mItem == "Returned" || mItem =="In Transit")
+        else  if(mItem == MainActivity.SALES || mItem == MainActivity.RETURNED  || mItem == MainActivity.IN_TRANSIT || mItem == MainActivity.PRODUCT_INVENTORY)
         {//TODO : check the list category and add the types.
             products = dataLayer.retrieveAllFinishedProductFromLocalStore();
             for (int i = 0; i < products.size(); i++) {

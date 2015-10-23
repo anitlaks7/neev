@@ -134,7 +134,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
         Spinner spnItemType = (Spinner) findViewById(R.id.itemtype_spinner);
         spnItemType.setOnItemSelectedListener(this);
-        ArrayAdapter<CharSequence> itemType_adapter = ArrayAdapter.createFromResource(this, R.array.ItemType_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> itemType_adapter = ArrayAdapter.createFromResource(this, R.array.dashboardItemArray, android.R.layout.simple_spinner_item);
         itemType_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// Apply the adapter to the spinner
         spnItemType.setAdapter(itemType_adapter);
         spnItemType.setSelection(getIndex(spnItemType,ItemType));
@@ -235,7 +235,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     String name=inputSearch.getText().toString();
                     Spinner stage=(Spinner)findViewById(R.id.itemtype_spinner);
                     String strStage=stage.getSelectedItem().toString();
-                    if(strStage.equalsIgnoreCase("inventory")) {
+                    if(strStage.equalsIgnoreCase(MainActivity.RAW_MATERIAL)) {
                         trans.setName(name);
                         trans.setQty(qty);
                         trans.setUnitPrice(price);

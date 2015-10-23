@@ -7,12 +7,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.TwoLineListItem;
 
 import com.neev.example.R;
 import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by anita.lakshmanan on 10/19/2015.
@@ -33,12 +36,20 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rowView = inflater.inflate(resource, parent, false);
-        TextView textViewItem = (TextView) rowView.findViewById(R.id.rowtxtcol1);
+
+        //TwoLineListItem textViewItem = (TwoLineListItem) rowView.findViewById(R.id.rowtxtcol1);
+
+        TextView row1 = (TextView) rowView.findViewById(R.id.rtext1);
+        TextView row2 = (TextView) rowView.findViewById(R.id.rtext2);
+
+        row1.setText(values.get(position).content);
+        row2.setText("Rs.5000");
+
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
         String s = values.get(position).content;
         //if(resource == R.layout.dashboard_list_item_layout) {
             TextView textViewQty = (TextView) rowView.findViewById(R.id.rowtxtcol2);
-            textViewQty.setText(s);
+            textViewQty.setText("2300");
         //}
         //else {
             /*
@@ -57,20 +68,18 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
             */
       //  }
 
-        textViewItem.setText(s);
-
 
         // Change icon based on name
 
-        System.out.println(s);
-
-        if (s.equals("Inventory")) {
+        if (s.equals(MainActivity.RAW_MATERIAL)) {
             imageView.setImageResource(R.drawable.line_chart_icon);
-        } else if (s.equals("Sales")) {
+        } else if (s.equals(MainActivity.PRODUCT_INVENTORY)) {
             imageView.setImageResource(R.drawable.line_chart_icon);
-        } else if (s.equals("In Transit")) {
+        } else if (s.equals(MainActivity.SALES)) {
             imageView.setImageResource(R.drawable.line_chart_icon);
-        } else {
+        } else if (s.equals(MainActivity.IN_TRANSIT)) {
+            imageView.setImageResource(R.drawable.line_chart_icon);
+        } else if (s.equals(MainActivity.RETURNED)) {
             imageView.setImageResource(R.drawable.line_chart_icon);
         }
 

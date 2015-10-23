@@ -42,6 +42,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private static int toMonth;
     private static int toDay;
     private static final String ARG_FROM_TO = "From";
+    public static final String RAW_MATERIAL = "Raw Material";
+    public static final String PRODUCT_INVENTORY = "Product Inventory";
+    public static final String IN_TRANSIT = "In Transit";
+    public static final String SALES = "Sales";
+    public static final String RETURNED = "Returned";
 
 
     /**
@@ -202,7 +207,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         if (id == R.id.action_managedata)
         {
             Intent myIntent = new Intent(this,ManageDataActivity.class);
-            myIntent.putExtra("item_type", "Inventory"); //Optional parameters
+            myIntent.putExtra("item_type", MainActivity.RAW_MATERIAL); //Optional parameters
             startActivity(myIntent);
             return true;
         }

@@ -112,15 +112,15 @@ public class DashboardItemListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         Bundle b = getActivity().getIntent().getExtras();
-        if(adapter==null) {
+        //if(adapter==null) {
             adapter = new DashboardItemListAdapter(getActivity(), R.layout.dashboard_list_item_layout, DashboardItemListContent.returnSelectedItems());
             adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
             adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
             adapter.setNotifyOnChange(true);
             setListAdapter(adapter);
-        }
-        else
-            setListAdapter(adapter);
+       // }
+       // else
+       //     setListAdapter(adapter);
     }
 
     @Override
@@ -151,9 +151,17 @@ public class DashboardItemListFragment extends ListFragment {
             params.gravity = Gravity.BOTTOM|Gravity.LEFT;
             final Button btnDelete = new Button(getActivity());
             btnDelete.setText("DELETE");
-
             final FrameLayout fl = (FrameLayout) getView().getParent();
             fl.addView(btnDelete, params);
+
+            FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT);
+            params1.gravity = Gravity.BOTTOM|Gravity.RIGHT;
+            final Button btnCancel = new Button(getActivity());
+            btnCancel.setText("CANCEL");
+            fl.addView(btnCancel, params1);
+
             getListView().setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
                 @Override
                 public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -189,25 +197,41 @@ public class DashboardItemListFragment extends ListFragment {
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     SparseBooleanArray checked = getListView().getCheckedItemPositions();
-
-                    ArrayList<String> selectedItems = new ArrayList<String>();
-                    for (int i = 0; i < checked.size(); i++) {
-                        // Item position in adapter
-                        int position = checked.keyAt(i);
-                        // Add sport if it is checked i.e.) == TRUE!
-                        if (checked.valueAt(i))
-                            DashboardItemListContent.setSelectionSate(adapter.getItem(position).toString(), false);
+                    if(checked!=null) {
+                        ArrayList<String> selectedItems = new ArrayList<String>();
+                        for (int i = 0; i < checked.size(); i++) {
+                            // Item position in adapter
+                            int position = checked.keyAt(i);
+                            // Add sport if it is checked i.e.) == TRUE!
+                            if (checked.valueAt(i))
+                                DashboardItemListContent.setSelectionSate(adapter.getItem(position).toString(), false);
+                        }
+                        listSelectionMode = false;
+                        getListView().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+                        adapter = new DashboardItemListAdapter(getActivity(), R.layout.dashboard_list_item_layout, DashboardItemListContent.returnSelectedItems());
+                        adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
+                        adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
+                        adapter.notifyDataSetChanged();
                     }
+
+                    final FrameLayout fCurrentView = (FrameLayout) view.getParent();
+                    fCurrentView.removeView(btnDelete);
+                    fCurrentView.removeView(btnCancel);
+                }
+            });
+            btnCancel.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View view) {
+                    final FrameLayout fCurrentView = (FrameLayout) view.getParent();
+                    fCurrentView.removeView(btnDelete);
+                    fCurrentView.removeView(btnCancel);
                     listSelectionMode = false;
                     getListView().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
                     adapter = new DashboardItemListAdapter(getActivity(), R.layout.dashboard_list_item_layout, DashboardItemListContent.returnSelectedItems());
                     adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
                     adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
                     adapter.notifyDataSetChanged();
-
-                    final FrameLayout fCurrentView = (FrameLayout) view.getParent();
-                    fCurrentView.removeView(btnDelete);
                 }
+
             });
 
         return true;

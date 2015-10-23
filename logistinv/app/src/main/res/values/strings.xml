@@ -27,9 +27,10 @@
     <string name="btnSave">Save</string>
 
     <string-array name="dashboardItemArray">
-        <item>Inventory</item>
-        <item>Sales</item>
+        <item>Raw Material</item>
+        <item>Product Inventory</item>
         <item>In Transit</item>
+        <item>Sales</item>
         <item>Returned</item>
     </string-array>
 
@@ -45,13 +46,5 @@
         <item>Item3</item>
     </string-array>
 
-    <string-array name="ItemType_array">
-        <!--<item id="1">Finished Products</item>-->
-        <item>Inventory</item>
-        <item>Sales</item>
-        <item>In Transit</item>
-        <item>Returned</item>
 
-
-    </string-array>
 </resources>

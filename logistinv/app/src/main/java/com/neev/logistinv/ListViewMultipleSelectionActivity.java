@@ -34,9 +34,9 @@ public class ListViewMultipleSelectionActivity extends Activity implements
 
         findViewsById();
 
-        String[] sports = getResources().getStringArray(R.array.dashboardItemArray);
+        String[] dashItemArray = getResources().getStringArray(R.array.dashboardItemArray);
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_multiple_choice, sports);
+                android.R.layout.simple_list_item_multiple_choice, dashItemArray);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         listView.setAdapter(adapter);
@@ -80,28 +80,10 @@ public class ListViewMultipleSelectionActivity extends Activity implements
         DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
         DashboardItemListFragment.adapter.setNotifyOnChange(true);
         DashboardItemListFragment.adapter.notifyDataSetChanged();
-//TODO remove the string creation in the coming rows. no need to pass the new data to main activity
-        String[] outputStrArr = new String[selectedItems.size()];
-
-        for (int i = 0; i < selectedItems.size(); i++) {
-            outputStrArr[i] = selectedItems.get(i);
-        }
 
         Toast.makeText(getApplicationContext(), "Configuration saved successfully", Toast.LENGTH_SHORT).show();
 
-       /* Intent intent = new Intent(getApplicationContext(),
-                MainActivity.class);
 
-        // Create a bundle object
-        Bundle b = new Bundle();
-
-        b.putStringArray("selectedItems", outputStrArr);
-
-        // Add the bundle to the intent.
-        intent.putExtras(b);
-
-        // start the ResultActivity
-        startActivity(intent);*/
         finish();
     }
 }

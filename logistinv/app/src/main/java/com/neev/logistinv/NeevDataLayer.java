@@ -231,17 +231,17 @@ public class NeevDataLayer {
             int m2 = Integer.parseInt(arr2[1]);
             int y2 = Integer.parseInt(arr2[2]);
             Calendar calendar2 = Calendar.getInstance();
-            calendar2.set(y2,m2-1,d2,23,59,59);
+            calendar2.set(y2, m2 - 1, d2, 23, 59, 59);
             Date enddate= calendar2.getTime();
 
-            if(type.equalsIgnoreCase("inventory"))
+            if(type.equalsIgnoreCase(MainActivity.RAW_MATERIAL))
             {
                 ParseQuery query = new ParseQuery("NeevRawMaterialItem");
                 query.fromLocalDatastore();
 
                 query.whereGreaterThan("CreationDate",createDate);
                 query.whereLessThan("CreationDate", enddate);
-                query.whereMatches("Name",name);
+                query.whereMatches("Name", name);
                 rmList = query.find();
                 if(rmList !=null) Log.d("DEBUG","BAR graph count " + rmList.size());
                /* for(int i=0;i< rmList.size();i++)
