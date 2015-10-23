@@ -184,21 +184,48 @@ public class DashboardItemDetailFragment extends Fragment
     public ArrayList<BarDataSet> getDataSetMoney()
     {
         ArrayList<BarDataSet> dataSets = null;
-
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
-        BarEntry v1e1 = new BarEntry(10.000f, 0); // Jan
-        valueSet1.add(v1e1);
-        BarEntry v1e2 = new BarEntry(110.000f, 1); // Feb
-        valueSet1.add(v1e2);
-        BarEntry v1e3 = new BarEntry(80.000f, 2); // Mar
-        valueSet1.add(v1e3);
-        BarEntry v1e4 = new BarEntry(40.000f, 3); // Apr
-        valueSet1.add(v1e4);
-        BarEntry v1e5 = new BarEntry(80.000f, 4); // May
-        valueSet1.add(v1e5);
-        BarEntry v1e6 = new BarEntry(20.000f, 5); // Jun
-        valueSet1.add(v1e6);
 
+        NeevDataLayer dataLayer = new NeevDataLayer();
+        List products = null;
+
+        if(mItem == "Inventory") {
+            products = dataLayer.retrieveAllRawMaterialFromLocalStore();
+            for (int i = 0; i < products.size(); i++) {
+                ParseObject po = (ParseObject) products.get(i);
+                String name = (String) po.get("Name");
+                List list = dataLayer.retrieveDetailData(mItem,name,"22/10/2015","22/10/2015" );
+                float quantity = 0;
+                if(list !=null) {
+                    for (int j = 0; j < list.size(); j++) {
+                        ParseObject po2 = (ParseObject) list.get(j);
+                        int q = (int) po2.get("Total");
+                        quantity = quantity + q;
+                    }
+                    BarEntry barEntry = new BarEntry(quantity, i);
+                    valueSet1.add(barEntry);
+                }
+                else {
+                    BarEntry barEntry = new BarEntry(000.00f, i);
+                    valueSet1.add(barEntry);
+                }
+            }
+        }
+        else {
+
+            BarEntry v1e1 = new BarEntry(10.000f, 0); // Jan
+            valueSet1.add(v1e1);
+            BarEntry v1e2 = new BarEntry(110.000f, 1); // Feb
+            valueSet1.add(v1e2);
+            BarEntry v1e3 = new BarEntry(80.000f, 2); // Mar
+            valueSet1.add(v1e3);
+            BarEntry v1e4 = new BarEntry(40.000f, 3); // Apr
+            valueSet1.add(v1e4);
+            BarEntry v1e5 = new BarEntry(80.000f, 4); // May
+            valueSet1.add(v1e5);
+            BarEntry v1e6 = new BarEntry(20.000f, 5); // Jun
+            valueSet1.add(v1e6);
+        }
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, "RAW MATERIALS");
         barDataSet1.setColors(ColorTemplate.JOYFUL_COLORS);
@@ -297,7 +324,7 @@ public class DashboardItemDetailFragment extends Fragment
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
                 String name = (String) po.get("Name");
-                List list = dataLayer.retrieveDetailData(mItem,name,"12","12" );
+                List list = dataLayer.retrieveDetailData(mItem,name,"22/10/2015","22/10/2015" );
                 float quantity = 0;
                 if(list !=null) {
                     for (int j = 0; j < list.size(); j++) {
@@ -313,6 +340,25 @@ public class DashboardItemDetailFragment extends Fragment
                     valueSet1.add(barEntry);
                 }
             }
+        }
+        else
+        {
+            BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
+            valueSet1.add(v1e1);
+            BarEntry v1e2 = new BarEntry(500.000f, 1); // DIARIES
+            valueSet1.add(v1e2);
+            BarEntry v1e3 = new BarEntry(500.000f, 2); // TABLE CLOTHS AND NAPKINS
+            valueSet1.add(v1e3);
+            BarEntry v1e4 = new BarEntry(500.000f, 3); // CUSHION COVERS
+            valueSet1.add(v1e4);
+            BarEntry v1e5 = new BarEntry(500.000f, 4); // TABLE MATS
+            valueSet1.add(v1e5);
+            BarEntry v1e6 = new BarEntry(500.000f, 5); // HANDMADE PAPER CARDS
+            valueSet1.add(v1e6);
+            BarEntry v1e7 = new BarEntry(500.000f, 6); // SHAGUN ENVELOPES
+            valueSet1.add(v1e7);
+            BarEntry v1e8 = new BarEntry(500.000f, 7); // BED COVERS
+            valueSet1.add(v1e8) ;
         }
         /*List items = null;
 

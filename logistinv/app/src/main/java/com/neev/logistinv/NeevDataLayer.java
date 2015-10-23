@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by chethana.savalgi on 11-10-2015.
@@ -211,22 +212,27 @@ public class NeevDataLayer {
     public List retrieveDetailData(String type,String name, String startDate, String endDate)
     {
         List rmList = null;
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
         try {
-            //Date createDate = format.parse(startDate);
-            //createDate.setHours(0);
-            //createDate.setMinutes(0);
-            //createDate.setSeconds(0);
+
+
+            String arr1[] = startDate.split("/");
+            int d1 = Integer.parseInt(arr1[0]);
+            int m1 = Integer.parseInt(arr1[1]);
+            int y1 = Integer.parseInt(arr1[2]);
+
             Calendar calendar1 = Calendar.getInstance();
-            calendar1.set(2015, 9,22,0,0,0);
+            calendar1.set(y1,m1-1,d1,0,0,0);
             Date createDate = calendar1.getTime();
 
+            String arr2[] = startDate.split("/");
+            int d2 = Integer.parseInt(arr2[0]);
+            int m2 = Integer.parseInt(arr2[1]);
+            int y2 = Integer.parseInt(arr2[2]);
             Calendar calendar2 = Calendar.getInstance();
-            calendar2.set(2015, 9,22,23,59,59);
+            calendar2.set(y2,m2-1,d2,23,59,59);
             Date enddate= calendar2.getTime();
-            //enddate.setHours(23);
-            //enddate.setMinutes(59);
-            //enddate.setSeconds(59);
+
             if(type.equalsIgnoreCase("inventory"))
             {
                 ParseQuery query = new ParseQuery("NeevRawMaterialItem");
@@ -246,15 +252,16 @@ public class NeevDataLayer {
             {
                 ParseQuery query = new ParseQuery("NeevProductItem");
                 query.fromLocalDatastore();
-                query.whereEqualTo("Type", type);
+                query.whereMatches("Name", name);
+                query.whereMatches("Type", type);
                 query.whereGreaterThan("CreationDate", createDate);
                 query.whereLessThan("CreationDate", enddate);
-
                 rmList = query.find();
-                for(int i=0;i< rmList.size();i++)
+                if(rmList !=null) Log.d("DEBUG","BAR graph count " + rmList.size());
+                /*for(int i=0;i< rmList.size();i++)
                 {
                     ParseObject po = (ParseObject)rmList.get(i);
-                }
+                }*/
             }
 
         }
