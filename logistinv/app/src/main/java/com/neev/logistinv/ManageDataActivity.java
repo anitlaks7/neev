@@ -98,7 +98,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         Intent intent = getIntent();
         NeevDataLayer data = new NeevDataLayer();
         List rmList = null;
-        if(ItemType.equalsIgnoreCase("inventory"))
+        if(ItemType.equalsIgnoreCase("raw material"))
         {
             rmList = data.retrieveAllRawMaterialFromLocalStore();
         }
