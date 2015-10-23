@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.neev.example.R.string.raw_material;
 
 /**
  * A fragment representing a single DashboardItem detail screen.
