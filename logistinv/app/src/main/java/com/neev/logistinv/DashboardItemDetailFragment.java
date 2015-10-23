@@ -213,7 +213,7 @@ public class DashboardItemDetailFragment extends Fragment
         }
         else {
 
-            BarEntry v1e1 = new BarEntry(10.000f, 0); // Jan
+            /*BarEntry v1e1 = new BarEntry(10.000f, 0); // Jan
             valueSet1.add(v1e1);
             BarEntry v1e2 = new BarEntry(110.000f, 1); // Feb
             valueSet1.add(v1e2);
@@ -224,7 +224,28 @@ public class DashboardItemDetailFragment extends Fragment
             BarEntry v1e5 = new BarEntry(80.000f, 4); // May
             valueSet1.add(v1e5);
             BarEntry v1e6 = new BarEntry(20.000f, 5); // Jun
-            valueSet1.add(v1e6);
+            valueSet1.add(v1e6);*/
+            products = dataLayer.retrieveAllFinishedProductFromLocalStore();
+            for (int i = 0; i < products.size(); i++) {
+                ParseObject po = (ParseObject) products.get(i);
+                String name = (String) po.get("Name");
+                List list = dataLayer.retrieveDetailData(mItem,name,"22/10/2015","22/10/2015" );
+                float quantity = 0;
+                if(list !=null) {
+                    for (int j = 0; j < list.size(); j++) {
+                        ParseObject po2 = (ParseObject) list.get(j);
+                        int q = (int) po2.get("Total");
+                        quantity = quantity + q;
+                    }
+                    BarEntry barEntry = new BarEntry(quantity, i);
+                    valueSet1.add(barEntry);
+                }
+                else {
+                    BarEntry barEntry = new BarEntry(000.00f, i);
+                    valueSet1.add(barEntry);
+                }
+            }
+
         }
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, "RAW MATERIALS");
