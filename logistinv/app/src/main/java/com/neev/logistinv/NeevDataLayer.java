@@ -24,6 +24,7 @@ public class NeevDataLayer {
 
 
             ParseQuery<ParseObject> query1 = ParseQuery.getQuery("RawMaterialMaster");
+            //query1.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query1.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null) {
@@ -38,6 +39,7 @@ public class NeevDataLayer {
             });
 
             ParseQuery<ParseObject> query2 = ParseQuery.getQuery("FinishedProductMaster");
+            //query2.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query2.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null) {
@@ -52,6 +54,7 @@ public class NeevDataLayer {
             });
 
             ParseQuery<ParseObject> query3 = ParseQuery.getQuery("NeevRawMaterialItem");
+            //query3.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query3.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null) {
@@ -66,6 +69,7 @@ public class NeevDataLayer {
             });
 
             ParseQuery<ParseObject> query4 = ParseQuery.getQuery("NeevProductItem");
+            //query4.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query4.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null) {
@@ -93,6 +97,7 @@ public class NeevDataLayer {
         List rmList = null;
         try {
             ParseQuery query = new ParseQuery("RawMaterialMaster");
+            //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query.fromLocalDatastore();
             rmList = query.find();
 
@@ -109,6 +114,7 @@ public class NeevDataLayer {
         List rmList = null;
         try {
             ParseQuery query = new ParseQuery("FinishedProductMaster");
+            //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query.fromLocalDatastore();
             rmList = query.find();
 
@@ -156,6 +162,7 @@ public class NeevDataLayer {
             ParseQuery query = new ParseQuery("NeevProductItem");
             query.whereMatches("Name", name);
             query.fromLocalDatastore();
+            //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             productList = query.find();
             for (int i = 0; i < productList.size(); i++) {
                 ParseObject po = (ParseObject)productList.get(i);
@@ -215,7 +222,7 @@ public class NeevDataLayer {
             {
                 ParseQuery query = new ParseQuery("NeevRawMaterialItem");
                 query.fromLocalDatastore();
-
+                //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
                 query.whereGreaterThan("CreationDate",createDate);
                 query.whereLessThan("CreationDate", enddate);
                 query.whereMatches("Name", name);
@@ -230,6 +237,7 @@ public class NeevDataLayer {
             else
             {
                 ParseQuery query = new ParseQuery("NeevProductItem");
+                //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
                 query.fromLocalDatastore();
                 query.whereMatches("Name", name);
                 query.whereMatches("Type", type);
@@ -252,4 +260,40 @@ public class NeevDataLayer {
         return rmList;
     }
 
+    public boolean checkNewRawMaterial(String name)
+    {
+        boolean result = true;
+        List rmList = null;
+        try {
+
+            ParseQuery query = new ParseQuery("RawMaterialMaster");
+            query.fromLocalDatastore();
+            query.whereMatches("Name", name);
+            rmList = query.find();
+            if((rmList !=null) && (rmList.size()==1))
+            {
+                result = false;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("ERROR",e.toString());
+        }
+
+        return result;
+    }
+
+    public boolean addToRawMaterialMaster(NeevRawMaterialMaster item)
+    {
+        try{
+            item.saveInBackground();
+            //item.saveEventually();
+        }
+        catch(Exception e)
+        {
+            Log.e("ERROR", e.toString());
+
+        }
+        return true;
+    }
     }

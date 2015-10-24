@@ -17,6 +17,7 @@ public class NeevApplication extends Application {
         try {
             ParseObject.registerSubclass(NeevRawMaterialItem.class);
             ParseObject.registerSubclass(NeevProductItem.class);
+            ParseObject.registerSubclass(NeevRawMaterialMaster.class);
             // ParseCrashReporting.enable(this);
             Parse.enableLocalDatastore(this);
             Parse.initialize(this,"GimrU2G4Qn3g9Yci2taHbaiyfYf60oBc8XF9vern","6fkbLFklMV5IRIfWHadzy8pwjPb7GX1fw6tNAovN");

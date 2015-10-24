@@ -235,6 +235,25 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     String name=inputSearch.getText().toString();
                     Spinner stage=(Spinner)findViewById(R.id.itemtype_spinner);
                     String strStage=stage.getSelectedItem().toString();
+                    if(strStage.equalsIgnoreCase(MainActivity.RAW_MATERIAL))
+                    {
+                        if(data.checkNewRawMaterial(name))
+                        {
+                            NeevRawMaterialMaster newRawMaterial = new NeevRawMaterialMaster();
+                            newRawMaterial.setName(name);
+                            newRawMaterial.setID(0);
+                            newRawMaterial.setUnit("TBD");
+                            data.addToRawMaterialMaster(newRawMaterial);
+                        }
+                    }
+                    else
+                    {
+                       /* if(data.checkNewProduct(name))
+                        {
+
+                        }*/
+
+                    }
                     if(strStage.equalsIgnoreCase(MainActivity.RAW_MATERIAL)) {
                         trans.setName(name);
                         trans.setQty(qty);
