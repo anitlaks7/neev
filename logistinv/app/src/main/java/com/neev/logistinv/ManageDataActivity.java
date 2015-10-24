@@ -211,6 +211,8 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         final Button btnSave = (Button) findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(!ValidateData())
+                    return;
                 NeevDataLayer data = new NeevDataLayer();
                 NeevRawMaterialItem trans=new NeevRawMaterialItem();
                 NeevProductItem prodtrans=new NeevProductItem();
@@ -314,6 +316,16 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
             inputSearch.setText("");
             inputDate.setText(fromDay + "/" + fromMonth + "/" + fromYear);
         }
+
+        public boolean ValidateData()
+        {
+            if(inputQty.getText().equals("") ||inputPrice.getText().equals("")
+                    || inputSearch.getText().equals("") || inputDate.getText().equals(""))
+                return false;
+            else
+                return  true;
+
+        }
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         static Bundle bundle;
@@ -345,4 +357,5 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         }
 
     }
+
 }

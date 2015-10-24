@@ -210,7 +210,7 @@ public class NeevDataLayer {
             calendar1.set(y1,m1-1,d1,0,0,0);
             Date createDate = calendar1.getTime();
 
-            String arr2[] = startDate.split("/");
+            String arr2[] = endDate.split("/");
             int d2 = Integer.parseInt(arr2[0]);
             int m2 = Integer.parseInt(arr2[1]);
             int y2 = Integer.parseInt(arr2[2]);
@@ -225,6 +225,7 @@ public class NeevDataLayer {
                 //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
                 query.whereGreaterThan("CreationDate",createDate);
                 query.whereLessThan("CreationDate", enddate);
+                if(name!=null)
                 query.whereMatches("Name", name);
                 rmList = query.find();
                 if(rmList !=null) Log.d("DEBUG","BAR graph count " + rmList.size());
@@ -239,6 +240,7 @@ public class NeevDataLayer {
                 ParseQuery query = new ParseQuery("NeevProductItem");
                 //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
                 query.fromLocalDatastore();
+                if(name!=null)
                 query.whereMatches("Name", name);
                 query.whereMatches("Type", type);
                 query.whereGreaterThan("CreationDate", createDate);

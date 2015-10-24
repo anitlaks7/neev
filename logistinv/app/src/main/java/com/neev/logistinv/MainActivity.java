@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.neev.example.R;
+import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,19 +36,19 @@ import java.util.Objects;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener,DashboardItemListFragment.Callbacks{
 
-    private static int fromYear;
-    private static int fromMonth;
-    private static int fromDay;
-    private static int toYear;
-    private static int toMonth;
-    private static int toDay;
+    public static int fromYear;
+    public static int fromMonth;
+    public static int fromDay;
+    public static int toYear;
+    public static int toMonth;
+    public static int toDay;
     private static final String ARG_FROM_TO = "From";
     public static final String RAW_MATERIAL = "Raw Material";
     public static final String PRODUCT_INVENTORY = "Product Inventory";
     public static final String IN_TRANSIT = "In Transit";
     public static final String SALES = "Sales";
     public static final String RETURNED = "Returned";
-
+    public static boolean isTabToday = true;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -226,7 +227,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
+        if(tab.getPosition()==0)
+            isTabToday = true;
+        else
+            isTabToday = false;
+
+        DashboardItemListFragment.adapter = new DashboardItemListAdapter(this, R.layout.dashboard_list_item_layout, DashboardItemListContent.returnSelectedItems());
+        DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
+        DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
+        DashboardItemListFragment.adapter.notifyDataSetChanged();
+
         mViewPager.setCurrentItem(tab.getPosition());
+
     }
 
     @Override
@@ -261,6 +273,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             getFragmentManager().beginTransaction()
                     .replace(R.id.dashboarditem_detail_container, mDashboardItemDetailFragmentToday)
                     .commit();
+            isTabToday = true;
 
         } else {
             // In single-pane mode, simply start the detail activity
@@ -282,6 +295,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     ft1.replace(containerView, mDashboardItemDetailFragmentToday);
                     ft1.show(mDashboardItemDetailFragmentToday);
                 }
+                isTabToday = true;
             }
             else {
 
@@ -293,6 +307,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     ft1.replace(containerView, mDashboardItemDetailFragmentCustom);
                     ft1.show(mDashboardItemDetailFragmentCustom);
                 }
+                isTabToday = false;
             }
 
             ft1.addToBackStack("DashboardItemDetailFragment");
@@ -477,7 +492,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 Toast toast = Toast.makeText(getActivity(), "The From Date cannot be greater than To Date", Toast.LENGTH_LONG );
                 toast.show();
             }
-
+            DashboardItemListFragment.adapter = new DashboardItemListAdapter(getActivity(), R.layout.dashboard_list_item_layout, DashboardItemListContent.returnSelectedItems());
+            DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
+            DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
+            DashboardItemListFragment.adapter.notifyDataSetChanged();
 
         }
     }
