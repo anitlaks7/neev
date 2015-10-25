@@ -70,11 +70,20 @@ public class DashboardItemListContent {
         public final String id;
         public final String content;
         public boolean isSelected = false;
+        public int todayTotalQty;
+        public float todayTotalValueRs;
+        public int customTotalQty;
+        public float customTotalValueRs;
 
         public DashboardListItem(String id, String content, boolean isSel) {
             this.id = id;
             this.content = content;
             this.isSelected = isSel;
+            this.todayTotalQty = 0;
+            this.todayTotalValueRs = 0;
+            this.customTotalQty = 0;
+            this.customTotalValueRs = 0;
+
         }
 
         @Override
@@ -94,7 +103,5 @@ public class DashboardItemListContent {
             }
             return selectedItems;
         }
-
-
     }
 

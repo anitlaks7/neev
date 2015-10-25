@@ -23,8 +23,6 @@ public class NeevDataLayer {
     public void initialize()
     {
         try {
-
-
             ParseQuery<ParseObject> query1 = ParseQuery.getQuery("RawMaterialMaster");
             //query1.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query1.findInBackground(new FindCallback<ParseObject>() {
@@ -75,7 +73,6 @@ public class NeevDataLayer {
             query4.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null) {
-
                         ParseObject.unpinAllInBackground("NeevProductItem");
                         ParseObject.pinAllInBackground(objects);
                     } else {
@@ -84,18 +81,13 @@ public class NeevDataLayer {
                     }
                 }
             });
-
-
-        }
-        catch (Exception e)
-        {
-            Log.e("ERROR",e.toString());
+        } catch (Exception e) {
+            Log.e("ERROR", e.toString());
         }
 
     }
 
-    public List retrieveAllRawMaterialFromLocalStore()
-    {
+    public List retrieveAllRawMaterialFromLocalStore() {
         List rmList = null;
         try {
             ParseQuery query = new ParseQuery("RawMaterialMaster");
@@ -103,10 +95,8 @@ public class NeevDataLayer {
             query.fromLocalDatastore();
             rmList = query.find();
 
-        }
-        catch (Exception e)
-        {
-            Log.e("ERROR",e.toString());
+        } catch (Exception e) {
+            Log.e("ERROR", e.toString());
         }
         return rmList;
     }

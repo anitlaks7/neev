@@ -232,11 +232,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         else
             isTabToday = false;
 
-        DashboardItemListFragment.adapter = new DashboardItemListAdapter(this, R.layout.dashboard_list_item_layout, DashboardItemListContent.returnSelectedItems());
-        DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
-        DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
-        DashboardItemListFragment.adapter.notifyDataSetChanged();
-
+        //DashboardItemListFragment.adapter = new DashboardItemListAdapter(this, R.layout.dashboard_list_item_layout, DashboardItemListContent.returnSelectedItems());
+        //DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
+        //DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
+        //if(DashboardItemListFragment.adapter!=null) DashboardItemListFragment.adapter.notifyDataSetChanged();
+        new NeevDataRecalculateAsyncTask(this).execute();
         mViewPager.setCurrentItem(tab.getPosition());
 
     }
@@ -396,8 +396,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     }
                 });
                 //DashboardItemListFragment fragment1 = new DashboardItemListFragment();
-
-
                 //fragment.setArguments(arguments);
                 FragmentTransaction ft2 = getFragmentManager().beginTransaction();
                 // removes the existing fragment calling onDestroy
@@ -481,22 +479,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 toYear = year;
                 ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + toDay + "/" + (toMonth ) + "/" + toYear);
             }
-            if ((ValidateMaxMinDate(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear)))
-            {
-                Toast toast = Toast.makeText(getActivity(), "Please enter a date range from within past 3 months", Toast.LENGTH_LONG );
+            if ((ValidateMaxMinDate(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear))) {
+                Toast toast = Toast.makeText(getActivity(), "Please enter a date range from within past 3 months", Toast.LENGTH_LONG);
+                toast.show();
+            } else if ((ValidateDateOlder(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear))) {
+                Toast toast = Toast.makeText(getActivity(), "The From Date cannot be greater than To Date", Toast.LENGTH_LONG);
                 toast.show();
             }
 
-            if ((ValidateDateOlder(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear)))
-            {
-                Toast toast = Toast.makeText(getActivity(), "The From Date cannot be greater than To Date", Toast.LENGTH_LONG );
-                toast.show();
+            else {
+                new NeevDataRecalculateAsyncTask(getActivity()).execute();
             }
-            DashboardItemListFragment.adapter = new DashboardItemListAdapter(getActivity(), R.layout.dashboard_list_item_layout, DashboardItemListContent.returnSelectedItems());
-            DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentCustom.mObserver);
-            DashboardItemListFragment.adapter.registerDataSetObserver(MainActivity.mDashboardItemListFragmentToday.mObserver);
-            DashboardItemListFragment.adapter.notifyDataSetChanged();
-
         }
     }
 
