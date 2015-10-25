@@ -6,8 +6,10 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -142,6 +144,7 @@ public class NeevDataLayer {
     public boolean addToProdStore(NeevProductItem item)
     {
         try{
+
             item.saveInBackground();
 
         }
@@ -228,7 +231,7 @@ public class NeevDataLayer {
                 if(name!=null)
                 query.whereMatches("Name", name);
                 rmList = query.find();
-                if(rmList !=null) Log.d("DEBUG","BAR graph count " + rmList.size());
+                //if(rmList !=null) Log.d("DEBUG","BAR graph count " + rmList.size());
                /* for(int i=0;i< rmList.size();i++)
                 {
                     ParseObject po = (ParseObject)rmList.get(i);
@@ -246,7 +249,7 @@ public class NeevDataLayer {
                 query.whereGreaterThan("CreationDate", createDate);
                 query.whereLessThan("CreationDate", enddate);
                 rmList = query.find();
-                if(rmList !=null) Log.d("DEBUG","BAR graph count " + rmList.size());
+                //if(rmList !=null) Log.d("DEBUG","BAR graph count " + rmList.size());
                 /*for(int i=0;i< rmList.size();i++)
                 {
                     ParseObject po = (ParseObject)rmList.get(i);

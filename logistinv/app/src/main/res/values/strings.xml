@@ -33,7 +33,13 @@
         <item>Sales</item>
         <item>Returned</item>
     </string-array>
-
+    <string-array name="movefromstage">
+        <item>From Stage:</item>
+        <item>Product Inventory</item>
+        <item>In Transit</item>
+        <item>Sales</item>
+        <item>Returned</item>
+    </string-array>
     <string-array name="inventory_array">
         <item>Cotton</item>
         <item>Ink</item>

@@ -29,6 +29,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="5dp"/>
+        <Spinner
+            android:id="@+id/spnMoveFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="5dp"/>
     </LinearLayout>
     <!-- <TextView
          android:layout_width="fill_parent"

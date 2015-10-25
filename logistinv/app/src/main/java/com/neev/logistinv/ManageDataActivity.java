@@ -82,6 +82,11 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
             }
 
         });
+        Spinner spnMoveFrom = (Spinner)findViewById(R.id.spnMoveFrom);
+        if(strSelected.equals(MainActivity.RAW_MATERIAL))
+            spnMoveFrom.setEnabled(false);
+        else
+            spnMoveFrom.setEnabled(true);
 
         ResetFields();
     }
@@ -137,8 +142,17 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         ArrayAdapter<CharSequence> itemType_adapter = ArrayAdapter.createFromResource(this, R.array.dashboardItemArray, android.R.layout.simple_spinner_item);
         itemType_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// Apply the adapter to the spinner
         spnItemType.setAdapter(itemType_adapter);
-        spnItemType.setSelection(getIndex(spnItemType,ItemType));
+        spnItemType.setSelection(getIndex(spnItemType, ItemType));
 
+        final Spinner spnMoveFrom = (Spinner) findViewById(R.id.spnMoveFrom);
+       // spnItemType.setOnItemSelectedListener(this);
+        ArrayAdapter<CharSequence> movefromstage = ArrayAdapter.createFromResource(this, R.array.movefromstage, android.R.layout.simple_spinner_item);
+        movefromstage.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// Apply the adapter to the spinner
+//        movefromstage.insert("From Stage:",0);
+        spnMoveFrom.setAdapter(movefromstage);
+
+        if(spnItemType.getSelectedItem().toString().equals(MainActivity.RAW_MATERIAL))
+          spnMoveFrom.setEnabled(false);
 
 
         adapter1 = PopulateList(ItemType);
@@ -216,11 +230,6 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                 NeevDataLayer data = new NeevDataLayer();
                 NeevRawMaterialItem trans=new NeevRawMaterialItem();
                 NeevProductItem prodtrans=new NeevProductItem();
-               //SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy ");
-               // Calendar cal = Calendar.getInstance();
-               // TimeZone tz = cal.getTimeZone();
-              //  dateformat.setTimeZone(tz);
-
                 boolean isSaveSuccessful;
 
                 try {
@@ -272,7 +281,20 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                         prodtrans.setPDate(creationDate);
                         prodtrans.setPType(strStage);
                         prodtrans.setPTotal(Double.parseDouble(String.format("%.2f", dblTotal)));
+
+                        String strFromStage = spnMoveFrom.getSelectedItem().toString();
                         isSaveSuccessful = data.addToProdStore(prodtrans);
+                        if(isSaveSuccessful && !strFromStage.equalsIgnoreCase("from stage:"))
+                        {
+                            NeevProductItem Item = new NeevProductItem();
+                            Item.setPName(name);
+                            Item.setPType(strFromStage);
+                            Item.setPPrice(price);
+                            Item.setPDate(creationDate);
+                            Item.setPQty(-qty);
+                            Item.setPTotal(-Double.parseDouble(String.format("%.2f", dblTotal)));
+                            isSaveSuccessful = data.addToProdStore(Item);
+                        }
                     }
 
                     if(isSaveSuccessful)
@@ -319,8 +341,8 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
         public boolean ValidateData()
         {
-            if(inputQty.getText().equals("") ||inputPrice.getText().equals("")
-                    || inputSearch.getText().equals("") || inputDate.getText().equals(""))
+            if(inputQty.getText().toString().trim().equals("") ||inputPrice.getText().toString().trim().equals("")
+                    || inputSearch.getText().toString().trim().equals("") || inputDate.getText().toString().trim().equals(""))
                 return false;
             else
                 return  true;
