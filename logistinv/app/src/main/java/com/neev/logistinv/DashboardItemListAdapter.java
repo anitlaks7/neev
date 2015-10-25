@@ -108,10 +108,6 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
         Quantity = 0;
         Total = 0;
 
-        if(type == MainActivity.RAW_MATERIAL)
-            products = dataLayer.retrieveAllRawMaterialFromLocalStore();
-        else
-            products = dataLayer.retrieveAllRawMaterialFromLocalStore();
         if(MainActivity.isTabToday) {
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
@@ -125,9 +121,7 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
             enddate = MainActivity.toDay + "/" + MainActivity.toMonth + "/" + MainActivity.toYear;
         }
 
-        for (int i = 0; i < products.size(); i++) {
-            ParseObject po = (ParseObject) products.get(i);
-            String name = (String) po.get("Name");
+
             List list = dataLayer.retrieveDetailData(type,null,startdate,enddate );
             float quantity = 0;
             if(list !=null) {
@@ -140,11 +134,8 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
                     Total = Total +totalprice;
                 }
 
-            }
-            else {
+           }
 
-            }
-            }
         }
 
 
