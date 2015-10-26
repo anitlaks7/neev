@@ -77,10 +77,7 @@ public class NeevDataRecalculateAsyncTask extends AsyncTask<String, String, Stri
         Quantity = 0;
         Total = 0;
 
-        if (type == MainActivity.RAW_MATERIAL)
-            products = dataLayer.retrieveAllRawMaterialFromLocalStore();
-        else
-            products = dataLayer.retrieveAllFinishedProductFromLocalStore();
+
         if (today) {
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
@@ -92,24 +89,22 @@ public class NeevDataRecalculateAsyncTask extends AsyncTask<String, String, Stri
             enddate = MainActivity.toDay + "/" + MainActivity.toMonth + "/" + MainActivity.toYear;
         }
 
-        for (int i = 0; i < products.size(); i++) {
-            ParseObject po = (ParseObject) products.get(i);
-            String name = (String) po.get("Name");
-            List list = dataLayer.retrieveDetailData(type, null, startdate, enddate);
-            float quantity = 0;
-            if (list != null) {
-                for (int j = 0; j < list.size(); j++) {
-                    ParseObject po2 = (ParseObject) list.get(j);
-                    int q = (int) po2.get("Quantity");
-                    Quantity = Quantity + q;
 
-                    float totalprice = Float.parseFloat(po2.get("Total").toString());
-                    Total = Total + totalprice;
-                }
+        List list = dataLayer.retrieveDetailData(type, null, startdate, enddate);
+        float quantity = 0;
+        if (list != null) {
+            for (int j = 0; j < list.size(); j++) {
+                ParseObject po2 = (ParseObject) list.get(j);
+                int q = (int) po2.get("Quantity");
+                Quantity = Quantity + q;
 
-            } else {
-
+                float totalprice = Float.parseFloat(po2.get("Total").toString());
+                Total = Total + totalprice;
             }
+
+        } else {
+
         }
+
     }
 }
