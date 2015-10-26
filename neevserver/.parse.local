@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "Neev": {
+      "applicationId": "GimrU2G4Qn3g9Yci2taHbaiyfYf60oBc8XF9vern"
+    },
+    "_default": {
+      "link": "Neev"
+    }
+  }
+}
