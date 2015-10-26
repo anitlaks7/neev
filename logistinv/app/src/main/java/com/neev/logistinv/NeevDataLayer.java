@@ -2,6 +2,7 @@ package com.neev.logistinv;
 
 import android.util.Log;
 
+import com.parse.ParseCloud;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.FindCallback;
@@ -12,8 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by chethana.savalgi on 11-10-2015.
@@ -251,5 +254,18 @@ public class NeevDataLayer {
 
         }
         return true;
+    }
+
+    public String summationInventory() {
+        String result = null;
+        Map param = new HashMap();
+        try {
+            Object ob = ParseCloud.callFunction("summationInventory", param);
+            result = ob.toString();
+        } catch (Exception e) {
+            Log.e("ERROR", e.toString());
+        }
+
+        return result;
     }
     }
