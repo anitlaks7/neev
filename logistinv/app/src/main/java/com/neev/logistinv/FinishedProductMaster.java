@@ -3,14 +3,11 @@ package com.neev.logistinv;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-import java.util.Date;
-
 /**
- * Created by chethana.savalgi on 23-10-2015.
+ * Created by sandhya.r.sharma on 10/26/2015.
  */
-
-@ParseClassName("RawMaterialMaster")
-public class NeevRawMaterialMaster extends ParseObject{
+@ParseClassName("FinishedProductMaster")
+public class FinishedProductMaster extends ParseObject {
 
     public String getName(){ return getString("Name");}
     public void setName(String name) {
@@ -22,25 +19,9 @@ public class NeevRawMaterialMaster extends ParseObject{
         put("ID", val);
     }
 
-    public String getUnit(){ return getString("Unit");}
-    public void setUnit(String unit) {
-        put("Unit", unit);
-    }
-
-    public NeevRawMaterialMaster()
+    public FinishedProductMaster()
     {
         super();
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-

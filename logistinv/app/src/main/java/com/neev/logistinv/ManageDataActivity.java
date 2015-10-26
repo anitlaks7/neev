@@ -256,16 +256,6 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                             newRawMaterial.setUnit("TBD");
                             data.addToRawMaterialMaster(newRawMaterial);
                         }
-                    }
-                    else
-                    {
-                       /* if(data.checkNewProduct(name))
-                        {
-
-                        }*/
-
-                    }
-                    if(strStage.equalsIgnoreCase(MainActivity.RAW_MATERIAL)) {
                         trans.setName(name);
                         trans.setQty(qty);
                         trans.setUnitPrice(price);
@@ -275,6 +265,13 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     }
                     else
                     {
+                       if(data.checkNewProduct(name))
+                        {
+                            FinishedProductMaster newProd = new FinishedProductMaster();
+                            newProd.setName(name);
+                            newProd.setID(0);
+                            data.addToProductMaster(newProd);
+                        }
                         prodtrans.setPName(name);
                         prodtrans.setPQty(qty);
                         prodtrans.setPPrice(price);
@@ -332,11 +329,24 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         return index;
 
     }
+
         public void ResetFields() {
             inputQty.setText("");
             inputPrice.setText("");
             inputSearch.setText("");
             inputDate.setText(fromDay + "/" + fromMonth + "/" + fromYear);
+            adapter1 = PopulateList(ItemType);
+            listView = (ListView) findViewById(R.id.listView);
+
+            listView.setAdapter(adapter1);
+            listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        final int position, long id) {
+                    String selectedItem = (String) parent.getItemAtPosition(position);
+                    inputSearch.setText(selectedItem);
+        }
+                });
         }
 
         public boolean ValidateData()

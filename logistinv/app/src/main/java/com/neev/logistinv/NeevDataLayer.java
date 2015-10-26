@@ -84,6 +84,19 @@ public class NeevDataLayer {
                     }
                 }
             });
+
+/*            ParseQuery<ParseObject> query5 = ParseQuery.getQuery("NeevRawMaterialMaster");
+            query5.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if (e == null) {
+                        ParseObject.unpinAllInBackground("NeevRawMaterialMaster");
+                        ParseObject.pinAllInBackground(objects);
+                    } else {
+                        Log.e("ERROR","Parse data retrieval failed");
+
+                    }
+                }
+            });*/
         } catch (Exception e) {
             Log.e("ERROR", e.toString());
         }
@@ -137,9 +150,7 @@ public class NeevDataLayer {
     public boolean addToProdStore(NeevProductItem item)
     {
         try{
-
             item.saveInBackground();
-
         }
         catch(Exception e)
         {
@@ -149,7 +160,6 @@ public class NeevDataLayer {
         return true;
     }
 
-    
 
     public List retrieveDetailData(String type,String name, String startDate, String endDate)
     {
@@ -242,6 +252,29 @@ public class NeevDataLayer {
         return result;
     }
 
+    public boolean checkNewProduct(String name)
+    {
+        boolean result = true;
+        List rmList = null;
+        try {
+
+            ParseQuery query = new ParseQuery("FinishedProductMaster");
+            query.fromLocalDatastore();
+            query.whereMatches("Name", name);
+            rmList = query.find();
+            if((rmList !=null) && (rmList.size()==1))
+            {
+                result = false;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("ERROR",e.toString());
+        }
+
+        return result;
+    }
+
     public boolean addToRawMaterialMaster(NeevRawMaterialMaster item)
     {
         try{
@@ -255,6 +288,21 @@ public class NeevDataLayer {
         }
         return true;
     }
+
+    public boolean addToProductMaster(FinishedProductMaster item)
+    {
+        try{
+            item.saveInBackground();
+            //item.saveEventually();
+        }
+        catch(Exception e)
+        {
+            Log.e("ERROR", e.toString());
+
+        }
+        return true;
+    }
+
 
     public String summationInventory() {
         String result = null;
