@@ -1,19 +1,18 @@
 package com.neev.logistinv;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -21,11 +20,8 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.neev.example.R;
-import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
 import com.parse.ParseObject;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -59,6 +55,7 @@ public class DashboardItemDetailFragment extends Fragment
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
+    private Button btn;
 
     public DashboardItemDetailFragment(){
     }
@@ -223,20 +220,8 @@ public String TextValue()
                 }
             }
         }
-        else {
-
-            /*BarEntry v1e1 = new BarEntry(10.000f, 0); // Jan
-            valueSet1.add(v1e1);
-            BarEntry v1e2 = new BarEntry(110.000f, 1); // Feb
-            valueSet1.add(v1e2);
-            BarEntry v1e3 = new BarEntry(80.000f, 2); // Mar
-            valueSet1.add(v1e3);
-            BarEntry v1e4 = new BarEntry(40.000f, 3); // Apr
-            valueSet1.add(v1e4);
-            BarEntry v1e5 = new BarEntry(80.000f, 4); // May
-            valueSet1.add(v1e5);
-            BarEntry v1e6 = new BarEntry(20.000f, 5); // Jun
-            valueSet1.add(v1e6);*/
+        else
+        {
             products = dataLayer.retrieveAllFinishedProductFromLocalStore();
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
@@ -286,6 +271,10 @@ public String TextValue()
 
     @Override
     public boolean onDown(MotionEvent e) {
+        if(btn != null) {
+            final RelativeLayout  fCurrentView = (RelativeLayout) getView();
+            fCurrentView.removeView(btn);
+        }
         return false;
     }
 
@@ -311,31 +300,26 @@ public String TextValue()
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.BOTTOM|Gravity.CENTER;
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        final Button btn = new Button(getActivity());
+        btn = new Button(getActivity());
         btn.setText("MANAGE DATA");
 
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
+        final RelativeLayout fl = (RelativeLayout) getView();
 
-        final FrameLayout fl = (FrameLayout) getView().getParent();
 
         fl.addView(btn, params);
 
+
+
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String tempString = "Inventory";
-                if(mItem == null){
-                    tempString = getArguments().getString(ARG_ITEM_ID);
-                }
-                else
-                    tempString = mItem;
 
-                final FrameLayout fCurrentView = (FrameLayout) view.getParent();
-                fCurrentView.removeView(btn);
                 Intent myIntent = new Intent(view.getContext(),ManageDataActivity.class);
                 myIntent.putExtra("item_type", "inventory"); //Optional parameters
                 startActivity(myIntent);
@@ -376,23 +360,6 @@ public String TextValue()
         }
         else
         {
-            /*BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
-            valueSet1.add(v1e1);
-            BarEntry v1e2 = new BarEntry(500.000f, 1); // DIARIES
-            valueSet1.add(v1e2);
-            BarEntry v1e3 = new BarEntry(500.000f, 2); // TABLE CLOTHS AND NAPKINS
-            valueSet1.add(v1e3);
-            BarEntry v1e4 = new BarEntry(500.000f, 3); // CUSHION COVERS
-            valueSet1.add(v1e4);
-            BarEntry v1e5 = new BarEntry(500.000f, 4); // TABLE MATS
-            valueSet1.add(v1e5);
-            BarEntry v1e6 = new BarEntry(500.000f, 5); // HANDMADE PAPER CARDS
-            valueSet1.add(v1e6);
-            BarEntry v1e7 = new BarEntry(500.000f, 6); // SHAGUN ENVELOPES
-            valueSet1.add(v1e7);
-            BarEntry v1e8 = new BarEntry(500.000f, 7); // BED COVERS
-            valueSet1.add(v1e8) ;*/
-
             products = dataLayer.retrieveAllFinishedProductFromLocalStore();
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
@@ -445,25 +412,6 @@ public String TextValue()
                 valueSet1.add(new BarEntry(((float) po.get("Quantity")), i));
             }
         }*/
-
-
-        /*BarEntry v1e1 = new BarEntry(500.000f, 0); // HANDMADE PAPER BAGS
-        valueSet1.add(v1e1);
-        BarEntry v1e2 = new BarEntry(500.000f, 1); // DIARIES
-        valueSet1.add(v1e2);
-        BarEntry v1e3 = new BarEntry(500.000f, 2); // TABLE CLOTHS AND NAPKINS
-        valueSet1.add(v1e3);
-        BarEntry v1e4 = new BarEntry(500.000f, 3); // CUSHION COVERS
-        valueSet1.add(v1e4);
-        BarEntry v1e5 = new BarEntry(500.000f, 4); // TABLE MATS
-        valueSet1.add(v1e5);
-        BarEntry v1e6 = new BarEntry(500.000f, 5); // HANDMADE PAPER CARDS
-        valueSet1.add(v1e6);
-        BarEntry v1e7 = new BarEntry(500.000f, 6); // SHAGUN ENVELOPES
-        valueSet1.add(v1e7);
-        BarEntry v1e8 = new BarEntry(500.000f, 7); // BED COVERS
-        valueSet1.add(v1e8);*/
-
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, "SALES OF PRODUCTS");
         barDataSet1.setColors(ColorTemplate.JOYFUL_COLORS);
