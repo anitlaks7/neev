@@ -197,13 +197,27 @@ public String TextValue()
 
         NeevDataLayer dataLayer = new NeevDataLayer();
         List products = null;
+        String startdate;
+        String enddate;
+
+
+        if (MainActivity.isTabToday) {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH) + 1;
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            startdate = enddate = day + "/" + month + "/" + year;
+        } else {
+            startdate = MainActivity.fromDay + "/" + MainActivity.fromMonth + "/" + MainActivity.fromYear;
+            enddate = MainActivity.toDay + "/" + MainActivity.toMonth + "/" + MainActivity.toYear;
+        }
 
         if(mItem == MainActivity.RAW_MATERIAL) {
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
                 String name = (String) po.get("Name");
-                List list = dataLayer.retrieveDetailData(mItem,name,"22/10/2015","22/10/2015" );
+                List list = dataLayer.retrieveDetailData(mItem,name,startdate,enddate );
                 float quantity = 0;
                 if(list !=null) {
                     for (int j = 0; j < list.size(); j++) {
@@ -226,7 +240,7 @@ public String TextValue()
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
                 String name = (String) po.get("Name");
-                List list = dataLayer.retrieveDetailData(mItem,name,"22/10/2015","22/10/2015" );
+                List list = dataLayer.retrieveDetailData(mItem,name,startdate,enddate);
                 float quantity = 0;
                 if(list !=null) {
                     for (int j = 0; j < list.size(); j++) {
@@ -335,13 +349,26 @@ public String TextValue()
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
         NeevDataLayer dataLayer = new NeevDataLayer();
         List products = null;
+        String startdate;
+        String enddate;
+
+        if (MainActivity.isTabToday) {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH) + 1;
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            startdate = enddate = day + "/" + month + "/" + year;
+        } else {
+            startdate = MainActivity.fromDay + "/" + MainActivity.fromMonth + "/" + MainActivity.fromYear;
+            enddate = MainActivity.toDay + "/" + MainActivity.toMonth + "/" + MainActivity.toYear;
+        }
 
         if(mItem == MainActivity.RAW_MATERIAL) {
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
                 String name = (String) po.get("Name");
-                List list = dataLayer.retrieveDetailData(mItem,name,"22/10/2015","22/10/2015" );
+                List list = dataLayer.retrieveDetailData(mItem,name,startdate,enddate );
                 float quantity = 0;
                 if(list !=null) {
                     for (int j = 0; j < list.size(); j++) {
@@ -364,7 +391,7 @@ public String TextValue()
             for (int i = 0; i < products.size(); i++) {
                 ParseObject po = (ParseObject) products.get(i);
                 String name = (String) po.get("Name");
-                List list = dataLayer.retrieveDetailData(mItem,name,"22/10/2015","22/10/2015" );
+                List list = dataLayer.retrieveDetailData(mItem,name,startdate,enddate);
                 float quantity = 0;
                 if(list !=null) {
                     for (int j = 0; j < list.size(); j++) {
