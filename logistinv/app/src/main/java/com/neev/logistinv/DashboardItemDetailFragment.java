@@ -99,14 +99,8 @@ public class DashboardItemDetailFragment extends Fragment
         // Set the gesture detector as the double tap
         // listener.
         mDetector.setOnDoubleTapListener(this);
-
-        if (mItem == MainActivity.RAW_MATERIAL) {
-            ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
-        } else if (mItem == MainActivity.PRODUCT_INVENTORY || mItem == MainActivity.RETURNED || mItem == MainActivity.IN_TRANSIT || mItem == MainActivity.SALES)
-
-        {
-            ((TextView) rootView.findViewById(R.id.text1)).setText("FINISHED PRODUCT (Quantity)");
-        }
+        String text = TextValue();
+        ((TextView) rootView.findViewById(R.id.text1)).setText(text + " (Quantity)");
 
         BarData data = new BarData(getXAxisValues(), getDataSetForToday());
         chart.setData(data);
@@ -132,13 +126,8 @@ public class DashboardItemDetailFragment extends Fragment
                 chart1.getLegend().setEnabled(false);
                 button.setVisibility(View.INVISIBLE);
                 button1.setVisibility(View.VISIBLE);
-                if(mItem == MainActivity.RAW_MATERIAL) {
-                    ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (in Rupees)");
-                }
-                else  if(mItem == MainActivity.SALES || mItem == MainActivity.RETURNED || mItem == MainActivity.PRODUCT_INVENTORY || mItem == MainActivity.IN_TRANSIT)
-                {
-                    ((TextView) rootView.findViewById(R.id.text1)).setText("FINISHED PRODUCT (in Rupees)");
-                }
+                String text1 = TextValue();
+                ((TextView) rootView.findViewById(R.id.text1)).setText(text1 + " (in Rupees)");
 
 
             }
@@ -158,11 +147,8 @@ public class DashboardItemDetailFragment extends Fragment
                 chart1.getLegend().setEnabled(false);
                 button.setVisibility(View.VISIBLE);
                 button1.setVisibility(View.INVISIBLE);
-                if (mItem == MainActivity.RAW_MATERIAL) {
-                    ((TextView) rootView.findViewById(R.id.text1)).setText("RAW MATERIAL (Quantity)");
-                } else if (mItem == MainActivity.SALES || mItem == MainActivity.RETURNED || mItem == MainActivity.PRODUCT_INVENTORY || mItem == MainActivity.IN_TRANSIT) {
-                    ((TextView) rootView.findViewById(R.id.text1)).setText("FINISHED PRODUCT (Quantity)");
-                }
+                String text2 = TextValue();
+                ((TextView) rootView.findViewById(R.id.text1)).setText(text2 + " (Quantity)");
 
             }
         });
@@ -178,7 +164,34 @@ public class DashboardItemDetailFragment extends Fragment
         return rootView;
     }
 
+public String TextValue()
+{
+    String text = null;
+    if (mItem == MainActivity.RAW_MATERIAL) {
+        text = "RAW MATERIAL";
+    }
+    else if (mItem == MainActivity.PRODUCT_INVENTORY)
 
+    {
+        text = "PRODUCT INVENTORY";
+    }
+    else if (mItem == MainActivity.RETURNED)
+
+    {
+        text = "RETURNED";
+    }
+    else if (mItem == MainActivity.IN_TRANSIT)
+
+    {
+        text = "IN TRANSIT";
+    }
+    else if (mItem == MainActivity.SALES)
+
+    {
+        text = "SALES";
+    }
+    return text;
+}
 
     public ArrayList<BarDataSet> getDataSetMoney()
     {
