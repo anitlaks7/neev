@@ -278,6 +278,7 @@ public class NeevDataLayer {
     public boolean addToRawMaterialMaster(NeevRawMaterialMaster item)
     {
         try{
+            item.pinInBackground();
             item.saveInBackground();
             //item.saveEventually();
         }
@@ -292,6 +293,7 @@ public class NeevDataLayer {
     public boolean addToProductMaster(FinishedProductMaster item)
     {
         try{
+            item.pinInBackground();
             item.saveInBackground();
             //item.saveEventually();
         }

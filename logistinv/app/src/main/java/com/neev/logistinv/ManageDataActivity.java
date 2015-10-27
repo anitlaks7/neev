@@ -103,7 +103,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         Intent intent = getIntent();
         NeevDataLayer data = new NeevDataLayer();
         List rmList = null;
-        if(ItemType.equalsIgnoreCase("raw material"))
+        if(ItemType.equalsIgnoreCase(MainActivity.RAW_MATERIAL))
         {
             rmList = data.retrieveAllRawMaterialFromLocalStore();
         }
@@ -298,11 +298,23 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     {
                         Toast.makeText(getApplicationContext(), "Data added successfully", Toast.LENGTH_LONG).show();
                         ResetFields();
+                        adapter1 = PopulateList(strStage);
+            listView = (ListView) findViewById(R.id.listView);
+
+            listView.setAdapter(adapter1);
+            listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        final int position, long id) {
+                    String selectedItem = (String) parent.getItemAtPosition(position);
+                    inputSearch.setText(selectedItem);
+                }
+            });
                     }
                 }
                 catch (Exception e)
                 {
-                    Toast.makeText(getApplicationContext(), "Error"+e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Error" + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -335,18 +347,6 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
             inputPrice.setText("");
             inputSearch.setText("");
             inputDate.setText(fromDay + "/" + fromMonth + "/" + fromYear);
-            adapter1 = PopulateList(ItemType);
-            listView = (ListView) findViewById(R.id.listView);
-
-            listView.setAdapter(adapter1);
-            listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        final int position, long id) {
-                    String selectedItem = (String) parent.getItemAtPosition(position);
-                    inputSearch.setText(selectedItem);
-        }
-                });
         }
 
         public boolean ValidateData()
