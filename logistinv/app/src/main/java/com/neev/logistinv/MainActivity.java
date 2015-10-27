@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.neev.example.R;
-import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -365,9 +364,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             else {
                 rootView = inflater.inflate(R.layout.fragment_custom, container, false);
                 EditText editText = (EditText) rootView.findViewById(R.id.editText2);
-                editText.setText("From: " + fromDay + "/" + fromMonth + "/" + fromYear);
+                editText.setText("From: " + "\n" + fromDay + "/" + fromMonth + "/" + fromYear);
                 EditText editTextTo = (EditText) rootView.findViewById(R.id.editText3);
-                editTextTo.setText("To: " + toDay + "/" + toMonth + "/" + toYear);
+                editTextTo.setText("To: " + "\n" + toDay + "/" + toMonth + "/" + toYear);
 
                 editText.setOnClickListener(new OnClickListener() {
 
@@ -472,18 +471,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 fromDay = day;
                 fromMonth = month +1;
                 fromYear = year;
-                ((EditText) getActivity().findViewById(R.id.editText2)).setText("From: " + fromDay + "/" + (fromMonth ) + "/" + fromYear);
+                ((EditText) getActivity().findViewById(R.id.editText2)).setText("From: " + "\n"  + fromDay + "/" + (fromMonth ) + "/" + fromYear);
             } else {
                 toDay = day;
                 toMonth = month +1;
                 toYear = year;
-                ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + toDay + "/" + (toMonth ) + "/" + toYear);
+                ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + "\n" + toDay + "/" + (toMonth ) + "/" + toYear);
             }
             if ((ValidateMaxMinDate(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear))) {
-                Toast toast = Toast.makeText(getActivity(), "Please enter a date range from within past 3 months", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getActivity(), "Pick dates within the last 3 months", Toast.LENGTH_LONG);
                 toast.show();
             } else if ((ValidateDateOlder(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear))) {
-                Toast toast = Toast.makeText(getActivity(), "The From Date cannot be greater than To Date", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getActivity(), "\"From\" date cannot be after \"To\" date", Toast.LENGTH_LONG);
                 toast.show();
             }
 
