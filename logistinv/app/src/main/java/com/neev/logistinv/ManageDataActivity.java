@@ -83,8 +83,10 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
         });
         Spinner spnMoveFrom = (Spinner)findViewById(R.id.spnMoveFrom);
-        if(strSelected.equals(MainActivity.RAW_MATERIAL))
+        if(strSelected.equals(MainActivity.RAW_MATERIAL)) {
+            spnMoveFrom.setSelection(0);
             spnMoveFrom.setEnabled(false);
+        }
         else
             spnMoveFrom.setEnabled(true);
 
@@ -151,9 +153,10 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 //        movefromstage.insert("From Stage:",0);
         spnMoveFrom.setAdapter(movefromstage);
 
-        if(spnItemType.getSelectedItem().toString().equals(MainActivity.RAW_MATERIAL))
-          spnMoveFrom.setEnabled(false);
-
+        if(spnItemType.getSelectedItem().toString().equals(MainActivity.RAW_MATERIAL)) {
+            spnMoveFrom.setSelection(0);
+            spnMoveFrom.setEnabled(false);
+        }
 
         adapter1 = PopulateList(ItemType);
         listView = (ListView) findViewById(R.id.listView);

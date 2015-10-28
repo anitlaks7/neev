@@ -334,9 +334,14 @@ public String TextValue()
 
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
+                String tempString = MainActivity.RAW_MATERIAL;
+                if(mItem == null){
+                    tempString = getArguments().getString(ARG_ITEM_ID);
+                }
+                else
+                    tempString = mItem;
                 Intent myIntent = new Intent(view.getContext(),ManageDataActivity.class);
-                myIntent.putExtra("item_type", "inventory"); //Optional parameters
+                myIntent.putExtra("item_type",tempString); //Optional parameters
                 startActivity(myIntent);
 
 
