@@ -3,10 +3,7 @@
     <item android:id="@+id/plus_button" android:title="@string/plus_button"
         android:icon="@drawable/plus_icon_red"
         android:orderInCategory="100" android:showAsAction="ifRoom" />
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_managedata" android:title="@string/action_managedata"
         android:orderInCategory="100" android:showAsAction="never" />
-    <item android:id="@+id/action_exportdata" android:title="@string/action_exportdata"
-        android:orderInCategory="100" android:showAsAction="never" />
+
 </menu>

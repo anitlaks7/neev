@@ -77,13 +77,13 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
         if (s.equals(MainActivity.RAW_MATERIAL)) {
             imageView.setImageResource(R.drawable.rm_icon);
         } else if (s.equals(MainActivity.PRODUCT_INVENTORY)) {
-            imageView.setImageResource(R.drawable.prodinv);
+            imageView.setImageResource(R.drawable.products_icon);
         } else if (s.equals(MainActivity.SALES)) {
-            imageView.setImageResource(R.drawable.sale_icon);
+            imageView.setImageResource(R.drawable.sales_icon);
         } else if (s.equals(MainActivity.IN_TRANSIT)) {
             imageView.setImageResource(R.drawable.intransit_icon);
         } else if (s.equals(MainActivity.RETURNED)) {
-            imageView.setImageResource(R.drawable.return_icon);
+            imageView.setImageResource(R.drawable.returned_icon);
         }
 
         return rowView;

@@ -85,18 +85,6 @@ public class NeevDataLayer {
                 }
             });
 
-/*            ParseQuery<ParseObject> query5 = ParseQuery.getQuery("NeevRawMaterialMaster");
-            query5.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> objects, ParseException e) {
-                    if (e == null) {
-                        ParseObject.unpinAllInBackground("NeevRawMaterialMaster");
-                        ParseObject.pinAllInBackground(objects);
-                    } else {
-                        Log.e("ERROR","Parse data retrieval failed");
-
-                    }
-                }
-            });*/
         } catch (Exception e) {
             Log.e("ERROR", e.toString());
         }
@@ -138,6 +126,7 @@ public class NeevDataLayer {
     public boolean addToRMStore(NeevRawMaterialItem item)
     {
         try{
+            item.pinInBackground();
             item.saveInBackground();
         }
         catch(Exception e)
@@ -150,6 +139,7 @@ public class NeevDataLayer {
     public boolean addToProdStore(NeevProductItem item)
     {
         try{
+            item.pinInBackground();
             item.saveInBackground();
         }
         catch(Exception e)
