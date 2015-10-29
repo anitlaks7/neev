@@ -153,6 +153,20 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 //        movefromstage.insert("From Stage:",0);
         spnMoveFrom.setAdapter(movefromstage);
 
+        spnMoveFrom.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
+                int item = spnMoveFrom.getSelectedItemPosition();
+                if (item == 0)
+                    ((Button) findViewById(R.id.btnSave)).setText("Add");
+                else
+                    ((Button) findViewById(R.id.btnSave)).setText("Move");
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+
         if(spnItemType.getSelectedItem().toString().equals(MainActivity.RAW_MATERIAL)) {
             spnMoveFrom.setSelection(0);
             spnMoveFrom.setEnabled(false);
@@ -350,6 +364,8 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
             inputPrice.setText("");
             inputSearch.setText("");
             inputDate.setText(fromDay + "/" + fromMonth + "/" + fromYear);
+            Spinner spn = (Spinner)findViewById(R.id.spnMoveFrom);
+            spn.setSelection(0);
         }
 
         public boolean ValidateData()
