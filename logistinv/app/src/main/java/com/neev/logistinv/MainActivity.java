@@ -48,6 +48,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public static final String SALES = "Sales";
     public static final String RETURNED = "Returned";
     public static boolean isTabToday = true;
+    public static String defaultPrevFromDate= null ;
+    public static String defaultPrevToDate= null ;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -77,6 +79,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         toYear = c.get(Calendar.YEAR);
         toMonth = c.get(Calendar.MONTH) +1;
         toDay = c.get(Calendar.DAY_OF_MONTH);
+        defaultPrevFromDate = fromDay + "/" + fromMonth + "/" + fromYear;
+        defaultPrevToDate = toDay+ "/" + toMonth + "/" + toYear;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDashboardItemDetailFragmentToday = new DashboardItemDetailFragment();
@@ -149,10 +153,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setTabListener(this));
         }
 
-      //  Parse.enableLocalDatastore(this);
-      //  Parse.initialize(this, "TnftdYLSYkSJHmlNmgm1Sa5bVrVEEPCo1g48vjOD", "I7aaYGQkikHBIjbkoqcQh5HalZXWAyiVGKZbzuBw");
-      //  NeevDataLayer data = new NeevDataLayer();
-      //  data.initialize();
+        //  Parse.enableLocalDatastore(this);
+        //  Parse.initialize(this, "TnftdYLSYkSJHmlNmgm1Sa5bVrVEEPCo1g48vjOD", "I7aaYGQkikHBIjbkoqcQh5HalZXWAyiVGKZbzuBw");
+        //  NeevDataLayer data = new NeevDataLayer();
+        //  data.initialize();
 
        /* ParseObject rawMaterialList = new ParseObject("RawMaterialList");
         rawMaterialList.put("item1", "Cotton");
@@ -393,9 +397,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 // removes the existing fragment calling onDestroy
                 ft2.replace(R.id.dashboarditem_list_custom, mDashboardItemListFragmentCustom);
                 ft2.commit();
-                }
+            }
 
-                return rootView;
+            return rootView;
         }
     }
     public static boolean ValidateDateOlder(String fromDate, String toDate){
@@ -411,7 +415,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 isOlder = false;
             }
         }catch (Exception e){
-           // e.printStackTrace();
+            // e.printStackTrace();
         }
         return isOlder;
     }
@@ -459,7 +463,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
             Log.w("DatePicker", "Date = " + year);
-
+            Boolean IsInvalidDate =false;
             if (Objects.equals(bundle.getString(ARG_FROM_TO), "From")) {
                 fromDay = day;
                 fromMonth = month +1;
@@ -472,15 +476,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + "\n" + toDay + "/" + (toMonth ) + "/" + toYear);
             }
             if ((ValidateMaxMinDate(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear))) {
+                IsInvalidDate=true;
                 Toast toast = Toast.makeText(getActivity(), "Pick dates within the last 3 months", Toast.LENGTH_LONG);
                 toast.show();
             } else if ((ValidateDateOlder(fromDay + "/" + fromMonth + "/" + fromYear, toDay + "/" + toMonth + "/" + toYear))) {
+                IsInvalidDate=true;
                 Toast toast = Toast.makeText(getActivity(), "\"From\" date cannot be after \"To\" date", Toast.LENGTH_LONG);
                 toast.show();
             }
 
             else {
                 new NeevDataRecalculateAsyncTask(getActivity()).execute();
+                defaultPrevFromDate = fromDay + "/" + fromMonth + "/" + fromYear;
+                defaultPrevToDate = toDay + "/" + toMonth + "/" + toYear;
+            }
+            if (IsInvalidDate)
+            {
+                ((EditText) getActivity().findViewById(R.id.editText2)).setText("From: " + "\n"  + defaultPrevFromDate);
+                ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + "\n"  + defaultPrevToDate);
+
             }
         }
     }
