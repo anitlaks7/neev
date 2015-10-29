@@ -223,7 +223,7 @@ public String TextValue()
                 if(list !=null) {
                     for (int j = 0; j < list.size(); j++) {
                         ParseObject po2 = (ParseObject) list.get(j);
-                        int q = (int) po2.get("Total");
+                        float q = Float.parseFloat(po2.get("Total").toString());
                         quantity = quantity + q;
                     }
                     BarEntry barEntry = new BarEntry(quantity, i);
@@ -246,7 +246,7 @@ public String TextValue()
                 if(list !=null) {
                     for (int j = 0; j < list.size(); j++) {
                         ParseObject po2 = (ParseObject) list.get(j);
-                        int q = (int) po2.get("Total");
+                        float q = Float.parseFloat(po2.get("Total").toString());
                         quantity = quantity + q;
                     }
                     BarEntry barEntry = new BarEntry(quantity, i);
