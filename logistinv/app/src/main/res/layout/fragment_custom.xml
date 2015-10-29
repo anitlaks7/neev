@@ -43,7 +43,8 @@
                 android:id="@+id/editText2"
                 android:windowSoftInputMode="stateHidden"
                 android:hint="From Date"
-                android:theme="@style/AppTheme" />
+                android:theme="@style/AppTheme"
+                android:textColor="@color/arrow_tab"/>
 
             <EditText
                 android:layout_width="135dp"
@@ -55,7 +56,8 @@
                 android:windowSoftInputMode="stateHidden"
                 android:hint="To Date"
                 android:theme="@style/AppTheme"
-                android:layout_weight="0.05" />
+                android:layout_weight="0.05"
+                android:textColor="@color/arrow_tab"/>
 
 
 

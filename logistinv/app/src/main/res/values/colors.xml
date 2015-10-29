@@ -30,4 +30,5 @@
         </integer-array>
     <color name="transparent">#FFFFFFFF</color>
     <color name="tab_highlight">@color/darkred</color>
+    <color name="arrow_tab">#454242</color>
     </resources>

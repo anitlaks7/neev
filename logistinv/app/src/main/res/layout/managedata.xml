@@ -65,7 +65,7 @@
             android:background="@drawable/customborder"
             android:layout_marginTop="8dp"
             android:textSize="18sp"
-
+            android:textColor="@color/arrow_tab"
             />
 
         <EditText android:id="@+id/edit_qty"
@@ -78,6 +78,7 @@
             android:layout_marginTop="8dp"
             android:textSize="18sp"
             android:windowSoftInputMode="stateHidden"
+            android:textColor="@color/arrow_tab"
             />
 
         <EditText android:id="@+id/edit_price"
@@ -89,7 +90,8 @@
             android:layout_marginTop="5dp"
             android:inputType="numberDecimal"
             android:windowSoftInputMode="stateHidden"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textColor="@color/arrow_tab"/>
 
         <EditText android:id="@+id/search_item"
             android:layout_width="fill_parent"
@@ -105,7 +107,7 @@
             android:textSize="18sp"
             android:drawableStart="@drawable/magnify"
             android:background="@drawable/customborder"
-
+            android:textColor="@color/arrow_tab"
             />
 
         <!--<SearchView android:id="@+id/search_view"-->
