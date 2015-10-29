@@ -106,6 +106,9 @@ public class DashboardItemDetailFragment extends Fragment
         chart.animateXY(2000, 2000);
         chart.invalidate();
         chart.getLegend().setEnabled(false);
+        chart.getXAxis().setTextSize(12.0f);
+        chart.getBarData().setValueTextSize(10.0f);
+        chart.setDrawValueAboveBar(false);
 
         final Button button = (Button)rootView.findViewById(R.id.Next);
         final Button button1 = (Button) rootView.findViewById(R.id.button);
@@ -122,6 +125,9 @@ public class DashboardItemDetailFragment extends Fragment
                 chart1.animateXY(2000, 2000);
                 chart1.invalidate();
                 chart1.getLegend().setEnabled(false);
+                chart1.getXAxis().setTextSize(12.0f);
+                chart1.getBarData().setValueTextSize(10.0f);
+                chart1.setDrawValueAboveBar(false);
                 button.setVisibility(View.INVISIBLE);
                 button1.setVisibility(View.VISIBLE);
                 String text1 = TextValue();
@@ -143,6 +149,9 @@ public class DashboardItemDetailFragment extends Fragment
                 chart1.animateXY(2000, 2000);
                 chart1.invalidate();
                 chart1.getLegend().setEnabled(false);
+                chart1.getXAxis().setTextSize(12.0f);
+                chart1.getBarData().setValueTextSize(10.0f);
+                chart1.setDrawValueAboveBar(false);
                 button.setVisibility(View.VISIBLE);
                 button1.setVisibility(View.INVISIBLE);
                 String text2 = TextValue();
@@ -340,6 +349,7 @@ public String TextValue()
                 }
                 else
                     tempString = mItem;
+                fl.removeView(btn);
                 Intent myIntent = new Intent(view.getContext(),ManageDataActivity.class);
                 myIntent.putExtra("item_type",tempString); //Optional parameters
                 startActivity(myIntent);
