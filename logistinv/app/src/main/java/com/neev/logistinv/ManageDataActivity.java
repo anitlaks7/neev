@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -27,16 +26,10 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import com.neev.example.R;
 import com.parse.*;
 
-import java.text.FieldPosition;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.TimeZone;
 
 /**
  * Created by chethana.savalgi on 10-10-2015.
@@ -45,28 +38,24 @@ import java.util.TimeZone;
 
 
 public class ManageDataActivity extends Activity implements OnItemSelectedListener{
-    Button button;
+    // --Commented out by Inspection (10/30/2015 8:06 PM):Button button;
     private ListView listView;
-    ArrayAdapter<String> adapter;
+    // --Commented out by Inspection (10/30/2015 8:06 PM):ArrayAdapter<String> adapter;
     private ArrayAdapter<String> adapter1=null;
     private static int fromYear;
     private static int fromMonth;
     private static int fromDay;
     private EditText inputSearch;
-    public static final String ARG_Type_Id = "type_id";
-    static String Item_Type;
-    static Bundle bundle;
-    private SearchView mSearchView;
+     static Bundle bundle;
     private EditText inputQty;
     private EditText inputPrice;
     private EditText inputDate;
-    private String ItemType;
 
 
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
 
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,R.layout.simplerow);
+        // ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.simplerow);
         String strSelected = parent.getSelectedItem().toString();
         adapter1 = PopulateList(strSelected);
 
@@ -98,13 +87,13 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
     }
 
     //return rootView;
-    public ArrayAdapter<String> PopulateList(String ItemType)
+    private ArrayAdapter<String> PopulateList(String ItemType)
 
     {
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,R.layout.simplerow);
-        Intent intent = getIntent();
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.simplerow);
+        //Intent intent = getIntent();
         NeevDataLayer data = new NeevDataLayer();
-        List rmList = null;
+        List rmList;
         if(ItemType.equalsIgnoreCase(MainActivity.RAW_MATERIAL))
         {
             rmList = data.retrieveAllRawMaterialFromLocalStore();
@@ -136,18 +125,18 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
         setContentView(R.layout.managedata);
 
         Intent intent = getIntent();
-        ItemType = intent.getStringExtra("item_type");
-        NeevDataLayer data = new NeevDataLayer();
+        String itemType = intent.getStringExtra("item_type");
+        //  NeevDataLayer data = new NeevDataLayer();
 
         Spinner spnItemType = (Spinner) findViewById(R.id.itemtype_spinner);
         spnItemType.setOnItemSelectedListener(this);
         ArrayAdapter<CharSequence> itemType_adapter = ArrayAdapter.createFromResource(this, R.array.dashboardItemArray, android.R.layout.simple_spinner_item);
         itemType_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// Apply the adapter to the spinner
         spnItemType.setAdapter(itemType_adapter);
-        spnItemType.setSelection(getIndex(spnItemType, ItemType));
+        spnItemType.setSelection(getIndex(spnItemType, itemType));
 
         final Spinner spnMoveFrom = (Spinner) findViewById(R.id.spnMoveFrom);
-       // spnItemType.setOnItemSelectedListener(this);
+        // spnItemType.setOnItemSelectedListener(this);
         ArrayAdapter<CharSequence> movefromstage = ArrayAdapter.createFromResource(this, R.array.movefromstage, android.R.layout.simple_spinner_item);
         movefromstage.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// Apply the adapter to the spinner
 //        movefromstage.insert("From Stage:",0);
@@ -172,7 +161,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
             spnMoveFrom.setEnabled(false);
         }
 
-        adapter1 = PopulateList(ItemType);
+        adapter1 = PopulateList(itemType);
         listView = (ListView) findViewById(R.id.listView);
 
         listView.setAdapter(adapter1);
@@ -282,7 +271,7 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     }
                     else
                     {
-                       if(data.checkNewProduct(name))
+                        if(data.checkNewProduct(name))
                         {
                             FinishedProductMaster newProd = new FinishedProductMaster();
                             newProd.setName(name);
@@ -316,17 +305,17 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                         Toast.makeText(getApplicationContext(), "Data added successfully", Toast.LENGTH_LONG).show();
                         ResetFields();
                         adapter1 = PopulateList(strStage);
-            listView = (ListView) findViewById(R.id.listView);
+                        listView = (ListView) findViewById(R.id.listView);
 
-            listView.setAdapter(adapter1);
-            listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        final int position, long id) {
-                    String selectedItem = (String) parent.getItemAtPosition(position);
-                    inputSearch.setText(selectedItem);
-                }
-            });
+                        listView.setAdapter(adapter1);
+                        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view,
+                                                    final int position, long id) {
+                                String selectedItem = (String) parent.getItemAtPosition(position);
+                                inputSearch.setText(selectedItem);
+                            }
+                        });
                     }
                 }
                 catch (Exception e)
@@ -359,24 +348,21 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
 
     }
 
-        public void ResetFields() {
-            inputQty.setText("");
-            inputPrice.setText("");
-            inputSearch.setText("");
-            inputDate.setText(fromDay + "/" + fromMonth + "/" + fromYear);
-            Spinner spn = (Spinner)findViewById(R.id.spnMoveFrom);
-            spn.setSelection(0);
-        }
+    private void ResetFields() {
+        inputQty.setText("");
+        inputPrice.setText("");
+        inputSearch.setText("");
+        inputDate.setText(fromDay + "/" + fromMonth + "/" + fromYear);
+        Spinner spn = (Spinner)findViewById(R.id.spnMoveFrom);
+        spn.setSelection(0);
+    }
 
-        public boolean ValidateData()
-        {
-            if(inputQty.getText().toString().trim().equals("") ||inputPrice.getText().toString().trim().equals("")
-                    || inputSearch.getText().toString().trim().equals("") || inputDate.getText().toString().trim().equals(""))
-                return false;
-            else
-                return  true;
+    private boolean ValidateData()
+    {
+        return !(inputQty.getText().toString().trim().equals("") || inputPrice.getText().toString().trim().equals("")
+                || inputSearch.getText().toString().trim().equals("") || inputDate.getText().toString().trim().equals(""));
 
-        }
+    }
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         static Bundle bundle;
