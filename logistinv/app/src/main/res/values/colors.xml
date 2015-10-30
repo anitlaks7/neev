@@ -28,7 +28,7 @@
             <item>@color/darkred</item>
 
         </integer-array>
-    <color name="transparent">#FFFFFFFF</color>
+    <color name="transparent">#ffffff</color>
     <color name="tab_highlight">@color/darkred</color>
     <color name="arrow_tab">#454242</color>
     </resources>
