@@ -1,7 +1,11 @@
 package com.neev.logistinv;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.view.View;
 
+import com.parse.DeleteCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -22,19 +26,44 @@ import java.util.Map;
  * Created by chethana.savalgi on 11-10-2015.
  */
 public class NeevDataLayer {
+    private int count;
+    private Context ctx;
+    NeevDataLayer() {
+        count = 0;
+
+    }
+    NeevDataLayer(Context c) {
+        count = 0;
+        ctx = c;
+
+    }
 
     public void initialize()
     {
         try {
             ParseQuery<ParseObject> query1 = ParseQuery.getQuery("RawMaterialMaster");
             //query1.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+            Log.d("RMMASTER", "RawMaterialMaster");
             query1.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> objects, ParseException e) {
-                    if (e == null) {
 
-                        ParseObject.unpinAllInBackground("RawMaterialMaster");
-                        ParseObject.pinAllInBackground(objects);
-                    } else {
+                public void done(List<ParseObject> objects, ParseException e) {
+                    final List<ParseObject> localobjects = objects;
+                    if (e == null) {
+                        ParseObject.unpinAllInBackground("RawMaterialMaster", new DeleteCallback(){
+                                public void done(ParseException e){
+
+                                    ParseObject.pinAllInBackground("RawMaterialMaster",localobjects,new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            count ++;
+                                            if(count == 4)
+                                                new NeevDataRecalculateAsyncTask(ctx).execute();
+                                        }
+                                    });
+                                }
+                                });
+                        }
+                     else {
                         Log.e("ERROR","Parse data retrieval failed");
                         //objectRetrievalFailed();
                     }
@@ -43,31 +72,58 @@ public class NeevDataLayer {
 
             ParseQuery<ParseObject> query2 = ParseQuery.getQuery("FinishedProductMaster");
             //query2.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+            Log.d("FPMASTER", "FinishedProdMaster");
             query2.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {
+                    final List<ParseObject> localobjects = objects;
                     if (e == null) {
+                        ParseObject.unpinAllInBackground("FinishedProductMaster", new DeleteCallback() {
+                            public void done(ParseException e) {
 
-                        ParseObject.unpinAllInBackground("FinishedProductMaster");
-                        ParseObject.pinAllInBackground(objects);
-                    } else {
+                                ParseObject.pinAllInBackground("FinishedProductMaster", localobjects, new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        count++;
+                                        if (count == 4)
+                                            new NeevDataRecalculateAsyncTask(ctx).execute();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else {
                         Log.e("ERROR","Parse data retrieval failed");
-
+                        //objectRetrievalFailed();
                     }
                 }
             });
 
             ParseQuery<ParseObject> query3 = ParseQuery.getQuery("NeevRawMaterialItem");
             //query3.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+            Log.d("RMITEM", "RMItem");
             query3.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {
+                    final List<ParseObject> localobjects = objects;
                     if (e == null) {
+                        ParseObject.unpinAllInBackground("NeevRawMaterialItem", new DeleteCallback() {
+                            public void done(ParseException e) {
 
-                        ParseObject.unpinAllInBackground("NeevRawMaterialItem");
-                        ParseObject.pinAllInBackground(objects);
-                    } else {
-                        Log.e("ERROR","Parse data retrieval failed");
-
+                                ParseObject.pinAllInBackground(localobjects, new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        count++;
+                                        if(count == 4)
+                                            new NeevDataRecalculateAsyncTask(ctx).execute();
+                                    }
+                                });
+                            }
+                        });
                     }
+                    else {
+                        Log.e("ERROR", "Parse data retrieval failed");
+                        //objectRetrievalFailed();
+                    }
+
                 }
             });
 
@@ -75,12 +131,25 @@ public class NeevDataLayer {
             //query4.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query4.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> objects, ParseException e) {
+                    final List<ParseObject> localobjects = objects;
                     if (e == null) {
-                        ParseObject.unpinAllInBackground("NeevProductItem");
-                        ParseObject.pinAllInBackground(objects);
-                    } else {
-                        Log.e("ERROR","Parse data retrieval failed");
+                        ParseObject.unpinAllInBackground("NeevProductItem", new DeleteCallback() {
+                            public void done(ParseException e) {
 
+                                ParseObject.pinAllInBackground("NeevProductItem",localobjects, new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        count++;
+                                        if (count == 4)
+                                            new NeevDataRecalculateAsyncTask(ctx).execute();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        Log.e("ERROR","Parse data retrieval failed");
+                        //objectRetrievalFailed();
                     }
                 }
             });
@@ -97,6 +166,7 @@ public class NeevDataLayer {
             ParseQuery query = new ParseQuery("RawMaterialMaster");
             //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query.fromLocalDatastore();
+            //query.fromPin("RawMaterialMaster");
             rmList = query.find();
 
         } catch (Exception e) {
@@ -112,6 +182,7 @@ public class NeevDataLayer {
             ParseQuery query = new ParseQuery("FinishedProductMaster");
             //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query.fromLocalDatastore();
+            //query.fromPin("FinishedProductMaster");
             rmList = query.find();
 
         }

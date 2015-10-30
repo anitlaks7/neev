@@ -3,6 +3,7 @@ package com.neev.logistinv;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 
 import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
@@ -25,9 +26,9 @@ public class NeevDataRecalculateAsyncTask extends AsyncTask<String, String, Stri
     /** application context. */
     @Override
     protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        this.dialog.setMessage("Please wait");
-        this.dialog.show();
+        //dialog = new ProgressDialog(context);
+        //this.dialog.setMessage("Please wait");
+        //this.dialog.show();
     }
     @Override
     protected void onPostExecute(String s) {
@@ -41,6 +42,7 @@ public class NeevDataRecalculateAsyncTask extends AsyncTask<String, String, Stri
         }
         if (DashboardItemListFragment.adapter!=null) {DashboardItemListFragment.adapter.notifyDataSetChanged();}
         if(dialog != null) dialog.dismiss();
+        Log.d("DATARECALC", "DataRecalculateDone");
     }
 
     public int Quantity = 0;

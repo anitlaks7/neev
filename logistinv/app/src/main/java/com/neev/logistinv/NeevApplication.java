@@ -26,7 +26,7 @@ public class NeevApplication extends Application {
             // ParseCrashReporting.enable(this);
             Parse.enableLocalDatastore(this);
             Parse.initialize(this,"GimrU2G4Qn3g9Yci2taHbaiyfYf60oBc8XF9vern","6fkbLFklMV5IRIfWHadzy8pwjPb7GX1fw6tNAovN");
-            NeevDataLayer data = new NeevDataLayer();
+            NeevDataLayer data = new NeevDataLayer(getApplicationContext());
             data.initialize();
             final Handler handler = new Handler();
             Timer timer = new Timer();
@@ -35,7 +35,7 @@ public class NeevApplication extends Application {
                 public void run() {
                     handler.post(new Runnable() {
                         public void run() {
-                            new NeevDataUpdateAsyncTask().execute();
+                            new NeevDataUpdateAsyncTask(getApplicationContext()).execute();
                         }
                     });
                 }
