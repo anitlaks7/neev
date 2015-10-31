@@ -132,7 +132,7 @@ public class DashboardItemDetailFragment extends Fragment
                 final ViewGroup chartParent = (ViewGroup) rootView.findViewById(R.id.chartParent);
                 HorizontalBarChart chart1 = (HorizontalBarChart) chartParent.findViewById(R.id.chart);
                 ArrayList XAxisValues=getXAxisValues();
-                ArrayList DataSetForToday= getDataSetForToday();
+                ArrayList DataSetForToday= getDataSetMoney();
                 BarData data=null;
                 if(XAxisValues.size()!=0 && DataSetForToday.size()!=0) {
                     data = new BarData(XAxisValues, DataSetForToday);
