@@ -108,7 +108,7 @@ public class DashboardItemDetailFragment extends Fragment
         chart.getLegend().setEnabled(false);
         chart.getXAxis().setTextSize(12.0f);
         chart.getBarData().setValueTextSize(10.0f);
-        chart.setDrawValueAboveBar(false);
+       // chart.setDrawValueAboveBar(false);
 
         final Button button = (Button)rootView.findViewById(R.id.Next);
         final Button button1 = (Button) rootView.findViewById(R.id.button);
