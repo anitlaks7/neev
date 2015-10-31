@@ -197,8 +197,9 @@ public class NeevDataLayer {
     public boolean addToRMStore(NeevRawMaterialItem item)
     {
         try{
-            item.pinInBackground();
-            item.saveInBackground();
+            item.pinInBackground("NeevRawMaterialItem");
+            //item.saveInBackground();
+            item.saveEventually();
         }
         catch(Exception e)
         {
@@ -210,8 +211,9 @@ public class NeevDataLayer {
     public boolean addToProdStore(NeevProductItem item)
     {
         try{
-            item.pinInBackground();
-            item.saveInBackground();
+            item.pinInBackground("NeevProductItem");
+            //item.saveInBackground();
+            item.saveEventually();
         }
         catch(Exception e)
         {
@@ -339,9 +341,9 @@ public class NeevDataLayer {
     public boolean addToRawMaterialMaster(NeevRawMaterialMaster item)
     {
         try{
-            item.pinInBackground();
-            item.saveInBackground();
-            //item.saveEventually();
+            item.pinInBackground("RawMaterialMaster");
+            //item.saveInBackground();
+            item.saveEventually();
         }
         catch(Exception e)
         {
@@ -354,9 +356,9 @@ public class NeevDataLayer {
     public boolean addToProductMaster(FinishedProductMaster item)
     {
         try{
-            item.pinInBackground();
-            item.saveInBackground();
-            //item.saveEventually();
+            item.pinInBackground("FinishedProductMaster");
+            //item.saveInBackground();
+            item.saveEventually();
         }
         catch(Exception e)
         {
