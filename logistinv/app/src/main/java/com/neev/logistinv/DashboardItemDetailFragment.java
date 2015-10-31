@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -99,8 +101,12 @@ public class DashboardItemDetailFragment extends Fragment
         mDetector.setOnDoubleTapListener(this);
         String text = TextValue();
         ((TextView) rootView.findViewById(R.id.text1)).setText(text + " (Quantity)");
+        ArrayList XAxisValues=getXAxisValues();
+        ArrayList DataSetForToday= getDataSetForToday();
+        BarData data=null;
+        if(XAxisValues.size()!=0 && DataSetForToday.size()!=0) {
+             data = new BarData(XAxisValues, DataSetForToday);
 
-        BarData data = new BarData(getXAxisValues(), getDataSetForToday());
         chart.setData(data);
         chart.setDescription("");
         chart.animateXY(2000, 2000);
@@ -109,6 +115,12 @@ public class DashboardItemDetailFragment extends Fragment
         chart.getXAxis().setTextSize(12.0f);
         chart.getBarData().setValueTextSize(10.0f);
        // chart.setDrawValueAboveBar(false);
+        }
+        else
+        {
+            Toast toast = Toast.makeText(getActivity(), "Please be online for the databases to sync for the first time.", Toast.LENGTH_LONG);
+            toast.show();
+        }
 
         final Button button = (Button)rootView.findViewById(R.id.Next);
         final Button button1 = (Button) rootView.findViewById(R.id.button);
@@ -119,15 +131,26 @@ public class DashboardItemDetailFragment extends Fragment
 
                 final ViewGroup chartParent = (ViewGroup) rootView.findViewById(R.id.chartParent);
                 HorizontalBarChart chart1 = (HorizontalBarChart) chartParent.findViewById(R.id.chart);
-                BarData data = new BarData(getXAxisValues(), getDataSetMoney());
-                chart1.setData(data);
-                chart1.setDescription("");
-                chart1.animateXY(2000, 2000);
-                chart1.invalidate();
-                chart1.getLegend().setEnabled(false);
-                chart1.getXAxis().setTextSize(12.0f);
-                chart1.getBarData().setValueTextSize(10.0f);
-                chart1.setDrawValueAboveBar(false);
+                ArrayList XAxisValues=getXAxisValues();
+                ArrayList DataSetForToday= getDataSetForToday();
+                BarData data=null;
+                if(XAxisValues.size()!=0 && DataSetForToday.size()!=0) {
+                    data = new BarData(XAxisValues, DataSetForToday);
+
+                    chart1.setData(data);
+                    chart1.setDescription("");
+                    chart1.animateXY(2000, 2000);
+                    chart1.invalidate();
+                    chart1.getLegend().setEnabled(false);
+                    chart1.getXAxis().setTextSize(12.0f);
+                    chart1.getBarData().setValueTextSize(10.0f);
+                    chart1.setDrawValueAboveBar(false);
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getActivity(), "Please be online for the databases to sync for the first time.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
                 button.setVisibility(View.INVISIBLE);
                 button1.setVisibility(View.VISIBLE);
                 String text1 = TextValue();
@@ -224,47 +247,59 @@ public String TextValue()
 
         if(mItem == MainActivity.RAW_MATERIAL) {
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
-            for (int i = 0; i < products.size(); i++) {
-                ParseObject po = (ParseObject) products.get(i);
-                String name = (String) po.get("Name");
-                List list = dataLayer.retrieveDetailData(mItem,name,startdate,enddate );
-                float quantity = 0;
-                if(list !=null) {
-                    for (int j = 0; j < list.size(); j++) {
-                        ParseObject po2 = (ParseObject) list.get(j);
-                        float q = Float.parseFloat(po2.get("Total").toString());
-                        quantity = quantity + q;
+            if(products.size()!=0) {
+                for (int i = 0; i < products.size(); i++) {
+                    ParseObject po = (ParseObject) products.get(i);
+                    String name = (String) po.get("Name");
+                    List list = dataLayer.retrieveDetailData(mItem, name, startdate, enddate);
+                    float quantity = 0;
+                    if (list != null) {
+                        for (int j = 0; j < list.size(); j++) {
+                            ParseObject po2 = (ParseObject) list.get(j);
+                            float q = Float.parseFloat(po2.get("Total").toString());
+                            quantity = quantity + q;
+                        }
+                        BarEntry barEntry = new BarEntry(quantity, i);
+                        valueSet1.add(barEntry);
+                    } else {
+                        BarEntry barEntry = new BarEntry(000.00f, i);
+                        valueSet1.add(barEntry);
                     }
-                    BarEntry barEntry = new BarEntry(quantity, i);
-                    valueSet1.add(barEntry);
                 }
-                else {
-                    BarEntry barEntry = new BarEntry(000.00f, i);
-                    valueSet1.add(barEntry);
-                }
+            }
+            else
+            {
+                Toast toast = Toast.makeText(getActivity(), "Please be online for the databases to sync for the first time.", Toast.LENGTH_LONG);
+                toast.show();
             }
         }
         else
         {
             products = dataLayer.retrieveAllFinishedProductFromLocalStore();
-            for (int i = 0; i < products.size(); i++) {
-                ParseObject po = (ParseObject) products.get(i);
-                String name = (String) po.get("Name");
-                List list = dataLayer.retrieveDetailData(mItem,name,startdate,enddate);
-                float quantity = 0;
-                if(list !=null) {
-                    for (int j = 0; j < list.size(); j++) {
-                        ParseObject po2 = (ParseObject) list.get(j);
-                        float q = Float.parseFloat(po2.get("Total").toString());
-                        quantity = quantity + q;
+            if(products.size()!=0) {
+                for (int i = 0; i < products.size(); i++) {
+                    ParseObject po = (ParseObject) products.get(i);
+                    String name = (String) po.get("Name");
+                    List list = dataLayer.retrieveDetailData(mItem, name, startdate, enddate);
+                    float quantity = 0;
+                    if (list != null) {
+                        for (int j = 0; j < list.size(); j++) {
+                            ParseObject po2 = (ParseObject) list.get(j);
+                            float q = Float.parseFloat(po2.get("Total").toString());
+                            quantity = quantity + q;
+                        }
+                        BarEntry barEntry = new BarEntry(quantity, i);
+                        valueSet1.add(barEntry);
+                    } else {
+                        BarEntry barEntry = new BarEntry(000.00f, i);
+                        valueSet1.add(barEntry);
                     }
-                    BarEntry barEntry = new BarEntry(quantity, i);
-                    valueSet1.add(barEntry);
                 }
-                else {
-                    BarEntry barEntry = new BarEntry(000.00f, i);
-                    valueSet1.add(barEntry);
-                }
+            }
+            else
+            {
+                Toast toast = Toast.makeText(getActivity(), "Please be online for the databases to sync for the first time.", Toast.LENGTH_LONG);
+                toast.show();
             }
 
         }
@@ -381,47 +416,61 @@ public String TextValue()
 
         if(mItem == MainActivity.RAW_MATERIAL) {
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
-            for (int i = 0; i < products.size(); i++) {
-                ParseObject po = (ParseObject) products.get(i);
-                String name = (String) po.get("Name");
-                List list = dataLayer.retrieveDetailData(mItem,name,startdate,enddate );
-                float quantity = 0;
-                if(list !=null) {
-                    for (int j = 0; j < list.size(); j++) {
-                        ParseObject po2 = (ParseObject) list.get(j);
-                        int q = (int) po2.get("Quantity");
-                        quantity = quantity + q;
+
+            if(products.size()!=0) {
+
+                for (int i = 0; i < products.size(); i++) {
+                    ParseObject po = (ParseObject) products.get(i);
+                    String name = (String) po.get("Name");
+                    List list = dataLayer.retrieveDetailData(mItem, name, startdate, enddate);
+                    float quantity = 0;
+                    if (list != null) {
+                        for (int j = 0; j < list.size(); j++) {
+                            ParseObject po2 = (ParseObject) list.get(j);
+                            int q = (int) po2.get("Quantity");
+                            quantity = quantity + q;
+                        }
+                        BarEntry barEntry = new BarEntry(quantity, i);
+                        valueSet1.add(barEntry);
+                    } else {
+                        BarEntry barEntry = new BarEntry(000.00f, i);
+                        valueSet1.add(barEntry);
                     }
-                    BarEntry barEntry = new BarEntry(quantity, i);
-                    valueSet1.add(barEntry);
                 }
-                else {
-                    BarEntry barEntry = new BarEntry(000.00f, i);
-                    valueSet1.add(barEntry);
-                }
+            }
+            else
+            {
+                Toast toast = Toast.makeText(getActivity(), "Please be online for the databases to sync for the first time.", Toast.LENGTH_LONG);
+                toast.show();
             }
         }
         else
         {
             products = dataLayer.retrieveAllFinishedProductFromLocalStore();
-            for (int i = 0; i < products.size(); i++) {
-                ParseObject po = (ParseObject) products.get(i);
-                String name = (String) po.get("Name");
-                List list = dataLayer.retrieveDetailData(mItem,name,startdate,enddate);
-                float quantity = 0;
-                if(list !=null) {
-                    for (int j = 0; j < list.size(); j++) {
-                        ParseObject po2 = (ParseObject) list.get(j);
-                        int q = (int) po2.get("Quantity");
-                        quantity = quantity + q;
+            if(products.size()!=0) {
+                for (int i = 0; i < products.size(); i++) {
+                    ParseObject po = (ParseObject) products.get(i);
+                    String name = (String) po.get("Name");
+                    List list = dataLayer.retrieveDetailData(mItem, name, startdate, enddate);
+                    float quantity = 0;
+                    if (list != null) {
+                        for (int j = 0; j < list.size(); j++) {
+                            ParseObject po2 = (ParseObject) list.get(j);
+                            int q = (int) po2.get("Quantity");
+                            quantity = quantity + q;
+                        }
+                        BarEntry barEntry = new BarEntry(quantity, i);
+                        valueSet1.add(barEntry);
+                    } else {
+                        BarEntry barEntry = new BarEntry(000.00f, i);
+                        valueSet1.add(barEntry);
                     }
-                    BarEntry barEntry = new BarEntry(quantity, i);
-                    valueSet1.add(barEntry);
                 }
-                else {
-                    BarEntry barEntry = new BarEntry(000.00f, i);
-                    valueSet1.add(barEntry);
-                }
+            }
+            else
+            {
+                Toast toast = Toast.makeText(getActivity(), "Please be online for the databases to sync for the first time.", Toast.LENGTH_LONG);
+                toast.show();
             }
         }
         /*List items = null;
@@ -476,20 +525,34 @@ public String TextValue()
         if(mItem == MainActivity.RAW_MATERIAL) {
 
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
-            for (int i = 0; i < products.size(); i++) {
-                ParseObject po = (ParseObject) products.get(i);
+            if (products.size()!=0) {
+                for (int i = 0; i < products.size(); i++) {
+                    ParseObject po = (ParseObject) products.get(i);
 
-                xAxis.add((String) po.get("Name"));
+                    xAxis.add((String) po.get("Name"));
+                }
+            }
+            else
+            {
+                Toast toast = Toast.makeText(getActivity(), "Please be online for the databases to sync for the first time.", Toast.LENGTH_LONG);
+                toast.show();
             }
         }
 
         else  if(mItem == MainActivity.SALES || mItem == MainActivity.RETURNED  || mItem == MainActivity.IN_TRANSIT || mItem == MainActivity.PRODUCT_INVENTORY)
         {//TODO : check the list category and add the types.
             products = dataLayer.retrieveAllFinishedProductFromLocalStore();
-            for (int i = 0; i < products.size(); i++) {
-                ParseObject po = (ParseObject) products.get(i);
+            if(products.size()!=0) {
+                for (int i = 0; i < products.size(); i++) {
+                    ParseObject po = (ParseObject) products.get(i);
 
-                xAxis.add((String) po.get("Name"));
+                    xAxis.add((String) po.get("Name"));
+                }
+            }
+            else
+            {
+                Toast toast = Toast.makeText(getActivity(), "Please be online for the databases to sync for the first time.", Toast.LENGTH_LONG);
+                toast.show();
             }
         }
         return xAxis;
