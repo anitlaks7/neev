@@ -9,7 +9,8 @@
    <ImageView
         android:id="@+id/img"
         android:layout_width="75dp"
-        android:layout_height="75dp" />
+        android:layout_height="75dp"
+       android:contentDescription="@string/content_desc"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"

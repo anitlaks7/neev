@@ -18,7 +18,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -30,10 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-/**
- * Created by chethana.savalgi on 10-10-2015.
- */
 
 
 
@@ -243,9 +238,6 @@ public class ManageDataActivity extends Activity implements OnItemSelectedListen
                     int qty =Integer.parseInt(inputQty.getText().toString());
 
                     double dblTotal = price * qty;
-                    //Date creationDate = dateformat.parse(inputDate.getText().toString());
-                    //Date creationDate = new Date(fromYear,fromMonth,fromDay);
-                    //String creationDate=inputDate.getText().toString();
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(fromYear, fromMonth-1, fromDay,10,0,0);
                     Date creationDate = calendar.getTime();

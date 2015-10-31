@@ -36,14 +36,6 @@
             android:layout_gravity="end"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
-    <!-- <TextView
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:id="@+id/product_type"
-         android:gravity="center"
-         android:textStyle="bold"
-         android:textSize="15dp"
-         android:layout_marginTop="3dp"/>-->
 
     <LinearLayout  android:orientation="vertical"
         android:layout_width="match_parent"
@@ -65,8 +57,7 @@
             android:background="@drawable/customborder"
             android:layout_marginTop="8dp"
             android:textSize="18sp"
-            android:textColor="@color/arrow_tab"
-            />
+            android:textColor="@color/arrow_tab" />
 
         <EditText android:id="@+id/edit_qty"
             android:layout_width="match_parent"
@@ -143,7 +134,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"
+            android:text="@string/add_btn"
             android:id="@+id/btnSave"
             android:layout_gravity="bottom"
             android:layout_alignParentTop="true"
@@ -154,7 +145,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reset"
+            android:text="@string/reset_btn"
             android:id="@+id/btnReset"
             android:layout_gravity="bottom"
             android:layout_alignParentTop="true"

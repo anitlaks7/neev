@@ -10,9 +10,6 @@ import com.parse.ParseObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by chethana.savalgi on 11-10-2015.
- */
 public class NeevApplication extends Application {
     @Override
     public void onCreate() {

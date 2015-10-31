@@ -42,7 +42,7 @@
                 android:ems="10"
                 android:id="@+id/editText2"
                 android:windowSoftInputMode="stateHidden"
-                android:hint="From Date"
+                android:hint="@string/from_date"
                 android:theme="@style/AppTheme"
                 android:textColor="@color/arrow_tab"/>
 
@@ -54,7 +54,7 @@
                 android:ems="10"
                 android:id="@+id/editText3"
                 android:windowSoftInputMode="stateHidden"
-                android:hint="To Date"
+                android:hint="@string/to_date"
                 android:theme="@style/AppTheme"
                 android:layout_weight="0.05"
                 android:textColor="@color/arrow_tab"/>
