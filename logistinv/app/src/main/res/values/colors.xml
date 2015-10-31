@@ -14,6 +14,10 @@
         <item name="mediumred" type="color">#cc1614</item>
         <item name="lightred" type="color">#cc3530</item>
         <color name="light_grey">#cccccc</color>
+        <color name="dark_grey1">#b7b7b7</color>
+        <color name="dark_grey2">#999999</color>
+
+        <item name="tabbar_text_color" type="color">#FFFFFF</item>
 
         <integer-array name="androidcolors">
             <item>@color/blue</item>
