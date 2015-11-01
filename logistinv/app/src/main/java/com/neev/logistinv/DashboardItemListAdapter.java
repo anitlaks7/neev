@@ -8,8 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-
 import com.neev.example.R;
 import com.neev.logistinv.dashboarditemlistcontent.DashboardItemListContent;
 import com.parse.ParseObject;
@@ -124,8 +122,8 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
                 }
 
             }
-            }
         }
     }
+}
    
 
