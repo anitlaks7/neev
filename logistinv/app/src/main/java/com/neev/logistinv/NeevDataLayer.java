@@ -256,7 +256,7 @@ public class NeevDataLayer {
                 query.whereGreaterThan("CreationDate",createDate);
                 query.whereLessThan("CreationDate", enddate);
                 if(name!=null)
-                query.whereMatches("Name", name);
+                query.whereEqualTo("Name", name);
                 rmList = query.find();
                 //if(rmList !=null) Log.d("DEBUG","BAR graph count " + rmList.size());
                /* for(int i=0;i< rmList.size();i++)
@@ -271,8 +271,8 @@ public class NeevDataLayer {
                 //query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
                 query.fromLocalDatastore();
                 if(name!=null)
-                query.whereMatches("Name", name);
-                query.whereMatches("Type", type);
+                query.whereEqualTo("Name", name);
+                query.whereEqualTo("Type", type);
                 query.whereGreaterThan("CreationDate", createDate);
                 query.whereLessThan("CreationDate", enddate);
                 rmList = query.find();
@@ -300,7 +300,7 @@ public class NeevDataLayer {
 
             ParseQuery query = new ParseQuery("RawMaterialMaster");
             query.fromLocalDatastore();
-            query.whereMatches("Name", name);
+            query.whereEqualTo("Name", name);
             rmList = query.find();
             if((rmList !=null) && (rmList.size()==1))
             {
@@ -323,7 +323,7 @@ public class NeevDataLayer {
 
             ParseQuery query = new ParseQuery("FinishedProductMaster");
             query.fromLocalDatastore();
-            query.whereMatches("Name", name);
+            query.whereEqualTo("Name", name);
             rmList = query.find();
             if((rmList !=null) && (rmList.size()==1))
             {
