@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -484,16 +485,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 Toast toast = Toast.makeText(getActivity(), "\"From\" date cannot be after \"To\" date", Toast.LENGTH_LONG);
                 toast.show();
             }
-
             else {
                 new NeevDataRecalculateAsyncTask(getActivity()).execute();
                 defaultPrevFromDate = fromDay + "/" + fromMonth + "/" + fromYear;
                 defaultPrevToDate = toDay + "/" + toMonth + "/" + toYear;
+                /* redraw the graph data as well */
+                try {
+                    mDashboardItemDetailFragmentCustom.onSingleTapConfirmed(null);
+                }
+                catch (Exception e){
+                    /* do nothing */
+                }
+
             }
-            if (IsInvalidDate)
-            {
-                ((EditText) getActivity().findViewById(R.id.editText2)).setText("From: " + "\n"  + defaultPrevFromDate);
-                ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + "\n"  + defaultPrevToDate);
+            if (IsInvalidDate) {
+                ((EditText) getActivity().findViewById(R.id.editText2)).setText("From: " + "\n" + defaultPrevFromDate);
+                ((EditText) getActivity().findViewById(R.id.editText3)).setText("To: " + "\n" + defaultPrevToDate);
 
             }
         }

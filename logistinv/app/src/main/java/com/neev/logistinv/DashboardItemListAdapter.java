@@ -5,11 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.TwoLineListItem;
+
 
 
 import com.neev.example.R;
@@ -18,11 +16,10 @@ import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by anita.lakshmanan on 10/19/2015.
+ * Created on 10/19/2015.
  */
 public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListContent.DashboardListItem>{
     private final Context context;
@@ -92,13 +89,13 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
     private void getDataSetForToday(View convertView, String type) {
 
         NeevDataLayer dataLayer = new NeevDataLayer();
-        List products = null;
+        List products;
         String startdate;
         String enddate;
         Quantity = 0;
         Total = 0;
 
-        if (type == MainActivity.RAW_MATERIAL)
+        if (type.equals(MainActivity.RAW_MATERIAL))
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
         else
             products = dataLayer.retrieveAllRawMaterialFromLocalStore();
@@ -117,7 +114,6 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
             ParseObject po = (ParseObject) products.get(i);
             String name = (String) po.get("Name");
             List list = dataLayer.retrieveDetailData(type, null, startdate, enddate);
-            float quantity = 0;
             if (list != null) {
                 for (int j = 0; j < list.size(); j++) {
                     ParseObject po2 = (ParseObject) list.get(j);
@@ -126,8 +122,6 @@ public class DashboardItemListAdapter extends ArrayAdapter<DashboardItemListCont
                     float totalprice = Float.parseFloat(po2.get("Total").toString());
                     Total = Total + totalprice;
                 }
-
-            } else {
 
             }
             }

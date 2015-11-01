@@ -1,7 +1,9 @@
 package com.neev.logistinv;
 
 /**
- * Created by anita.lakshmanan on 10/19/2015.
+ * Created on 10/19/2015.
+ * This File implements the checkable linear layout needed so the dashboard list items
+ * can get the check event when they change to checkable upon long press.
  */
     import java.util.ArrayList;
     import java.util.List;
@@ -12,7 +14,7 @@ package com.neev.logistinv;
     import android.view.ViewGroup;
     import android.widget.Checkable;
     import android.widget.LinearLayout;
-    import android.widget.RelativeLayout;
+
 
     /**
      * Extension of a relative layout to provide a checkable behaviour

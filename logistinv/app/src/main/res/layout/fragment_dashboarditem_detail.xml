@@ -1,44 +1,29 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboarditem_detail"
     style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.neev.logistinv.DashboardItemDetailFragment">
 
     <LinearLayout
         android:id="@+id/chartParent"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
 
         <com.github.mikephil.charting.charts.HorizontalBarChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAlignment="viewEnd" />
+            android:layout_height="644dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin" />
+
     </LinearLayout>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:text=">"
-        android:textColor="@color/arrow_tab"
-        android:background="@color/transparent"
-        android:foreground="@color/transparent"
-        android:layout_alignEnd="@id/chartParent"/>
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=">"
-        android:textColor="@color/arrow_tab"
-        android:id="@+id/Next"
-        android:background="@color/transparent"
-        android:layout_alignEnd="@id/chartParent"/>
 
     <TextView
         android:id="@+id/text1"
@@ -48,7 +33,18 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:textAlignment="center"
         android:textColor="#000000"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_managedata"
+        android:id="@+id/btnMngData"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/chartParent" />
+
 </RelativeLayout>
+</ScrollView>
 
 
 

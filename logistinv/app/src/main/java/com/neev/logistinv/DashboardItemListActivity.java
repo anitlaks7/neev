@@ -42,8 +42,10 @@ public class DashboardItemListActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboarditem_list);
         // Show the Up button in the action bar.
-        getActionBar().setDisplayHomeAsUpEnabled(false);
-
+        try {
+            getActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+        catch(NullPointerException e){System.out.println(e.toString());}
         if (findViewById(R.id.dashboarditem_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
